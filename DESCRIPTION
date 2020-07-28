@@ -1,0 +1,14 @@
+Package: ICAMSxtra
+Title: ICAMSxtra
+Version: 0.0.0.9001
+Author: Steve Rozen, Nanhai Jiang, Arnoud Boot, Mo Liu
+Maintainer: Steve Rozen <steverozen@gmail.com>
+Description: ICAMSxtra.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Language: en-US
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat
