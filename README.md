@@ -18,7 +18,7 @@ Install the development version of ICAMSxtra from
 
 ``` r
 install.packages("remotes")
-remotes::install_github("steverozen/ICAMSxtra")
+remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "master")
 ```
 
 ## Reference manual
