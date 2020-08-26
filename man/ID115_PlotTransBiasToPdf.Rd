@@ -9,6 +9,8 @@ ID115_PlotTransBiasToPdf(annotated.ID.vcfs, file, pool, damaged.base = NULL)
 \arguments{
 \item{file}{The name of output file.}
 
+\item{pool}{TODO Jia Geng}
+
 \item{damaged.base}{One of \code{NULL}, \code{"purine"} or
 \code{"pyrimidine"}. This function allocates approximately
 equal numbers of mutations from \code{damaged.base} into

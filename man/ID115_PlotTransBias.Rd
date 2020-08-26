@@ -11,6 +11,8 @@ ID115_PlotTransBias(annotated.ID.vcf, pool, damaged.base = NULL, ymax = NULL)
 \code{AnnotateIDVCFsWithTransRanges}. It \strong{must} have transcript range
 information added.}
 
+\item{pool}{TODO Jia Geng}
+
 \item{damaged.base}{One of \code{NULL}, \code{"purine"} or
 \code{"pyrimidine"}. This function allocates approximately
 equal numbers of mutations from \code{damaged.base} into
@@ -26,10 +28,6 @@ based on mutation counts.}
 \item{ymax}{Limit for the y axis. If not specified, it defaults to NULL and
 the y axis limit equals 1.5 times of the maximum mutation counts in a
 specific mutation type.}
-
-\item{plot.type}{A character string indicating one mutation type to be
-plotted. It should be one of ICAMS::catalog.row.order$ID115
-(check found in data/catalog.row.order.rda).}
 }
 \value{
 A list whose first element is a logic value indicating whether the

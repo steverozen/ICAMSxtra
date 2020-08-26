@@ -1119,9 +1119,7 @@ CheckSeqContextInIDVCF <- function(vcf, column.to.use) {
 #'   \code{AnnotateIDVCFsWithTransRanges}. It \strong{must} have transcript range
 #'   information added.
 #'   
-#' @param plot.type A character string indicating one mutation type to be
-#'   plotted. It should be one of ICAMS::catalog.row.order$ID115 
-#'   (check found in data/catalog.row.order.rda).
+#' @param pool TODO Jia Geng
 #'   
 #' @param damaged.base One of \code{NULL}, \code{"purine"} or
 #'   \code{"pyrimidine"}. This function allocates approximately
