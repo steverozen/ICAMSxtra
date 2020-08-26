@@ -8,7 +8,7 @@ AnnotateIDVCFsWithTransRanges(
   ID.vcfs,
   ref.genome,
   trans.ranges = NULL,
-  vcf.names
+  vcf.names = NULL
 )
 }
 \arguments{
@@ -48,9 +48,9 @@ Add sequence context and transcript information to an in-memory ID VCF
 file <- c(system.file("extdata/Strelka-ID-vcf",
                       "Strelka.ID.GRCh37.s1.vcf",
                       package = "ICAMSxtra"))
-list.of.vcfs <- ReadStrelkaIDVCFs(file)
+list.of.vcfs <- ICAMS::ReadStrelkaIDVCFs(file)
 if (requireNamespace("BSgenome.Hsapiens.1000genomes.hs37d5", quietly = TRUE)) {
   annotated.ID.vcfs <- AnnotateIDVCFsWithTransRanges(list.of.vcfs, ref.genome = "hg19",
-                                                    trans.ranges = trans.ranges.GRCh37)
+                                                    trans.ranges = ICAMS::trans.ranges.GRCh37)
   }
 }

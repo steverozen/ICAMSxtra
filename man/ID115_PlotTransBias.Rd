@@ -50,10 +50,10 @@ plot, asterisks indicate q-values as follows *, \eqn{Q<0.05}; **, \eqn{Q<0.01}; 
 file <- c(system.file("extdata/Strelka-ID-vcf/",
                       "Strelka.ID.GRCh37.s1.vcf",
                       package = "ICAMSxtra"))
-ID.vcf <- ReadStrelkaIDVCFs(file)
+ID.vcf <- ICAMS::ReadStrelkaIDVCFs(file)
 if (requireNamespace("BSgenome.Hsapiens.1000genomes.hs37d5", quietly = TRUE)) {
   annotated.ID.vcf <- AnnotateIDVCFsWithTransRanges(ID.vcf, ref.genome = "hg19",
-                                                    trans.ranges = trans.ranges.GRCh37,
+                                                    trans.ranges = ICAMS::trans.ranges.GRCh37,
                                                     vcf.names = "Strelka.ID.GRCh37.s1.vcf")
   #' alternatively run below code to skip call to AnnotateIDVCFsWithTransRanges 
   #' load(c(system.file("extdata/annotated.ID.vcf.rda",package = "ICAMSxtra")))

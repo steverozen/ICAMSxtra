@@ -1156,10 +1156,10 @@ CheckSeqContextInIDVCF <- function(vcf, column.to.use) {
 #' file <- c(system.file("extdata/Strelka-ID-vcf/",
 #'                       "Strelka.ID.GRCh37.s1.vcf",
 #'                       package = "ICAMSxtra"))
-#' ID.vcf <- ReadStrelkaIDVCFs(file)
+#' ID.vcf <- ICAMS::ReadStrelkaIDVCFs(file)
 #' if (requireNamespace("BSgenome.Hsapiens.1000genomes.hs37d5", quietly = TRUE)) {
 #'   annotated.ID.vcf <- AnnotateIDVCFsWithTransRanges(ID.vcf, ref.genome = "hg19",
-#'                                                     trans.ranges = trans.ranges.GRCh37,
+#'                                                     trans.ranges = ICAMS::trans.ranges.GRCh37,
 #'                                                     vcf.names = "Strelka.ID.GRCh37.s1.vcf")
 #'   #' alternatively run below code to skip call to AnnotateIDVCFsWithTransRanges 
 #'   #' load(c(system.file("extdata/annotated.ID.vcf.rda",package = "ICAMSxtra")))
@@ -1197,11 +1197,11 @@ ID115_PlotTransBias <-
 #' file <- c(system.file("extdata/Strelka-ID-vcf/",
 #'                       "Strelka.ID.GRCh37.s1.vcf",
 #'                       package = "ICAMSxtra"))
-#' list.of.vcfs <- ReadStrelkaIDVCFs(file)
+#' list.of.vcfs <- ICAMS::ReadStrelkaIDVCFs(file)
 #' ID.vcf <- list.of.vcfs[[1]]             
 #' if (requireNamespace("BSgenome.Hsapiens.1000genomes.hs37d5", quietly = TRUE)) {
 #'   annotated.ID.vcf <- AnnotateIDVCFsWithTransRanges(ID.vcf, ref.genome = "hg19",
-#'                                       trans.ranges = trans.ranges.GRCh37, vcf.names = "Strelka.ID.GRCh37.s1")
+#'                                       trans.ranges = ICAMS::trans.ranges.GRCh37, vcf.names = "Strelka.ID.GRCh37.s1")
 #'   ID115_PlotTransBiasToPdf(annotated.ID.vcfs = annotated.ID.vcf,
 #'                            file = file.path(tempdir(), "test.pdf"),
 #'                            pool = TRUE)
@@ -1251,6 +1251,8 @@ ID115_PlotTransBiasToPdf <- function(annotated.ID.vcfs, file, pool, damaged.base
 #'   information.
 #'   
 #' @param vcf.names list of names of the vcfs
+#' 
+#' @import ICAMS
 #'
 #' @return A list of in-memory ID VCFs each a \code{data.table}. These have been annotated
 #'   with the sequence context (column name \code{seq.context}) and with
@@ -1266,22 +1268,26 @@ ID115_PlotTransBiasToPdf <- function(annotated.ID.vcfs, file, pool, damaged.base
 #' file <- c(system.file("extdata/Strelka-ID-vcf",
 #'                       "Strelka.ID.GRCh37.s1.vcf",
 #'                       package = "ICAMSxtra"))
-#' list.of.vcfs <- ReadStrelkaIDVCFs(file)
+#' list.of.vcfs <- ICAMS::ReadStrelkaIDVCFs(file)
 #' if (requireNamespace("BSgenome.Hsapiens.1000genomes.hs37d5", quietly = TRUE)) {
 #'   annotated.ID.vcfs <- AnnotateIDVCFsWithTransRanges(list.of.vcfs, ref.genome = "hg19",
-#'                                                     trans.ranges = trans.ranges.GRCh37)
+#'                                                     trans.ranges = ICAMS::trans.ranges.GRCh37)
 #'   }
-AnnotateIDVCFsWithTransRanges <- function(ID.vcfs, ref.genome, trans.ranges = NULL, vcf.names) {
-  n <- length(ID.vcfs)
-  retval <- list()
-  for (i in 1:n){
-    ID.vcf <- AnnotateIDVCF(ID.vcfs[[i]], ref.genome=ref.genome)[[1]]
-    CheckSeqContextInIDVCF(ID.vcf, "seq.context")
-    trans.ranges <- ICAMS:::InferTransRanges(ref.genome, trans.ranges)
-    if (!is.null(trans.ranges)) {
-      ID.vcf <- ICAMS:::AddTranscript(ID.vcf, trans.ranges)
+AnnotateIDVCFsWithTransRanges <- 
+  function(ID.vcfs, ref.genome, trans.ranges = NULL, vcf.names = NULL) {
+    if (is.null(vcf.names)) {
+      vcf.names <- names(ID.vcfs)
     }
-    retval[[vcf.names[[i]]]] <- (as.data.table(ID.vcf))
+    n <- length(ID.vcfs)
+    retval <- list()
+    for (i in 1:n){
+      ID.vcf <- AnnotateIDVCF(ID.vcfs[[i]], ref.genome=ref.genome)[[1]]
+      CheckSeqContextInIDVCF(ID.vcf, "seq.context")
+      trans.ranges <- ICAMS:::InferTransRanges(ref.genome, trans.ranges)
+      if (!is.null(trans.ranges)) {
+        ID.vcf <- ICAMS:::AddTranscript(ID.vcf, trans.ranges)
+      }
+      retval[[vcf.names[[i]]]] <- (as.data.table(ID.vcf))
+    }
+    return(retval)
   }
-  return(retval)
-}
