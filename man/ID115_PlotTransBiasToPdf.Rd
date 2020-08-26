@@ -47,8 +47,7 @@ library(ICAMS)
 file <- c(system.file("extdata/Strelka-ID-vcf/",
                       "Strelka.ID.GRCh37.s1.vcf",
                       package = "ICAMSxtra"))
-list.of.vcfs <- ICAMS::ReadStrelkaIDVCFs(file)
-ID.vcf <- list.of.vcfs[[1]]             
+ID.vcf <- ICAMS::ReadStrelkaIDVCFs(file)       
 if (requireNamespace("BSgenome.Hsapiens.1000genomes.hs37d5", quietly = TRUE)) {
   annotated.ID.vcf <- AnnotateIDVCFsWithTransRanges(ID.vcf, ref.genome = "hg19",
                                       trans.ranges = ICAMS::trans.ranges.GRCh37, vcf.names = "Strelka.ID.GRCh37.s1")

@@ -136,7 +136,7 @@ Canonicalize1INS115 <- function(context, ins.sequence, pos, trace = 0, strand) {
   if (trace > 0) {
     message("Canonicalize1ID(", context, ",", ins.sequence, ",", pos, "\n")
   }
-  rep.count <- FindMaxRepeatIns(context, ins.sequence, pos)
+  rep.count <- ICAMS:::FindMaxRepeatIns(context, ins.sequence, pos)
   rep.count.string <- ifelse(rep.count >= 5, "5+", as.character(rep.count))
   insertion.size <- nchar(ins.sequence)
   insertion.size.string <-
@@ -1171,7 +1171,7 @@ ID115_PlotTransBias <-
     if (is.null(names(annotated.ID.vcf))){
       stop("annotated.ID.vcf does not have 'name' property")
     }
-    list <- ID115_StrandBiasGetPlottables(annotated.ID.vcf, damaged.base, pool=pool, vcf.name=name(annotated.ID.vcf))
+    list <- ID115_StrandBiasGetPlottables(annotated.ID.vcf, damaged.base, pool=pool, vcf.name=names(annotated.ID.vcf))
     ID115_PlotTransBiasInternal(list = list, ymax = ymax)
     return(list(plot.success = TRUE, p.values = list$p.values))
   }
@@ -1197,8 +1197,7 @@ ID115_PlotTransBias <-
 #' file <- c(system.file("extdata/Strelka-ID-vcf/",
 #'                       "Strelka.ID.GRCh37.s1.vcf",
 #'                       package = "ICAMSxtra"))
-#' list.of.vcfs <- ICAMS::ReadStrelkaIDVCFs(file)
-#' ID.vcf <- list.of.vcfs[[1]]             
+#' ID.vcf <- ICAMS::ReadStrelkaIDVCFs(file)       
 #' if (requireNamespace("BSgenome.Hsapiens.1000genomes.hs37d5", quietly = TRUE)) {
 #'   annotated.ID.vcf <- AnnotateIDVCFsWithTransRanges(ID.vcf, ref.genome = "hg19",
 #'                                       trans.ranges = ICAMS::trans.ranges.GRCh37, vcf.names = "Strelka.ID.GRCh37.s1")
