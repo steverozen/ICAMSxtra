@@ -85,3 +85,12 @@ NULL
 #' # There are altogether 115 row names to denote the mutation types
 #' # in ID115 catalog.
 "catalog.row.order"
+
+# Quiets concerns of R CMD check about no visible binding for global variable
+utils::globalVariables(c("N", "target_pooled", "target", "target_pooled",
+                         "target", "trans.gene.symbol", ".", "REF", "ALT",
+                         "trans.strand", "seq.context", "seq.context.width", 
+                         "trans.start.pos", "trans.end.pos", "CHROM", "POS",
+                         "reverse_pooled", "reverse", "mutation", 
+                         "catalog.row.order", "mutation", "GRCh37.proportions"
+))
