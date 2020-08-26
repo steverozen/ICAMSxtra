@@ -1180,11 +1180,10 @@ ID115_PlotTransBias <-
 #' 
 #' @inheritParams ID115_PlotTransBias
 #' 
+#' @param annotated.ID.vcfs TODO Jia Geng
+#' 
 #' @param file The name of output file.
 #'   
-#' @param plot.type A vector of character indicating types to be plotted. It
-#'   can be one or more types from ICAMS::catalog.row.order$ID115. The default is to print all 115 types.
-#' 
 #' @importFrom stats glm
 #' 
 #' @inherit ID115_PlotTransBias return

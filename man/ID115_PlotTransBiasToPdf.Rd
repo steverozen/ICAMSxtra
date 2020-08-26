@@ -7,6 +7,8 @@
 ID115_PlotTransBiasToPdf(annotated.ID.vcfs, file, pool, damaged.base = NULL)
 }
 \arguments{
+\item{annotated.ID.vcfs}{TODO Jia Geng}
+
 \item{file}{The name of output file.}
 
 \item{pool}{TODO Jia Geng}
@@ -22,9 +24,6 @@ is that the direction of strand bias is a result of whether the damage
 occurs on a purine or pyrimidine.
 If \code{NULL}, the function attempts to infer the \code{damaged.base}
 based on mutation counts.}
-
-\item{plot.type}{A vector of character indicating types to be plotted. It
-can be one or more types from ICAMS::catalog.row.order$ID115. The default is to print all 115 types.}
 }
 \value{
 A list whose first element is a logic value indicating whether the
