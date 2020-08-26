@@ -4,6 +4,8 @@ Version: 0.0.0.9001
 Author: Steve Rozen, Nanhai Jiang, Arnoud Boot, Mo Liu
 Maintainer: Steve Rozen <steverozen@gmail.com>
 Description: ICAMSxtra.
+Imports: 
+Depends: R (>= 3.5)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
