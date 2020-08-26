@@ -50,7 +50,8 @@ file <- c(system.file("extdata/Strelka-ID-vcf/",
 ID.vcf <- ICAMS::ReadStrelkaIDVCFs(file)       
 if (requireNamespace("BSgenome.Hsapiens.1000genomes.hs37d5", quietly = TRUE)) {
   annotated.ID.vcf <- AnnotateIDVCFsWithTransRanges(ID.vcf, ref.genome = "hg19",
-                                      trans.ranges = ICAMS::trans.ranges.GRCh37, vcf.names = "Strelka.ID.GRCh37.s1")
+                                      trans.ranges = ICAMS::trans.ranges.GRCh37, 
+                                      vcf.names = "Strelka.ID.GRCh37.s1")
   ID115_PlotTransBiasToPdf(annotated.ID.vcfs = annotated.ID.vcf,
                            file = file.path(tempdir(), "test.pdf"),
                            pool = TRUE)

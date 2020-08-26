@@ -1200,34 +1200,36 @@ ID115_PlotTransBias <-
 #' ID.vcf <- ICAMS::ReadStrelkaIDVCFs(file)       
 #' if (requireNamespace("BSgenome.Hsapiens.1000genomes.hs37d5", quietly = TRUE)) {
 #'   annotated.ID.vcf <- AnnotateIDVCFsWithTransRanges(ID.vcf, ref.genome = "hg19",
-#'                                       trans.ranges = ICAMS::trans.ranges.GRCh37, vcf.names = "Strelka.ID.GRCh37.s1")
+#'                                       trans.ranges = ICAMS::trans.ranges.GRCh37, 
+#'                                       vcf.names = "Strelka.ID.GRCh37.s1")
 #'   ID115_PlotTransBiasToPdf(annotated.ID.vcfs = annotated.ID.vcf,
 #'                            file = file.path(tempdir(), "test.pdf"),
 #'                            pool = TRUE)
 #' }
-ID115_PlotTransBiasToPdf <- function(annotated.ID.vcfs, file, pool, damaged.base = NULL) {
-  # Setting the width and length for A4 size plotting
-  grDevices::pdf(file, width = 8.2677, height = 11.6929, onefile = TRUE)
-  
-  opar <- par(mfrow = c(4, 1), mar = c(8, 5.5, 2, 1), oma = c(1, 1, 2, 1))
-  on.exit(par(opar))
-  
-  plot.type <- ifelse(pool, target_pooled, target)
-  n <- length(annotated.ID.vcfs)
-  vcf.names <- names(annotated.ID.vcfs)
-  results <- list()
-  for (i in 1:n){
-    list <- ID115_StrandBiasGetPlottables(annotated.ID.vcf = annotated.ID.vcfs[[i]], 
-                                          vcf.name = vcf.names[[i]], 
-                                          pool = pool, 
-                                          damaged.base = damaged.base)
-    ymax <- max(list$plotmatrix[, c(plot.type, unname(mapply(revcID115, plot.type)))])
-    ID115_PlotTransBiasInternal(list = list, ymax = NULL)
-    results[[vcf.names[i]]] <- list(plot.success = TRUE, p.values = list$p.values)
+ID115_PlotTransBiasToPdf <- 
+  function(annotated.ID.vcfs, file, pool, damaged.base = NULL) {
+    # Setting the width and length for A4 size plotting
+    grDevices::pdf(file, width = 8.2677, height = 11.6929, onefile = TRUE)
+    
+    opar <- par(mfrow = c(4, 1), mar = c(8, 5.5, 2, 1), oma = c(1, 1, 2, 1))
+    on.exit(par(opar))
+    
+    plot.type <- ifelse(pool, target_pooled, target)
+    n <- length(annotated.ID.vcfs)
+    vcf.names <- names(annotated.ID.vcfs)
+    results <- list()
+    for (i in 1:n){
+      list <- ID115_StrandBiasGetPlottables(annotated.ID.vcf = annotated.ID.vcfs[[i]], 
+                                            vcf.name = vcf.names[[i]], 
+                                            pool = pool, 
+                                            damaged.base = damaged.base)
+      ymax <- max(list$plotmatrix[, c(plot.type, unname(mapply(revcID115, plot.type)))])
+      ID115_PlotTransBiasInternal(list = list, ymax = NULL)
+      results[[vcf.names[i]]] <- list(plot.success = TRUE, p.values = list$p.values)
+    }
+    grDevices::dev.off()
+    return(results)
   }
-  grDevices::dev.off()
-  return(results)
-}
 
 #' Add sequence context and transcript information to an in-memory ID VCF
 #' 
@@ -1237,7 +1239,7 @@ ID115_PlotTransBiasToPdf <- function(annotated.ID.vcfs, file, pool, damaged.base
 #'   \code{\link{ICAMS}}.
 #'
 #' @param trans.ranges Optional. If \code{ref.genome} specifies one of the
-#'   \code{\link{BSgenome}} object 
+#'   \code{\link[BSgenome]{BSgenome}} object 
 #'   \enumerate{
 #'     \item \code{\link[BSgenome.Hsapiens.1000genomes.hs37d5]{BSgenome.Hsapiens.1000genomes.hs37d5}}
 #'     \item \code{\link[BSgenome.Hsapiens.UCSC.hg38]{BSgenome.Hsapiens.UCSC.hg38}}
