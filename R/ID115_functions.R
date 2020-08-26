@@ -978,6 +978,7 @@ ID115_StrandBiasGetPlottables <-
                 p.values = p.values, vcf.name = vcf.name))
   }
 
+#' @importFrom stats binom.test p.adjust
 #' @keywords internal
 ID115_CalculatePValues <- function(dt, pool) {
   if (pool){
