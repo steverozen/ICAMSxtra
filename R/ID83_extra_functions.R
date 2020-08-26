@@ -13,6 +13,8 @@
 #' @param names.of.vcfs list of names of vcfs
 #' @param file The name of the PDF file to be produced.
 #' 
+#' @importFrom grDevices col2rgb rgb
+#' 
 #' @section Note: 
 #' The strand bias statistics are Benjamini-Hochberg q-values based on two-sided
 #' binomial tests of the mutation counts on the transcribed and untranscribed strands
