@@ -41,7 +41,7 @@ Plot transcription strand bias
 
 The strand bias statistics are Benjamini-Hochberg q-values based on two-sided
 binomial tests of the mutation counts on the transcribed and untranscribed strands
-relaitve to the actual abundances of C and T on the transcribed strand. On the
+relative to the actual abundances of C and T on the transcribed strand. On the
 plot, asterisks indicate q-values as follows *, \eqn{Q<0.05}; **, \eqn{Q<0.01}; ***,
 \eqn{Q<0.001}.
 }

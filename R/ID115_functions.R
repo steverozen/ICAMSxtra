@@ -34,7 +34,7 @@
 #' 
 #' @param strand NULL by default. But when called by PlotTransBiasInternal,
 #' \code{strand} is either \code{+} or \code{-}. The return value will 
-#' include :trans or :nontrans indicating whether the deletion occured on
+#' include :trans or :nontrans indicating whether the deletion occurred on
 #' the transcribed or non-transcribed strand.
 #' 
 #' @return A string that is the canonical representation
@@ -192,7 +192,7 @@ Canonicalize1INS115 <- function(context, ins.sequence, pos, trace = 0, strand) {
 #' 
 #' @param strand NULL by default. But when called by \code{ID115_StrandBiasGetPlottables},
 #'  \code{strand} is either \code{+} or \code{-}. The return value will 
-#'  include :trans or :nontrans indicating whether the deletion occured on
+#'  include :trans or :nontrans indicating whether the deletion occurred on
 #'  the transcribed or non-transcribed strand.
 #
 #' @return A string that is the canonical representation
@@ -235,7 +235,7 @@ Canonicalize1ID115 <- function(context, ref, alt, pos, trace = 0, strand) {
 #'  
 #' @param strand NULL by default. But when called by \code{ID115_StrandBiasGetPlottables},
 #'  \code{strand} is either \code{+} or \code{-}. The return value will 
-#'  include :trans or :nontrans indicating whether the deletion occured on
+#'  include :trans or :nontrans indicating whether the deletion occurred on
 #'  the transcribed or non-transcribed strand.
 #' 
 #' @return A vector of strings that are the canonical representations
@@ -391,7 +391,7 @@ as.catalog.for.ID115 <- function(object,
     if (!infer.rownames) {
       stop("Require correct rownames on object unless infer.rownames == TRUE")
     }
-    rownames(object) <- InferRownames(object)
+    rownames(object) <- ICAMS:::InferRownames(object)
   } else {
     #removed call to checkandreorder rownames
     object <- object[ICAMS::catalog.row.order$ID115, ,drop=FALSE] 
@@ -401,10 +401,10 @@ as.catalog.for.ID115 <- function(object,
   
   class.string  <- "ID115Catalog"
   
-  StopIfCatalogTypeIllegal(catalog.type)
+  ICAMS:::StopIfCatalogTypeIllegal(catalog.type)
   
   if (!is.null(ref.genome)) {
-    ref.genome <- NormalizeGenomeArg(ref.genome)
+    ref.genome <- ICAMS:::NormalizeGenomeArg(ref.genome)
   }
   
   attr(object, "ref.genome") <- ref.genome
@@ -566,7 +566,7 @@ CollapseID115CatalogsToID83s <- function(catalogs){
 #'
 #' @export
 WriteID115Catalog <- function(catalog, file, strict = TRUE) {
-  WriteCat(catalog, file, 115, ICAMS::catalog.row.order$ID115,
+  ICAMS:::WriteCat(catalog, file, 115, ICAMS::catalog.row.order$ID115,
            catalog.row.headers.ID115, strict)
 }
 
@@ -844,7 +844,7 @@ PlotID115AsID83ToPdf <-
     for (i in 1 : n) {
       cat115 <- catalog[, i, drop = FALSE]
       cat83 <- Collapse115CatalogTo83(cat115)
-      PlotCatalog.IndelCatalog(cat83, ylim = ylim)
+      ICAMS:::PlotCatalog.IndelCatalog(cat83, ylim = ylim)
     }
     grDevices::dev.off()
     return(list(plot.success = TRUE))
@@ -1088,7 +1088,7 @@ ID115_PlotTransBiasInternal <- function(list, ymax = NULL) {
         # Draw the asterisk on top of line segment
         x3 <- mean(c(x1, x2))
         y3 <- y1 + max(result) * 0.05
-        label <- AssignNumberOfAsterisks(p.value) #p.values actually are q.value
+        label <- ICAMS:::AssignNumberOfAsterisks(p.value) #p.values actually are q.value
         text(x3, y3, label)
       }
     }
@@ -1144,7 +1144,7 @@ CheckSeqContextInIDVCF <- function(vcf, column.to.use) {
 #' @section Note: 
 #' The strand bias statistics are Benjamini-Hochberg q-values based on two-sided
 #' binomial tests of the mutation counts on the transcribed and untranscribed strands
-#' relaitve to the actual abundances of C and T on the transcribed strand. On the
+#' relative to the actual abundances of C and T on the transcribed strand. On the
 #' plot, asterisks indicate q-values as follows *, \eqn{Q<0.05}; **, \eqn{Q<0.01}; ***,
 #'  \eqn{Q<0.001}.
 #'  

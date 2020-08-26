@@ -19,7 +19,7 @@ sequence on each side the variants}
 
 \item{strand}{NULL by default. But when called by \code{ID115_StrandBiasGetPlottables},
 \code{strand} is either \code{+} or \code{-}. The return value will
-include :trans or :nontrans indicating whether the deletion occured on
+include :trans or :nontrans indicating whether the deletion occurred on
 the transcribed or non-transcribed strand.}
 }
 \value{
