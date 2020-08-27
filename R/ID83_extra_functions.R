@@ -13,10 +13,12 @@
 #' @param names.of.vcfs list of names of vcfs
 #' @param file The name of the PDF file to be produced.
 #' 
+#' @importFrom grDevices col2rgb rgb
+#' 
 #' @section Note: 
 #' The strand bias statistics are Benjamini-Hochberg q-values based on two-sided
 #' binomial tests of the mutation counts on the transcribed and untranscribed strands
-#' relaitve to the actual abundances of C and T on the transcribed strand. On the
+#' relative to the actual abundances of C and T on the transcribed strand. On the
 #' plot, asterisks indicate q-values as follows *, \eqn{Q<0.05}; **, \eqn{Q<0.01}; ***,
 #'  \eqn{Q<0.001}.
 #'
@@ -70,7 +72,7 @@ PlotTranscriptionAssociatedDamageToPdf <- function(list.of.vcfs, ref.genome, nam
     
     ## Make new color using input color as base and alpha set by transparency
     t.col <- rgb(rgb.val[1], rgb.val[2], rgb.val[3],
-                 max = 255,
+                 maxColorValue = 255,
                  alpha = (100 - percent) * 255 / 100,
                  names = name)
     

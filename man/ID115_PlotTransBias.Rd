@@ -11,6 +11,8 @@ ID115_PlotTransBias(annotated.ID.vcf, pool, damaged.base = NULL, ymax = NULL)
 \code{AnnotateIDVCFsWithTransRanges}. It \strong{must} have transcript range
 information added.}
 
+\item{pool}{TODO Jia Geng}
+
 \item{damaged.base}{One of \code{NULL}, \code{"purine"} or
 \code{"pyrimidine"}. This function allocates approximately
 equal numbers of mutations from \code{damaged.base} into
@@ -26,10 +28,6 @@ based on mutation counts.}
 \item{ymax}{Limit for the y axis. If not specified, it defaults to NULL and
 the y axis limit equals 1.5 times of the maximum mutation counts in a
 specific mutation type.}
-
-\item{plot.type}{A character string indicating one mutation type to be
-plotted. It should be one of ICAMS::catalog.row.order$ID115
-(check found in data/catalog.row.order.rda).}
 }
 \value{
 A list whose first element is a logic value indicating whether the
@@ -43,7 +41,7 @@ Plot transcription strand bias
 
 The strand bias statistics are Benjamini-Hochberg q-values based on two-sided
 binomial tests of the mutation counts on the transcribed and untranscribed strands
-relaitve to the actual abundances of C and T on the transcribed strand. On the
+relative to the actual abundances of C and T on the transcribed strand. On the
 plot, asterisks indicate q-values as follows *, \eqn{Q<0.05}; **, \eqn{Q<0.01}; ***,
 \eqn{Q<0.001}.
 }
@@ -52,10 +50,10 @@ plot, asterisks indicate q-values as follows *, \eqn{Q<0.05}; **, \eqn{Q<0.01}; 
 file <- c(system.file("extdata/Strelka-ID-vcf/",
                       "Strelka.ID.GRCh37.s1.vcf",
                       package = "ICAMSxtra"))
-ID.vcf <- ReadStrelkaIDVCFs(file)
+ID.vcf <- ICAMS::ReadStrelkaIDVCFs(file)
 if (requireNamespace("BSgenome.Hsapiens.1000genomes.hs37d5", quietly = TRUE)) {
   annotated.ID.vcf <- AnnotateIDVCFsWithTransRanges(ID.vcf, ref.genome = "hg19",
-                                                    trans.ranges = trans.ranges.GRCh37,
+                                                    trans.ranges = ICAMS::trans.ranges.GRCh37,
                                                     vcf.names = "Strelka.ID.GRCh37.s1.vcf")
   #' alternatively run below code to skip call to AnnotateIDVCFsWithTransRanges 
   #' load(c(system.file("extdata/annotated.ID.vcf.rda",package = "ICAMSxtra")))

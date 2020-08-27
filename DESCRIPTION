@@ -1,10 +1,12 @@
 Package: ICAMSxtra
 Title: ICAMSxtra
-Version: 0.0.0.9001
-Author: Steve Rozen, Nanhai Jiang, Arnoud Boot, Mo Liu, Chang Jia Geng
+Version: 0.0.0.9002
+Author: Steve Rozen, Nanhai Jiang, Arnoud Boot, Mo Liu
 Maintainer: Steve Rozen <steverozen@gmail.com>
 Description: ICAMSxtra.
-Imports: 
+biocViews:
+Imports: data.table,
+    ICAMS
 Depends: R (>= 3.5)
 License: GPL-3
 Encoding: UTF-8
@@ -13,4 +15,7 @@ Language: en-US
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Suggests: 
+    BSgenome.Hsapiens.1000genomes.hs37d5,
+    BSgenome.Hsapiens.UCSC.hg38,
+    BSgenome.Mmusculus.UCSC.mm10,
     testthat

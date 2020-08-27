@@ -7,7 +7,11 @@
 ID115_PlotTransBiasToPdf(annotated.ID.vcfs, file, pool, damaged.base = NULL)
 }
 \arguments{
+\item{annotated.ID.vcfs}{TODO Jia Geng}
+
 \item{file}{The name of output file.}
+
+\item{pool}{TODO Jia Geng}
 
 \item{damaged.base}{One of \code{NULL}, \code{"purine"} or
 \code{"pyrimidine"}. This function allocates approximately
@@ -20,9 +24,6 @@ is that the direction of strand bias is a result of whether the damage
 occurs on a purine or pyrimidine.
 If \code{NULL}, the function attempts to infer the \code{damaged.base}
 based on mutation counts.}
-
-\item{plot.type}{A vector of character indicating types to be plotted. It
-can be one or more types from ICAMS::catalog.row.order$ID115. The default is to print all 115 types.}
 }
 \value{
 A list whose first element is a logic value indicating whether the
@@ -36,7 +37,7 @@ Plot transcription strand bias to a PDF file
 
 The strand bias statistics are Benjamini-Hochberg q-values based on two-sided
 binomial tests of the mutation counts on the transcribed and untranscribed strands
-relaitve to the actual abundances of C and T on the transcribed strand. On the
+relative to the actual abundances of C and T on the transcribed strand. On the
 plot, asterisks indicate q-values as follows *, \eqn{Q<0.05}; **, \eqn{Q<0.01}; ***,
 \eqn{Q<0.001}.
 }
@@ -46,11 +47,11 @@ library(ICAMS)
 file <- c(system.file("extdata/Strelka-ID-vcf/",
                       "Strelka.ID.GRCh37.s1.vcf",
                       package = "ICAMSxtra"))
-list.of.vcfs <- ReadStrelkaIDVCFs(file)
-ID.vcf <- list.of.vcfs[[1]]             
+ID.vcf <- ICAMS::ReadStrelkaIDVCFs(file)       
 if (requireNamespace("BSgenome.Hsapiens.1000genomes.hs37d5", quietly = TRUE)) {
   annotated.ID.vcf <- AnnotateIDVCFsWithTransRanges(ID.vcf, ref.genome = "hg19",
-                                      trans.ranges = trans.ranges.GRCh37, vcf.names = "Strelka.ID.GRCh37.s1")
+                                      trans.ranges = ICAMS::trans.ranges.GRCh37, 
+                                      vcf.names = "Strelka.ID.GRCh37.s1")
   ID115_PlotTransBiasToPdf(annotated.ID.vcfs = annotated.ID.vcf,
                            file = file.path(tempdir(), "test.pdf"),
                            pool = TRUE)

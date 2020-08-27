@@ -34,7 +34,7 @@
 #' 
 #' @param strand NULL by default. But when called by PlotTransBiasInternal,
 #' \code{strand} is either \code{+} or \code{-}. The return value will 
-#' include :trans or :nontrans indicating whether the deletion occured on
+#' include :trans or :nontrans indicating whether the deletion occurred on
 #' the transcribed or non-transcribed strand.
 #' 
 #' @return A string that is the canonical representation
@@ -136,7 +136,7 @@ Canonicalize1INS115 <- function(context, ins.sequence, pos, trace = 0, strand) {
   if (trace > 0) {
     message("Canonicalize1ID(", context, ",", ins.sequence, ",", pos, "\n")
   }
-  rep.count <- FindMaxRepeatIns(context, ins.sequence, pos)
+  rep.count <- ICAMS:::FindMaxRepeatIns(context, ins.sequence, pos)
   rep.count.string <- ifelse(rep.count >= 5, "5+", as.character(rep.count))
   insertion.size <- nchar(ins.sequence)
   insertion.size.string <-
@@ -192,7 +192,7 @@ Canonicalize1INS115 <- function(context, ins.sequence, pos, trace = 0, strand) {
 #' 
 #' @param strand NULL by default. But when called by \code{ID115_StrandBiasGetPlottables},
 #'  \code{strand} is either \code{+} or \code{-}. The return value will 
-#'  include :trans or :nontrans indicating whether the deletion occured on
+#'  include :trans or :nontrans indicating whether the deletion occurred on
 #'  the transcribed or non-transcribed strand.
 #
 #' @return A string that is the canonical representation
@@ -235,7 +235,7 @@ Canonicalize1ID115 <- function(context, ref, alt, pos, trace = 0, strand) {
 #'  
 #' @param strand NULL by default. But when called by \code{ID115_StrandBiasGetPlottables},
 #'  \code{strand} is either \code{+} or \code{-}. The return value will 
-#'  include :trans or :nontrans indicating whether the deletion occured on
+#'  include :trans or :nontrans indicating whether the deletion occurred on
 #'  the transcribed or non-transcribed strand.
 #' 
 #' @return A vector of strings that are the canonical representations
@@ -391,7 +391,7 @@ as.catalog.for.ID115 <- function(object,
     if (!infer.rownames) {
       stop("Require correct rownames on object unless infer.rownames == TRUE")
     }
-    rownames(object) <- InferRownames(object)
+    rownames(object) <- ICAMS:::InferRownames(object)
   } else {
     #removed call to checkandreorder rownames
     object <- object[ICAMS::catalog.row.order$ID115, ,drop=FALSE] 
@@ -401,10 +401,10 @@ as.catalog.for.ID115 <- function(object,
   
   class.string  <- "ID115Catalog"
   
-  StopIfCatalogTypeIllegal(catalog.type)
+  ICAMS:::StopIfCatalogTypeIllegal(catalog.type)
   
   if (!is.null(ref.genome)) {
-    ref.genome <- NormalizeGenomeArg(ref.genome)
+    ref.genome <- ICAMS:::NormalizeGenomeArg(ref.genome)
   }
   
   attr(object, "ref.genome") <- ref.genome
@@ -566,7 +566,7 @@ CollapseID115CatalogsToID83s <- function(catalogs){
 #'
 #' @export
 WriteID115Catalog <- function(catalog, file, strict = TRUE) {
-  WriteCat(catalog, file, 115, ICAMS::catalog.row.order$ID115,
+  ICAMS:::WriteCat(catalog, file, 115, ICAMS::catalog.row.order$ID115,
            catalog.row.headers.ID115, strict)
 }
 
@@ -844,7 +844,7 @@ PlotID115AsID83ToPdf <-
     for (i in 1 : n) {
       cat115 <- catalog[, i, drop = FALSE]
       cat83 <- Collapse115CatalogTo83(cat115)
-      PlotCatalog.IndelCatalog(cat83, ylim = ylim)
+      ICAMS:::PlotCatalog.IndelCatalog(cat83, ylim = ylim)
     }
     grDevices::dev.off()
     return(list(plot.success = TRUE))
@@ -978,6 +978,7 @@ ID115_StrandBiasGetPlottables <-
                 p.values = p.values, vcf.name = vcf.name))
   }
 
+#' @importFrom stats binom.test p.adjust
 #' @keywords internal
 ID115_CalculatePValues <- function(dt, pool) {
   if (pool){
@@ -1087,7 +1088,7 @@ ID115_PlotTransBiasInternal <- function(list, ymax = NULL) {
         # Draw the asterisk on top of line segment
         x3 <- mean(c(x1, x2))
         y3 <- y1 + max(result) * 0.05
-        label <- AssignNumberOfAsterisks(p.value) #p.values actually are q.value
+        label <- ICAMS:::AssignNumberOfAsterisks(p.value) #p.values actually are q.value
         text(x3, y3, label)
       }
     }
@@ -1118,9 +1119,7 @@ CheckSeqContextInIDVCF <- function(vcf, column.to.use) {
 #'   \code{AnnotateIDVCFsWithTransRanges}. It \strong{must} have transcript range
 #'   information added.
 #'   
-#' @param plot.type A character string indicating one mutation type to be
-#'   plotted. It should be one of ICAMS::catalog.row.order$ID115 
-#'   (check found in data/catalog.row.order.rda).
+#' @param pool TODO Jia Geng
 #'   
 #' @param damaged.base One of \code{NULL}, \code{"purine"} or
 #'   \code{"pyrimidine"}. This function allocates approximately
@@ -1145,7 +1144,7 @@ CheckSeqContextInIDVCF <- function(vcf, column.to.use) {
 #' @section Note: 
 #' The strand bias statistics are Benjamini-Hochberg q-values based on two-sided
 #' binomial tests of the mutation counts on the transcribed and untranscribed strands
-#' relaitve to the actual abundances of C and T on the transcribed strand. On the
+#' relative to the actual abundances of C and T on the transcribed strand. On the
 #' plot, asterisks indicate q-values as follows *, \eqn{Q<0.05}; **, \eqn{Q<0.01}; ***,
 #'  \eqn{Q<0.001}.
 #'  
@@ -1157,10 +1156,10 @@ CheckSeqContextInIDVCF <- function(vcf, column.to.use) {
 #' file <- c(system.file("extdata/Strelka-ID-vcf/",
 #'                       "Strelka.ID.GRCh37.s1.vcf",
 #'                       package = "ICAMSxtra"))
-#' ID.vcf <- ReadStrelkaIDVCFs(file)
+#' ID.vcf <- ICAMS::ReadStrelkaIDVCFs(file)
 #' if (requireNamespace("BSgenome.Hsapiens.1000genomes.hs37d5", quietly = TRUE)) {
 #'   annotated.ID.vcf <- AnnotateIDVCFsWithTransRanges(ID.vcf, ref.genome = "hg19",
-#'                                                     trans.ranges = trans.ranges.GRCh37,
+#'                                                     trans.ranges = ICAMS::trans.ranges.GRCh37,
 #'                                                     vcf.names = "Strelka.ID.GRCh37.s1.vcf")
 #'   #' alternatively run below code to skip call to AnnotateIDVCFsWithTransRanges 
 #'   #' load(c(system.file("extdata/annotated.ID.vcf.rda",package = "ICAMSxtra")))
@@ -1172,7 +1171,7 @@ ID115_PlotTransBias <-
     if (is.null(names(annotated.ID.vcf))){
       stop("annotated.ID.vcf does not have 'name' property")
     }
-    list <- ID115_StrandBiasGetPlottables(annotated.ID.vcf, damaged.base, pool=pool, vcf.name=name(annotated.ID.vcf))
+    list <- ID115_StrandBiasGetPlottables(annotated.ID.vcf, damaged.base, pool=pool, vcf.name=names(annotated.ID.vcf))
     ID115_PlotTransBiasInternal(list = list, ymax = ymax)
     return(list(plot.success = TRUE, p.values = list$p.values))
   }
@@ -1181,11 +1180,10 @@ ID115_PlotTransBias <-
 #' 
 #' @inheritParams ID115_PlotTransBias
 #' 
+#' @param annotated.ID.vcfs TODO Jia Geng
+#' 
 #' @param file The name of output file.
 #'   
-#' @param plot.type A vector of character indicating types to be plotted. It
-#'   can be one or more types from ICAMS::catalog.row.order$ID115. The default is to print all 115 types.
-#' 
 #' @importFrom stats glm
 #' 
 #' @inherit ID115_PlotTransBias return
@@ -1199,38 +1197,39 @@ ID115_PlotTransBias <-
 #' file <- c(system.file("extdata/Strelka-ID-vcf/",
 #'                       "Strelka.ID.GRCh37.s1.vcf",
 #'                       package = "ICAMSxtra"))
-#' list.of.vcfs <- ReadStrelkaIDVCFs(file)
-#' ID.vcf <- list.of.vcfs[[1]]             
+#' ID.vcf <- ICAMS::ReadStrelkaIDVCFs(file)       
 #' if (requireNamespace("BSgenome.Hsapiens.1000genomes.hs37d5", quietly = TRUE)) {
 #'   annotated.ID.vcf <- AnnotateIDVCFsWithTransRanges(ID.vcf, ref.genome = "hg19",
-#'                                       trans.ranges = trans.ranges.GRCh37, vcf.names = "Strelka.ID.GRCh37.s1")
+#'                                       trans.ranges = ICAMS::trans.ranges.GRCh37, 
+#'                                       vcf.names = "Strelka.ID.GRCh37.s1")
 #'   ID115_PlotTransBiasToPdf(annotated.ID.vcfs = annotated.ID.vcf,
 #'                            file = file.path(tempdir(), "test.pdf"),
 #'                            pool = TRUE)
 #' }
-ID115_PlotTransBiasToPdf <- function(annotated.ID.vcfs, file, pool, damaged.base = NULL) {
-  # Setting the width and length for A4 size plotting
-  grDevices::pdf(file, width = 8.2677, height = 11.6929, onefile = TRUE)
-  
-  opar <- par(mfrow = c(4, 1), mar = c(8, 5.5, 2, 1), oma = c(1, 1, 2, 1))
-  on.exit(par(opar))
-  
-  plot.type <- ifelse(pool, target_pooled, target)
-  n <- length(annotated.ID.vcfs)
-  vcf.names <- names(annotated.ID.vcfs)
-  results <- list()
-  for (i in 1:n){
-    list <- ID115_StrandBiasGetPlottables(annotated.ID.vcf = annotated.ID.vcfs[[i]], 
-                                          vcf.name = vcf.names[[i]], 
-                                          pool = pool, 
-                                          damaged.base = damaged.base)
-    ymax <- max(list$plotmatrix[, c(plot.type, unname(mapply(revcID115, plot.type)))])
-    ID115_PlotTransBiasInternal(list = list, ymax = NULL)
-    results[[vcf.names[i]]] <- list(plot.success = TRUE, p.values = list$p.values)
+ID115_PlotTransBiasToPdf <- 
+  function(annotated.ID.vcfs, file, pool, damaged.base = NULL) {
+    # Setting the width and length for A4 size plotting
+    grDevices::pdf(file, width = 8.2677, height = 11.6929, onefile = TRUE)
+    
+    opar <- par(mfrow = c(4, 1), mar = c(8, 5.5, 2, 1), oma = c(1, 1, 2, 1))
+    on.exit(par(opar))
+    
+    plot.type <- ifelse(pool, target_pooled, target)
+    n <- length(annotated.ID.vcfs)
+    vcf.names <- names(annotated.ID.vcfs)
+    results <- list()
+    for (i in 1:n){
+      list <- ID115_StrandBiasGetPlottables(annotated.ID.vcf = annotated.ID.vcfs[[i]], 
+                                            vcf.name = vcf.names[[i]], 
+                                            pool = pool, 
+                                            damaged.base = damaged.base)
+      ymax <- max(list$plotmatrix[, c(plot.type, unname(mapply(revcID115, plot.type)))])
+      ID115_PlotTransBiasInternal(list = list, ymax = NULL)
+      results[[vcf.names[i]]] <- list(plot.success = TRUE, p.values = list$p.values)
+    }
+    grDevices::dev.off()
+    return(results)
   }
-  grDevices::dev.off()
-  return(results)
-}
 
 #' Add sequence context and transcript information to an in-memory ID VCF
 #' 
@@ -1240,7 +1239,7 @@ ID115_PlotTransBiasToPdf <- function(annotated.ID.vcfs, file, pool, damaged.base
 #'   \code{\link{ICAMS}}.
 #'
 #' @param trans.ranges Optional. If \code{ref.genome} specifies one of the
-#'   \code{\link{BSgenome}} object 
+#'   \code{\link[BSgenome]{BSgenome}} object 
 #'   \enumerate{
 #'     \item \code{\link[BSgenome.Hsapiens.1000genomes.hs37d5]{BSgenome.Hsapiens.1000genomes.hs37d5}}
 #'     \item \code{\link[BSgenome.Hsapiens.UCSC.hg38]{BSgenome.Hsapiens.UCSC.hg38}}
@@ -1253,6 +1252,8 @@ ID115_PlotTransBiasToPdf <- function(annotated.ID.vcfs, file, pool, damaged.base
 #'   information.
 #'   
 #' @param vcf.names list of names of the vcfs
+#' 
+#' @import ICAMS
 #'
 #' @return A list of in-memory ID VCFs each a \code{data.table}. These have been annotated
 #'   with the sequence context (column name \code{seq.context}) and with
@@ -1268,22 +1269,26 @@ ID115_PlotTransBiasToPdf <- function(annotated.ID.vcfs, file, pool, damaged.base
 #' file <- c(system.file("extdata/Strelka-ID-vcf",
 #'                       "Strelka.ID.GRCh37.s1.vcf",
 #'                       package = "ICAMSxtra"))
-#' list.of.vcfs <- ReadStrelkaIDVCFs(file)
+#' list.of.vcfs <- ICAMS::ReadStrelkaIDVCFs(file)
 #' if (requireNamespace("BSgenome.Hsapiens.1000genomes.hs37d5", quietly = TRUE)) {
 #'   annotated.ID.vcfs <- AnnotateIDVCFsWithTransRanges(list.of.vcfs, ref.genome = "hg19",
-#'                                                     trans.ranges = trans.ranges.GRCh37)
+#'                                                     trans.ranges = ICAMS::trans.ranges.GRCh37)
 #'   }
-AnnotateIDVCFsWithTransRanges <- function(ID.vcfs, ref.genome, trans.ranges = NULL, vcf.names) {
-  n <- length(ID.vcfs)
-  retval <- list()
-  for (i in 1:n){
-    ID.vcf <- AnnotateIDVCF(ID.vcfs[[i]], ref.genome=ref.genome)[[1]]
-    CheckSeqContextInIDVCF(ID.vcf, "seq.context")
-    trans.ranges <- ICAMS:::InferTransRanges(ref.genome, trans.ranges)
-    if (!is.null(trans.ranges)) {
-      ID.vcf <- ICAMS:::AddTranscript(ID.vcf, trans.ranges)
+AnnotateIDVCFsWithTransRanges <- 
+  function(ID.vcfs, ref.genome, trans.ranges = NULL, vcf.names = NULL) {
+    if (is.null(vcf.names)) {
+      vcf.names <- names(ID.vcfs)
     }
-    retval[[vcf.names[[i]]]] <- (as.data.table(ID.vcf))
+    n <- length(ID.vcfs)
+    retval <- list()
+    for (i in 1:n){
+      ID.vcf <- AnnotateIDVCF(ID.vcfs[[i]], ref.genome=ref.genome)[[1]]
+      CheckSeqContextInIDVCF(ID.vcf, "seq.context")
+      trans.ranges <- ICAMS:::InferTransRanges(ref.genome, trans.ranges)
+      if (!is.null(trans.ranges)) {
+        ID.vcf <- ICAMS:::AddTranscript(ID.vcf, trans.ranges)
+      }
+      retval[[vcf.names[[i]]]] <- (as.data.table(ID.vcf))
+    }
+    return(retval)
   }
-  return(retval)
-}
