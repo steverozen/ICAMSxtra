@@ -16,6 +16,6 @@ target
 }
 \description{
 This data is designed to be used as an example in function \cr
-\code{\link{ID115_PlotTransBias}} and \code{\link{ID115_PlotTransBiasToPdf}}.
+\code{\link{PlotTransBiasID115}} and \code{\link{PlotTransBiasID115ToPdf}}.
 }
 \keyword{datasets}

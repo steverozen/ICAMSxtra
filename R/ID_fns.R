@@ -11,6 +11,7 @@
 #'   \code{\link{ICAMS}}.
 #'   
 #' @param names.of.vcfs list of names of vcfs
+#' @param proportions The gene proportions for the genome e.g. `GRCh37.proportions` or `GRCh38.proportions`
 #' @param file The name of the PDF file to be produced.
 #' 
 #' @importFrom grDevices col2rgb rgb
@@ -32,9 +33,10 @@
 #' list.of.vcfs <- ICAMS::ReadStrelkaIDVCFs(dirs, names.of.VCFs = c("s1","s2"))
 #' PlotTranscriptionAssociatedDamageToPdf(list.of.vcfs = list.of.vcfs, 
 #'                                        ref.genome = "hg19", 
-#'                                        names.of.vcfs = c("s1","s2"), 
+#'                                        names.of.vcfs = c("s1","s2"),
+#'                                        proportions = GRCh37.proportions, 
 #'                                        file = file.path(tempdir(), "test.pdf"))
-PlotTranscriptionAssociatedDamageToPdf <- function(list.of.vcfs, ref.genome, names.of.vcfs, file){
+PlotTranscriptionAssociatedDamageToPdf <- function(list.of.vcfs, ref.genome, names.of.vcfs, proportions, file){
   
   annotated.vcfs <- AnnotateIDVCFsWithTransRanges(list.of.vcfs, ref.genome, vcf.names = names.of.vcfs)
   
@@ -50,7 +52,7 @@ PlotTranscriptionAssociatedDamageToPdf <- function(list.of.vcfs, ref.genome, nam
   for (i in 1:n){
     counts <- matrix(data = 0L, nrow = 2, ncol = 83)
     rownames(counts) <- c("coding", "noncoding")
-    colnames(counts) <- catalog.row.order$ID
+    colnames(counts) <- ICAMS::catalog.row.order$ID
     DT <- mutation.annotated.vcfs[[i]]
     m <- nrow(DT)
     for (j in 1:m){

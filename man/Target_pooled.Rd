@@ -16,7 +16,7 @@ target_pooled
 }
 \description{
 This data is designed to be used as an example in function \cr
-\code{\link{ID115_PlotTransBias}} and
-\code{\link{ID115_PlotTransBias}}
+\code{\link{PlotTransBiasID115}} and
+\code{\link{PlotTransBiasID115}}
 }
 \keyword{datasets}

@@ -8,10 +8,10 @@ test_that("AnnotateIDVCFsWithTransRanges function with hg19", {
   list <- 
     AnnotateIDVCFsWithTransRanges(list.of.ID.vcfs,
                                   ref.genome = BSgenome.Hsapiens.1000genomes.hs37d5::BSgenome.Hsapiens.1000genomes.hs37d5,
-                                  trans.ranges = trans.ranges.GRCh37,
+                                  trans.ranges = ICAMS::trans.ranges.GRCh37,
                                   vcf.names = "test.vcf")
-  list1 <- AnnotateIDVCFsWithTransRanges(list.of.ID.vcfs, ref.genome = "GRCh37", trans.ranges.GRCh37, vcf.names = "test.vcf")
-  list2 <- AnnotateIDVCFsWithTransRanges(list.of.ID.vcfs, ref.genome = "hg19", trans.ranges.GRCh37, vcf.names = "test.vcf")
+  list1 <- AnnotateIDVCFsWithTransRanges(list.of.ID.vcfs, ref.genome = "GRCh37", ICAMS::trans.ranges.GRCh37, vcf.names = "test.vcf")
+  list2 <- AnnotateIDVCFsWithTransRanges(list.of.ID.vcfs, ref.genome = "hg19", ICAMS::trans.ranges.GRCh37, vcf.names = "test.vcf")
   expect_equal(list[[1]], annotated.strelka.ID.vcf.GRCh37)
   expect_equal(list, list1)
   expect_equal(list, list2)
@@ -25,10 +25,10 @@ test_that("AnnotateIDVCFsWithTransRanges with hg38", {
   list3 <- AnnotateIDVCFsWithTransRanges(list.of.ID.vcfs,
                                          ref.genome =
                                            BSgenome.Hsapiens.UCSC.hg38::BSgenome.Hsapiens.UCSC.hg38,
-                                         trans.ranges = trans.ranges.GRCh38,
+                                         trans.ranges = ICAMS::trans.ranges.GRCh38,
                                          vcf.names = "test.vcf")
-  list4 <- AnnotateIDVCFsWithTransRanges(list.of.ID.vcfs, ref.genome = "GRCh38", trans.ranges.GRCh38, vcf.names = "test.vcf")
-  list5 <- AnnotateIDVCFsWithTransRanges(list.of.ID.vcfs, ref.genome = "hg38", trans.ranges.GRCh38, vcf.names = "test.vcf")
+  list4 <- AnnotateIDVCFsWithTransRanges(list.of.ID.vcfs, ref.genome = "GRCh38", ICAMS::trans.ranges.GRCh38, vcf.names = "test.vcf")
+  list5 <- AnnotateIDVCFsWithTransRanges(list.of.ID.vcfs, ref.genome = "hg38", ICAMS::trans.ranges.GRCh38, vcf.names = "test.vcf")
   expect_equal(list3[[1]], annotated.strelka.ID.vcf.GRCh38)
   expect_equal(list3, list4)
   expect_equal(list3, list5)

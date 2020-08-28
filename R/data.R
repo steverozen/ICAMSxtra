@@ -1,7 +1,7 @@
 #' Transcription bias of indels classified into 115 categories (pyrimidine)
 #'
 #' This data is designed to be used as an example in function \cr
-#' \code{\link{ID115_PlotTransBias}} and \code{\link{ID115_PlotTransBiasToPdf}}.
+#' \code{\link{PlotTransBiasID115}} and \code{\link{PlotTransBiasID115ToPdf}}.
 #'
 #' @format A \code{vector} which contains the 115 categories of indel events, standardised 
 #' to pyrimidine format.
@@ -15,7 +15,7 @@ NULL
 #' Transcription bias of indels classified into 115 categories (purine)
 #'
 #' This data is designed to be used as an example in function \cr
-#' \code{\link{ID115_PlotTransBias}} and \code{\link{ID115_PlotTransBiasToPdf}}.
+#' \code{\link{PlotTransBiasID115}} and \code{\link{PlotTransBiasID115ToPdf}}.
 #'
 #' @format A \code{vector} which contains the 115 categories of indel events, but in purine
 #' format
@@ -29,8 +29,8 @@ NULL
 #' Transcription bias of indels classified into 13 categories (pyrimidine)
 #'
 #' This data is designed to be used as an example in function \cr
-#' \code{\link{ID115_PlotTransBias}} and 
-#' \code{\link{ID115_PlotTransBias}} 
+#' \code{\link{PlotTransBiasID115}} and 
+#' \code{\link{PlotTransBiasID115}} 
 #'
 #' @format A \code{vector} which contains the 13 categories of indel events, standardised 
 #' to pyrimidine format.
@@ -44,8 +44,8 @@ NULL
 #' Transcription bias of indels classified into 13 categories (purine)
 #'
 #' This data is designed to be used as an example in function \cr
-#' \code{\link{ID115_PlotTransBias}} and 
-#' \code{\link{ID115_PlotTransBias}} when \code{pool = TRUE}.
+#' \code{\link{PlotTransBiasID115}} and 
+#' \code{\link{PlotTransBiasID115}} when \code{pool = TRUE}.
 #'
 #' @format A \code{vector} which contains the 13 categories of indel events, standardised 
 #' to purine format.
@@ -56,10 +56,23 @@ NULL
 #' @rdname Reverse_pooled
 "reverse_pooled"
 
-#' TODO Jia Geng
-#'
-#' @format TODO Jia Geng
+#' Genic/intergenic size and proportions for H.sapiens BSgenome GRCh37
+#' 
+#' This data is designed to be used in function
+#' \code{\link{PlotTranscriptionAssociatedDamageToPdf}} 
+#' 
+#' @format A list of 5 numbers with the names: 
+#' 1. total.bp 2. coding.bp 3. noncoding.bp 4. prop.coding and 5. prop.noncoding
 "GRCh37.proportions"
+
+#' Genic/intergenic size and proportions for H.sapiens BSgenome GRCh38
+#' 
+#' This data is designed to be used in function
+#' \code{\link{PlotTranscriptionAssociatedDamageToPdf}} 
+#' 
+#' @format A list of 5 numbers with the names: 
+#' 1. total.bp 2. coding.bp 3. noncoding.bp 4. prop.coding and 5. prop.noncoding
+"GRCh38.proportions"
 
 #' Standard order of row names in a catalog
 #'
@@ -81,9 +94,11 @@ NULL
 #' 
 #' @examples 
 #' catalog.row.order$ID115
-#' # TODO Jia Geng ...
 #' # There are altogether 115 row names to denote the mutation types
 #' # in ID115 catalog.
+#' # The difference from the .$ID class in \code{\link{ICAMS::catalog.row.order}} is that 
+#' # single base nonhomopolymer indels have trinucleotide context added to them in the format
+#' # INS/DEL:C/T:1:0_PF where P is the preceding base and F is the following base.
 "catalog.row.order"
 
 # Quiets concerns of R CMD check about no visible binding for global variable
@@ -92,5 +107,6 @@ utils::globalVariables(c("N", "target_pooled", "target", "target_pooled",
                          "trans.strand", "seq.context", "seq.context.width", 
                          "trans.start.pos", "trans.end.pos", "CHROM", "POS",
                          "reverse_pooled", "reverse", "mutation", 
-                         "catalog.row.order", "mutation", "GRCh37.proportions"
+                         "catalog.row.order", "mutation", "GRCh37.proportions",
+                         "GRCh38.proportions", "CheckAndAssignAttributes", "cols"
 ))

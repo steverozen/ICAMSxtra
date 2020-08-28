@@ -16,7 +16,7 @@ reverse_pooled
 }
 \description{
 This data is designed to be used as an example in function \cr
-\code{\link{ID115_PlotTransBias}} and
-\code{\link{ID115_PlotTransBias}} when \code{pool = TRUE}.
+\code{\link{PlotTransBiasID115}} and
+\code{\link{PlotTransBiasID115}} when \code{pool = TRUE}.
 }
 \keyword{datasets}

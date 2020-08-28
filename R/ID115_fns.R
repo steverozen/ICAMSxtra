@@ -190,7 +190,7 @@ Canonicalize1INS115 <- function(context, ins.sequence, pos, trace = 0, strand) {
 #' @param trace If > 0, then generate messages tracing
 #' how the computation is carried out.
 #' 
-#' @param strand NULL by default. But when called by \code{ID115_StrandBiasGetPlottables},
+#' @param strand NULL by default. But when called by \code{StrandBiasGetPlottablesID115},
 #'  \code{strand} is either \code{+} or \code{-}. The return value will 
 #'  include :trans or :nontrans indicating whether the deletion occurred on
 #'  the transcribed or non-transcribed strand.
@@ -233,7 +233,7 @@ Canonicalize1ID115 <- function(context, ref, alt, pos, trace = 0, strand) {
 #' @param pos Vector of the positions of the insertions and deletions in
 #'  \code{context}.
 #'  
-#' @param strand NULL by default. But when called by \code{ID115_StrandBiasGetPlottables},
+#' @param strand NULL by default. But when called by \code{StrandBiasGetPlottablesID115},
 #'  \code{strand} is either \code{+} or \code{-}. The return value will 
 #'  include :trans or :nontrans indicating whether the deletion occurred on
 #'  the transcribed or non-transcribed strand.
@@ -283,8 +283,8 @@ CanonicalizeID115 <- function(context, ref, alt, pos, strand) {
 CreateOneColID115Matrix <- function(ID.vcf, SBS.vcf = NULL) {
   if (nrow(ID.vcf) == 0) {
     # Create 1-column matrix with all values being 0 and the correct row labels.
-    catID <- matrix(0, nrow = length(ICAMS::catalog.row.order$ID115), ncol = 1)
-    rownames(catID) <- ICAMS::catalog.row.order$ID115
+    catID <- matrix(0, nrow = length(catalog.row.order$ID115), ncol = 1)
+    rownames(catID) <- catalog.row.order$ID115
     return(catID)
   }
   
@@ -309,7 +309,7 @@ CreateOneColID115Matrix <- function(ID.vcf, SBS.vcf = NULL) {
   # Create the ID catalog matrix
   tab.ID <- table(canon.ID)
   
-  row.order <- data.table(rn = ICAMS::catalog.row.order$ID115)
+  row.order <- data.table(rn = catalog.row.order$ID115)
   
   ID.dt <- as.data.table(tab.ID)
   # ID.dt has two columns, names cannon.dt (from the table() function
@@ -318,11 +318,11 @@ CreateOneColID115Matrix <- function(ID.vcf, SBS.vcf = NULL) {
   ID.dt2 <-
     merge(row.order, ID.dt, by.x = "rn", by.y = "canon.ID", all = TRUE)
   ID.dt2[ is.na(N) , N := 0]
-  stopifnot(setequal(unlist(ID.dt2$rn), ICAMS::catalog.row.order$ID115))
+  stopifnot(setequal(unlist(ID.dt2$rn), catalog.row.order$ID115))
   
   ID.mat <- as.matrix(ID.dt2[ , 2])
   rownames(ID.mat) <- ID.dt2$rn
-  return(list(catalog = ID.mat[ICAMS::catalog.row.order$ID115, , drop = FALSE],
+  return(list(catalog = ID.mat[catalog.row.order$ID115, , drop = FALSE],
               annotated.VCF = out.ID.vcf))
 }
 
@@ -394,7 +394,7 @@ as.catalog.for.ID115 <- function(object,
     rownames(object) <- ICAMS:::InferRownames(object)
   } else {
     #removed call to checkandreorder rownames
-    object <- object[ICAMS::catalog.row.order$ID115, ,drop=FALSE] 
+    object <- object[catalog.row.order$ID115, ,drop=FALSE] 
   }
   
   # StopIfRegionIllegal(region)
@@ -460,8 +460,8 @@ VCFsToID115Catalogs<-function(list.of.vcfs, ref.genome, region = "unknown",
   ncol <- length(list.of.vcfs)
   
   # Create a 0-column matrix with the correct row labels.
-  catID <- matrix(0, nrow = length(ICAMS::catalog.row.order$ID115), ncol = 0)
-  rownames(catID) <- ICAMS::catalog.row.order$ID115
+  catID <- matrix(0, nrow = length(catalog.row.order$ID115), ncol = 0)
+  rownames(catID) <- catalog.row.order$ID115
   out.list.of.vcfs <- list()
   
   vcf.names <- names(list.of.vcfs)
@@ -566,7 +566,7 @@ CollapseID115CatalogsToID83s <- function(catalogs){
 #'
 #' @export
 WriteID115Catalog <- function(catalog, file, strict = TRUE) {
-  ICAMS:::WriteCat(catalog, file, 115, ICAMS::catalog.row.order$ID115,
+  ICAMS:::WriteCat(catalog, file, 115, catalog.row.order$ID115,
            catalog.row.headers.ID115, strict)
 }
 
@@ -607,12 +607,12 @@ ReadID115Catalog <- function(file, ref.genome = NULL, region = "unknown",
   rn <- apply(cos[ , 1:4], MARGIN = 1, paste, collapse = ":")
   out <- as.matrix(cos[ , -(1:4), drop = FALSE])
   
-  stopifnot(setdiff(rn, ICAMS::catalog.row.order$ID115) == c())
-  stopifnot(setdiff(ICAMS::catalog.row.order$ID115, rn) == c())
-  stopifnot(rn == ICAMS::catalog.row.order$ID115)
+  stopifnot(setdiff(rn, catalog.row.order$ID115) == c())
+  stopifnot(setdiff(catalog.row.order$ID115, rn) == c())
+  stopifnot(rn == catalog.row.order$ID115)
   rownames(out) <- rn
   #   if (ncol(out) == 1) colnames(out) <- colnames(cos)[3] 
-  out <- out[ICAMS::catalog.row.order$ID115, , drop = FALSE]
+  out <- out[catalog.row.order$ID115, , drop = FALSE]
   return(as.catalog.for.ID115(out, ref.genome, region, catalog.type))
 }
 
@@ -913,7 +913,7 @@ revcID115 <- function(string) {
 }
 
 #' @keywords internal
-ID115_StrandBiasGetPlottables <- 
+StrandBiasGetPlottablesID115 <- 
   function(annotated.ID.vcf, damaged.base, vcf.name, pool) {
     df <- annotated.ID.vcf
     df <- df[!is.na(trans.gene.symbol), ]
@@ -972,7 +972,7 @@ ID115_StrandBiasGetPlottables <-
       }
     }
     # Carry out logistic regression and get the p-values
-    p.values <- ID115_CalculatePValues(df1, pool = pool)
+    p.values <- CalculatePValuesID115(df1, pool = pool)
     
     return(list(plotmatrix = result, vcf.df = df1, 
                 p.values = p.values, vcf.name = vcf.name))
@@ -980,7 +980,7 @@ ID115_StrandBiasGetPlottables <-
 
 #' @importFrom stats binom.test p.adjust
 #' @keywords internal
-ID115_CalculatePValues <- function(dt, pool) {
+CalculatePValuesID115 <- function(dt, pool) {
   if (pool){
     target_i <- target_pooled
   } else {
@@ -1022,7 +1022,7 @@ ID115_CalculatePValues <- function(dt, pool) {
 }
 
 #' @keywords internal
-ID115_PlotTransBiasInternal <- function(list, ymax = NULL) {
+PlotTransBiasID115Internal <- function(list, ymax = NULL) {
   result <- list$plotmatrix
   # determined whether to plot pooled version based on ncol of plotmatrix
   if (ncol(result) == 8){
@@ -1031,7 +1031,7 @@ ID115_PlotTransBiasInternal <- function(list, ymax = NULL) {
     if (ncol(result) == 72){
       pool = FALSE
     }  else {
-      stop("Error in `list` argument passed to ID115_PlotTransBiasInternal. ncol of plotmatrix is neither 8 nor 72")
+      stop("Error in `list` argument passed to PlotTransBiasID115Internal. ncol of plotmatrix is neither 8 nor 72")
     }
   }
   if (is.null(ymax)) {
@@ -1119,7 +1119,9 @@ CheckSeqContextInIDVCF <- function(vcf, column.to.use) {
 #'   \code{AnnotateIDVCFsWithTransRanges}. It \strong{must} have transcript range
 #'   information added.
 #'   
-#' @param pool TODO Jia Geng
+#' @param pool if true, 36 categories will be pooled to 4 categories by removing
+#' trinucleotide context. This can be done if the counts of individual categories 
+#' are too low, to increase power.
 #'   
 #' @param damaged.base One of \code{NULL}, \code{"purine"} or
 #'   \code{"pyrimidine"}. This function allocates approximately
@@ -1163,32 +1165,33 @@ CheckSeqContextInIDVCF <- function(vcf, column.to.use) {
 #'                                                     vcf.names = "Strelka.ID.GRCh37.s1.vcf")
 #'   #' alternatively run below code to skip call to AnnotateIDVCFsWithTransRanges 
 #'   #' load(c(system.file("extdata/annotated.ID.vcf.rda",package = "ICAMSxtra")))
-#'   ID115_PlotTransBias(annotated.ID.vcf = annotated.ID.vcf[[1]],
+#'   PlotTransBiasID115(annotated.ID.vcf = annotated.ID.vcf[[1]],
 #'                       pool = TRUE)
 #' }
-ID115_PlotTransBias <-
+PlotTransBiasID115 <-
   function(annotated.ID.vcf, pool, damaged.base = NULL, ymax = NULL) { 
     if (is.null(names(annotated.ID.vcf))){
       stop("annotated.ID.vcf does not have 'name' property")
     }
-    list <- ID115_StrandBiasGetPlottables(annotated.ID.vcf, damaged.base, pool=pool, vcf.name=names(annotated.ID.vcf))
-    ID115_PlotTransBiasInternal(list = list, ymax = ymax)
+    list <- StrandBiasGetPlottablesID115(annotated.ID.vcf, damaged.base, pool=pool, vcf.name=names(annotated.ID.vcf))
+    PlotTransBiasID115Internal(list = list, ymax = ymax)
     return(list(plot.success = TRUE, p.values = list$p.values))
   }
 
 #' Plot transcription strand bias to a PDF file
 #' 
-#' @inheritParams ID115_PlotTransBias
+#' @inheritParams PlotTransBiasID115
 #' 
-#' @param annotated.ID.vcfs TODO Jia Geng
+#' @param annotated.ID.vcfs ID vcfs which have been annotated with 
+#' \code{AnnotateIDVCFsWithTransRanges}.
 #' 
 #' @param file The name of output file.
 #'   
 #' @importFrom stats glm
 #' 
-#' @inherit ID115_PlotTransBias return
+#' @inherit PlotTransBiasID115 return
 #' 
-#' @inheritSection ID115_PlotTransBias Note
+#' @inheritSection PlotTransBiasID115 Note
 #' 
 #' @export
 #'
@@ -1202,11 +1205,11 @@ ID115_PlotTransBias <-
 #'   annotated.ID.vcf <- AnnotateIDVCFsWithTransRanges(ID.vcf, ref.genome = "hg19",
 #'                                       trans.ranges = ICAMS::trans.ranges.GRCh37, 
 #'                                       vcf.names = "Strelka.ID.GRCh37.s1")
-#'   ID115_PlotTransBiasToPdf(annotated.ID.vcfs = annotated.ID.vcf,
+#'   PlotTransBiasID115ToPdf(annotated.ID.vcfs = annotated.ID.vcf,
 #'                            file = file.path(tempdir(), "test.pdf"),
 #'                            pool = TRUE)
 #' }
-ID115_PlotTransBiasToPdf <- 
+PlotTransBiasID115ToPdf <- 
   function(annotated.ID.vcfs, file, pool, damaged.base = NULL) {
     # Setting the width and length for A4 size plotting
     grDevices::pdf(file, width = 8.2677, height = 11.6929, onefile = TRUE)
@@ -1219,12 +1222,12 @@ ID115_PlotTransBiasToPdf <-
     vcf.names <- names(annotated.ID.vcfs)
     results <- list()
     for (i in 1:n){
-      list <- ID115_StrandBiasGetPlottables(annotated.ID.vcf = annotated.ID.vcfs[[i]], 
+      list <- StrandBiasGetPlottablesID115(annotated.ID.vcf = annotated.ID.vcfs[[i]], 
                                             vcf.name = vcf.names[[i]], 
                                             pool = pool, 
                                             damaged.base = damaged.base)
       ymax <- max(list$plotmatrix[, c(plot.type, unname(mapply(revcID115, plot.type)))])
-      ID115_PlotTransBiasInternal(list = list, ymax = NULL)
+      PlotTransBiasID115Internal(list = list, ymax = NULL)
       results[[vcf.names[i]]] <- list(plot.success = TRUE, p.values = list$p.values)
     }
     grDevices::dev.off()
@@ -1292,3 +1295,32 @@ AnnotateIDVCFsWithTransRanges <-
     }
     return(retval)
   }
+
+
+###############################################################################
+# S3 Methods
+###############################################################################
+#' @export
+`[.ID115Catalog` <- function (x, i, j, drop = if (missing(i)) TRUE else length(cols) ==
+                                1) {
+  y <- NextMethod("[")
+  if (inherits(y, c("integer", "numeric"))) {
+    return(y)
+  } else {
+    class(y) <- class(x)
+    for (at in c("ref.genome", "catalog.type", "abundance", "region")) {
+      attr(y, at) <- attr(x, at, exact = TRUE)
+    }
+    return(y)
+  }
+}
+
+#' @export
+`cbind.ID115Catalog` <- function (..., deparse.level = 1) {
+  x <- base::cbind.data.frame(..., deparse.level = deparse.level)
+  x <- data.matrix(x)
+  class(x) <- class(..1)
+  list0 <- list(...)
+  x <- CheckAndAssignAttributes(x, list0)
+  return(x)
+}

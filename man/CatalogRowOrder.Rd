@@ -27,8 +27,10 @@ range from 0 to 5.
 }
 \examples{
 catalog.row.order$ID115
-# TODO Jia Geng ...
 # There are altogether 115 row names to denote the mutation types
 # in ID115 catalog.
+# The difference from the .$ID class in \code{\link{ICAMS::catalog.row.order}} is that 
+# single base nonhomopolymer indels have trinucleotide context added to them in the format
+# INS/DEL:C/T:1:0_PF where P is the preceding base and F is the following base.
 }
 \keyword{datasets}

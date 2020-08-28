@@ -6,13 +6,13 @@ test_that("PlotID115CatalogToPdf function", {
   
   test.files <- c("testdata/Strelka-ID-GRCh37/Strelka.ID.GRCh37.vcf",
                   "testdata/Strelka-ID-GRCh37/Strelka.ID.GRCh37.s2.vcf")
-  list.of.ID.vcfs <- ReadVCFs(test.files)
+  list.of.ID.vcfs <- ReadStrelkaIDVCFs(test.files)
   list.of.catalogs <- VCFsToID115Catalogs(list.of.ID.vcfs, ref.genome = "hg19",
                                          region = "genome")
   catalog.counts <- list.of.catalogs$catalog
   colnames(catalog.counts) <- paste0("Strelka.ID.GRCh37.", 1 : 2)
-  out <- PlotID115CatalogToPdf(catalog.counts, 
-                          file = file.path(tempdir(), "PlotCatID115.counts.test.pdf"))
+  out <- PlotID115CatalogToPdf(catalog.counts,
+                               file = file.path(tempdir(), "PlotCatID115.counts.test.pdf"))
   expect_equal(out$plot.success, TRUE)
   
   #test VCFsToID115CatalogsAndPlotToPdf
