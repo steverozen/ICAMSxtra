@@ -2,12 +2,15 @@ AGA
 AGAT
 ATA
 Benjamini
+bp
+BSgenome
 Canonicalize
 DBSs
 exome
 GC
-Geng
+Genic
 github
+GRCh
 Hochberg
 homopolymers
 https
@@ -15,10 +18,11 @@ ICAMS
 indel
 IndelCatalog
 indels
-Jia
+intergenic
 megabase
 microhomology
 nd
+noncoding
 nontrans
 nontranscribed
 PCAWG
@@ -28,6 +32,7 @@ SBS
 SBSs
 standardised
 steverozen
+trinucleotide
 un
 untranscribed
 vcf
