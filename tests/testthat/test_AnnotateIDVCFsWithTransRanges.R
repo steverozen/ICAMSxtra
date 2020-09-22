@@ -4,7 +4,7 @@ test_that("AnnotateIDVCFsWithTransRanges function with hg19", {
   skip_if("" == system.file(package = "BSgenome.Hsapiens.1000genomes.hs37d5"))
   stopifnot(requireNamespace("BSgenome.Hsapiens.1000genomes.hs37d5"))
   load("testdata/test_AnnotateIDVCFsWithTransRanges.Rdata")
-  list.of.ID.vcfs <- ReadStrelkaIDVCFs("testdata/Strelka-ID-GRCh37/Strelka.ID.GRCh37.vcf")
+  list.of.ID.vcfs <- ICAMS::ReadStrelkaIDVCFs("testdata/Strelka-ID-GRCh37/Strelka.ID.GRCh37.vcf")
   list <- 
     AnnotateIDVCFsWithTransRanges(list.of.ID.vcfs,
                                   ref.genome = BSgenome.Hsapiens.1000genomes.hs37d5::BSgenome.Hsapiens.1000genomes.hs37d5,
@@ -21,7 +21,7 @@ test_that("AnnotateIDVCFsWithTransRanges with hg38", {
   skip_if("" == system.file(package = "BSgenome.Hsapiens.UCSC.hg38"))
   stopifnot(requireNamespace("BSgenome.Hsapiens.UCSC.hg38"))
   load("testdata/test_AnnotateIDVCFsWithTransRanges.Rdata")
-  list.of.ID.vcfs <- ReadStrelkaIDVCFs("testdata/Strelka.ID.GRCh38.vcf")
+  list.of.ID.vcfs <- ICAMS::ReadStrelkaIDVCFs("testdata/Strelka.ID.GRCh38.vcf")
   list3 <- AnnotateIDVCFsWithTransRanges(list.of.ID.vcfs,
                                          ref.genome =
                                            BSgenome.Hsapiens.UCSC.hg38::BSgenome.Hsapiens.UCSC.hg38,
