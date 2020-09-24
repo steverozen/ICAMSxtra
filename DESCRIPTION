@@ -1,6 +1,6 @@
 Package: ICAMSxtra
 Title: ICAMSxtra
-Version: 0.0.1
+Version: 0.0.2
 Author: Steve Rozen, Nanhai Jiang, Arnoud Boot, Mo Liu, Chang Jia Geng
 Maintainer: Steve Rozen <steverozen@gmail.com>
 Description: ICAMSxtra.
@@ -18,4 +18,5 @@ Suggests:
     BSgenome.Hsapiens.1000genomes.hs37d5,
     BSgenome.Hsapiens.UCSC.hg38,
     BSgenome.Mmusculus.UCSC.mm10,
+    lsa,
     testthat
