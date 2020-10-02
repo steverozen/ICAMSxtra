@@ -1,6 +1,8 @@
 # ICAMSxtra 0.0.2.90**
 ## Added
-* Extra argument `mean.weighted` for functions `MeanOfSpectraAsSig` and `PlotSpectraAsSigsWithUncertainty`
+* Extra argument `mean.weighted` for functions `MeanOfSpectraAsSig` and `PlotSpectraAsSigsWithUncertainty`.
+* Extra argument `plot.conf.int` in function `PlotSpectraAsSigsWithUncertainty` to
+plot the error bars as confidence intervals for the mean.
 
 # ICAMSxtra 0.0.2
 ## Added

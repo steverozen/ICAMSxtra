@@ -68,22 +68,51 @@ MeanOfSpectraAsSig <-
 #' 
 #' @inheritParams  MeanOfSpectraAsSig
 #' 
+#' @param plot.conf.int Logical. Whether to plot the error bars as confidence
+#'   intervals for the mean. Default is TRUE. If FALSE, then use the maximum and
+#'   minimum value to plot error bars.
+#' 
 #' @export
 #'
 #' @return The mean of the spectra as a signature, the
 #'   constituent spectra as signatures, and the y positions of the
 #'   arrowheads.
 PlotSpectraAsSigsWithUncertainty <- 
-  function(spectra, mean.weighted = TRUE, title = "Mean.as.signature") {
+  function(spectra, mean.weighted = TRUE, plot.conf.int = TRUE, 
+           title = "Mean.as.signature") {
     xx <- MeanOfSpectraAsSig(spectra = spectra, mean.weighted = mean.weighted,
                              title = title)
-    arrow.tops <- apply(xx$constituent.sigs, 1, max)
-    arrow.bottoms <- apply(xx$constituent.sigs, 1, min)
+    if (plot.conf.int == TRUE) {
+      conf.int <- CalculateConfidenceInterval(xx$constituent.sigs)
+      arrow.tops <- sapply(conf.int, FUN = "[", 2)
+      arrow.bottoms <- sapply(conf.int, FUN = "[", 1)
+    } else {
+      arrow.tops <- apply(xx$constituent.sigs, 1, max)
+      arrow.bottoms <- apply(xx$constituent.sigs, 1, min)
+    }
+    
     PlotCatalogWithArrows(xx$mean.sig[ , 1, drop = FALSE],
                           arrow.tops, arrow.bottoms)
     xx$arrow.tops    <- arrow.tops
     xx$arrow.bottoms <- arrow.bottoms
     return(invisible(xx))
+  }
+
+#' @importFrom  simpleboot one.boot
+#' @keywords internal
+CalculateConfidenceInterval <- 
+  function(constituent.sigs, num.of.bootstrap.replicates = 10^4) {
+    retval <- apply(X = constituent.sigs, MARGIN = 1, FUN = function(x) {
+      simpleboot::one.boot(data = x, FUN = mean, 
+                           R = num.of.bootstrap.replicates)
+    })
+    
+    retval2 <- lapply(retval, FUN = function(x){
+      # Get the bootstrap confidence interval
+      boot::boot.ci(boot.out = x, type = "bca")$bca[4:5]
+    })
+    
+    return(retval2)
   }
 
 #' @keywords internal

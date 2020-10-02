@@ -6,7 +6,8 @@ Maintainer: Steve Rozen <steverozen@gmail.com>
 Description: ICAMSxtra.
 biocViews:
 Imports: data.table,
-    ICAMS
+    ICAMS,
+    simpleboot
 Depends: R (>= 3.5)
 License: GPL-3
 Encoding: UTF-8
