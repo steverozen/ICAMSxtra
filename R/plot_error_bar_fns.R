@@ -45,7 +45,7 @@ MeanOfSpectraAsSig <-
   
   if (mean.weighted == TRUE) {
     wts <- colSums(spectra)
-    mean.sig <- apply(X = sigs, MARGIN = 1, weighted.mean, w = wts)
+    mean.sig <- apply(X = sigs, MARGIN = 1, stats::weighted.mean, w = wts)
   } else {
     mean.sig <- apply(X = sigs, MARGIN = 1, mean)
   }
@@ -98,6 +98,7 @@ PlotSpectraAsSigsWithUncertainty <-
     return(invisible(xx))
   }
 
+#' @importFrom boot boot.ci
 #' @importFrom  simpleboot one.boot
 #' @keywords internal
 CalculateConfidenceInterval <- 
