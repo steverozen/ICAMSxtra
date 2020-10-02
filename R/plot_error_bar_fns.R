@@ -1,14 +1,19 @@
-#' Return the mean of multiple spectra as a signature.
+#' Return the mean of multiple spectra as a signature
 #' 
 #' @param spectra An \code{\link[ICAMS]{ICAMS}} spectrum catalog.
 #'   Convert each spectrum to a signature and then compute the
 #'   mean.
+#'
+#' @param mean.weighted Logical. Whether to weigh the samples according to the
+#'   number of mutations in them to calculate the weighted mean as the consensus
+#'   signature. Default is TRUE. If FALSE, then arithmetic mean will be
+#'   calculated.
 #'   
 #' @param title The name of the output signature.
 #'   
 #' @export
-#' 
-MeanOfSpectraAsSig <- function(spectra, title = "sig.from.spectra.mean") {
+MeanOfSpectraAsSig <- 
+  function(spectra, mean.weighted = TRUE, title = "sig.from.spectra.mean") {
   
   if (is.null(spectra)) {
     stop("Argument spectra is NULL")
@@ -38,7 +43,12 @@ MeanOfSpectraAsSig <- function(spectra, title = "sig.from.spectra.mean") {
                                   target.catalog.type = tctype,
                                   target.abundance = target.abundance)
   
-  mean.sig <- apply(X = sigs, MARGIN = 1, mean)
+  if (mean.weighted == TRUE) {
+    wts <- colSums(spectra)
+    mean.sig <- apply(X = sigs, MARGIN = 1, weighted.mean, w = wts)
+  } else {
+    mean.sig <- apply(X = sigs, MARGIN = 1, mean)
+  }
   
   mean.sig <- matrix(mean.sig, ncol = 1)
   
@@ -64,13 +74,16 @@ MeanOfSpectraAsSig <- function(spectra, title = "sig.from.spectra.mean") {
 #'   constituent spectra as signatures, and the y positions of the
 #'   arrowheads.
 PlotSpectraAsSigsWithUncertainty <- 
-  function(spectra, title = "Mean.as.signature") {
-    xx <- MeanOfSpectraAsSig(spectra = spectra, title = title)
+  function(spectra, mean.weighted = TRUE, title = "Mean.as.signature") {
+    xx <- MeanOfSpectraAsSig(spectra = spectra, mean.weighted = mean.weighted,
+                             title = title)
     arrow.tops <- apply(xx$constituent.sigs, 1, max)
     arrow.bottoms <- apply(xx$constituent.sigs, 1, min)
-    reval <- PlotCatalogWithArrows(xx$mean.sig[ , 1, drop = FALSE],
-                                   arrow.tops, arrow.bottoms)
-    inivisble(retval)
+    PlotCatalogWithArrows(xx$mean.sig[ , 1, drop = FALSE],
+                          arrow.tops, arrow.bottoms)
+    xx$arrow.tops    <- arrow.tops
+    xx$arrow.bottoms <- arrow.bottoms
+    return(invisible(xx))
   }
 
 #' @keywords internal
@@ -86,9 +99,6 @@ PlotCatalogWithArrows <- function(catalog, arrow.tops, arrow.bottoms) {
     ylim    = c(min(arrow.bottoms), max(arrow.tops) + 0.005)
   )
   AddArrows(bp$plot.object, arrow.tops, arrow.bottoms)
-  xx$arrow.tops    <- arrow.tops
-  xx$arrow.bottoms <- arrow.bottoms
-  return(invisible(xx))
 }
 
 #' @keywords internal
