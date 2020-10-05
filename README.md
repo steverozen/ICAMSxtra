@@ -26,7 +26,7 @@ Alternatively, you can install the stable version from
 
 ``` r
 install.packages("remotes")
-remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "0.0.1-branchh")
+remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "0.0.2-branch")
 ```
 
 ### Get the development version
@@ -42,4 +42,4 @@ remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "master")
 
 ## Reference manual
 
-<https://github.com/steverozen/ICAMSxtra/blob/master/data-raw/ICAMSxtra_0.0.1.pdf>
+<https://github.com/steverozen/ICAMSxtra/blob/master/data-raw/ICAMSxtra_0.0.2.pdf>
