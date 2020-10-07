@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![Travis build
-status](https://travis-ci.com/steverozen/ICAMSxtra.svg?branch=master)](https://travis-ci.com/steverozen/ICAMSxtra)
+status](https://travis-ci.com/steverozen/ICAMSxtra.svg?branch=0.0.2-branch)](https://travis-ci.com/steverozen/ICAMSxtra)
 <!-- badges: end -->
 
 ## Installation
@@ -14,7 +14,7 @@ status](https://travis-ci.com/steverozen/ICAMSxtra.svg?branch=master)](https://t
 ### Stable version
 
 Download the [package
-source](https://github.com/steverozen/ICAMSxtra/archive/v0.0.1.tar.gz)
+source](https://github.com/steverozen/ICAMSxtra/archive/v0.0.2.tar.gz)
 file to your computer and install ICAMSxtra locally:
 
 ``` r

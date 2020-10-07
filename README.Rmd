@@ -31,7 +31,7 @@ Alternatively, you can install the stable version from [GitHub](https://github.c
 
 ``` r
 install.packages("remotes")
-remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "0.0.2-branchh")
+remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "0.0.2-branch")
 ```
 
 ### Get the development version
