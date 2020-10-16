@@ -7,7 +7,7 @@
 PlotSpectraAsSigsWithUncertainty(
   spectra,
   mean.weighted = TRUE,
-  plot.conf.int = TRUE,
+  conf.int = 0.95,
   title = "Mean.as.signature"
 )
 }
@@ -21,9 +21,9 @@ number of mutations in them to calculate the weighted mean as the consensus
 signature. Default is TRUE. If FALSE, then arithmetic mean will be
 calculated.}
 
-\item{plot.conf.int}{Logical. Whether to plot the error bars as confidence
-intervals for the mean. Default is TRUE. If FALSE, then use the maximum and
-minimum value to plot error bars.}
+\item{conf.int}{A number specifying the required confidence intervals. The
+error bars will be plotted as confidence intervals for the mean. If NULL,
+then use the maximum and minimum value to plot error bars.}
 
 \item{title}{The name of the output signature.}
 }
