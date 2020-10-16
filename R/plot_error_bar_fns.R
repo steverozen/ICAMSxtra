@@ -68,9 +68,9 @@ MeanOfSpectraAsSig <-
 #' 
 #' @inheritParams  MeanOfSpectraAsSig
 #' 
-#' @param plot.conf.int Logical. Whether to plot the error bars as confidence
-#'   intervals for the mean. Default is TRUE. If FALSE, then use the maximum and
-#'   minimum value to plot error bars.
+#' @param conf.int A number specifying the required confidence intervals. The
+#'   error bars will be plotted as confidence intervals for the mean. If NULL,
+#'   then use the maximum and minimum value to plot error bars.
 #' 
 #' @export
 #'
@@ -78,14 +78,15 @@ MeanOfSpectraAsSig <-
 #'   constituent spectra as signatures, and the y positions of the
 #'   arrowheads.
 PlotSpectraAsSigsWithUncertainty <- 
-  function(spectra, mean.weighted = TRUE, plot.conf.int = TRUE, 
+  function(spectra, mean.weighted = TRUE, conf.int = 0.95, 
            title = "Mean.as.signature") {
     xx <- MeanOfSpectraAsSig(spectra = spectra, mean.weighted = mean.weighted,
                              title = title)
-    if (plot.conf.int == TRUE) {
-      conf.int <- CalculateConfidenceInterval(xx$constituent.sigs)
-      arrow.tops <- sapply(conf.int, FUN = "[", 2)
-      arrow.bottoms <- sapply(conf.int, FUN = "[", 1)
+    if (!is.null(conf.int)) {
+      retval <- CalculateConfidenceInterval(xx$constituent.sigs, 
+                                            conf.int = conf.int)
+      arrow.tops <- sapply(retval, FUN = "[", 2)
+      arrow.bottoms <- sapply(retval, FUN = "[", 1)
     } else {
       arrow.tops <- apply(xx$constituent.sigs, 1, max)
       arrow.bottoms <- apply(xx$constituent.sigs, 1, min)
@@ -102,7 +103,8 @@ PlotSpectraAsSigsWithUncertainty <-
 #' @importFrom  simpleboot one.boot
 #' @keywords internal
 CalculateConfidenceInterval <- 
-  function(constituent.sigs, num.of.bootstrap.replicates = 10^4) {
+  function(constituent.sigs, num.of.bootstrap.replicates = 10^4, 
+           conf.int = 0.95) {
     retval <- apply(X = constituent.sigs, MARGIN = 1, FUN = function(x) {
       simpleboot::one.boot(data = x, FUN = mean, 
                            R = num.of.bootstrap.replicates)
@@ -110,7 +112,7 @@ CalculateConfidenceInterval <-
     
     retval2 <- lapply(retval, FUN = function(x){
       # Get the bootstrap confidence interval
-      boot::boot.ci(boot.out = x, type = "bca")$bca[4:5]
+      boot::boot.ci(boot.out = x, conf = conf.int, type = "bca")$bca[4:5]
     })
     
     return(retval2)
