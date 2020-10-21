@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 ## Installation
 
 ### Stable version
-Download the [package source](https://github.com/steverozen/ICAMSxtra/archive/v0.0.2.tar.gz) file to your computer and install ICAMSxtra locally:
+Download the [package source](https://github.com/steverozen/ICAMSxtra/blob/master/data-raw/source-file/ICAMSxtra_0.0.3.tar.gz?raw=true) file to your computer and install ICAMSxtra locally:
 
 ``` r
 install.packages(pkgs = "path-to-package-source-on-your-computer", repos = NULL, type = "source")
@@ -31,7 +31,7 @@ Alternatively, you can install the stable version from [GitHub](https://github.c
 
 ``` r
 install.packages("remotes")
-remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "0.0.2-branch")
+remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "0.0.3-branch")
 ```
 
 ### Get the development version
@@ -47,4 +47,4 @@ remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "master")
 
 ## Reference manual
 
-https://github.com/steverozen/ICAMSxtra/blob/master/data-raw/ICAMSxtra_0.0.2.9001.pdf
+https://github.com/steverozen/ICAMSxtra/blob/master/data-raw/ICAMSxtra_0.0.3.pdf

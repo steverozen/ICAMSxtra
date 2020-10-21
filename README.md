@@ -14,7 +14,7 @@ status](https://travis-ci.com/steverozen/ICAMSxtra.svg?branch=master)](https://t
 ### Stable version
 
 Download the [package
-source](https://github.com/steverozen/ICAMSxtra/archive/v0.0.2.tar.gz)
+source](https://github.com/steverozen/ICAMSxtra/blob/master/data-raw/source-file/ICAMSxtra_0.0.3.tar.gz?raw=true)
 file to your computer and install ICAMSxtra locally:
 
 ``` r
@@ -26,7 +26,7 @@ Alternatively, you can install the stable version from
 
 ``` r
 install.packages("remotes")
-remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "0.0.2-branch")
+remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "0.0.3-branch")
 ```
 
 ### Get the development version
@@ -42,4 +42,4 @@ remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "master")
 
 ## Reference manual
 
-<https://github.com/steverozen/ICAMSxtra/blob/master/data-raw/ICAMSxtra_0.0.2.9001.pdf>
+<https://github.com/steverozen/ICAMSxtra/blob/master/data-raw/ICAMSxtra_0.0.3.pdf>
