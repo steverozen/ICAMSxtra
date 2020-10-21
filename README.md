@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![Travis build
-status](https://travis-ci.com/steverozen/ICAMSxtra.svg?branch=master)](https://travis-ci.com/steverozen/ICAMSxtra)
+status](https://travis-ci.com/steverozen/ICAMSxtra.svg?branch=0.0.3-branch)](https://travis-ci.com/steverozen/ICAMSxtra)
 <!-- badges: end -->
 
 ## Installation
@@ -23,7 +23,7 @@ remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "0.0.3-branch")
 ```
 
 Alternatively, you can download the [package
-source](https://github.com/steverozen/ICAMSxtra/blob/master/data-raw/source-file/ICAMSxtra_0.0.3.tar.gz?raw=true)
+source](https://github.com/steverozen/ICAMSxtra/blob/0.0.3-branch/data-raw/source-file/ICAMSxtra_0.0.3.tar.gz?raw=true)
 file to your computer and install ICAMSxtra locally:
 
 ``` r
@@ -45,4 +45,4 @@ remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "master")
 
 ## Reference manual
 
-<https://github.com/steverozen/ICAMSxtra/blob/master/data-raw/ICAMSxtra_0.0.3.pdf>
+<https://github.com/steverozen/ICAMSxtra/blob/0.0.3-branch/data-raw/ICAMSxtra_0.0.3.pdf>

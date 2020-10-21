@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 # ICAMSxtra
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.com/steverozen/ICAMSxtra.svg?branch=master)](https://travis-ci.com/steverozen/ICAMSxtra)
+[![Travis build status](https://travis-ci.com/steverozen/ICAMSxtra.svg?branch=0.0.3-branch)](https://travis-ci.com/steverozen/ICAMSxtra)
 <!-- badges: end -->
 
 ## Installation
@@ -31,7 +31,7 @@ if (!requireNamespace("remotes", quietly = TRUE)) {
 remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "0.0.3-branch")
 ```
 
-Alternatively, you can download the [package source](https://github.com/steverozen/ICAMSxtra/blob/master/data-raw/source-file/ICAMSxtra_0.0.3.tar.gz?raw=true) file to your computer and install ICAMSxtra locally:
+Alternatively, you can download the [package source](https://github.com/steverozen/ICAMSxtra/blob/0.0.3-branch/data-raw/source-file/ICAMSxtra_0.0.3.tar.gz?raw=true) file to your computer and install ICAMSxtra locally:
 
 ``` r
 install.packages(pkgs = "path-to-package-source-on-your-computer", repos = NULL, type = "source")
@@ -52,4 +52,4 @@ remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "master")
 
 ## Reference manual
 
-https://github.com/steverozen/ICAMSxtra/blob/master/data-raw/ICAMSxtra_0.0.3.pdf
+https://github.com/steverozen/ICAMSxtra/blob/0.0.3-branch/data-raw/ICAMSxtra_0.0.3.pdf
