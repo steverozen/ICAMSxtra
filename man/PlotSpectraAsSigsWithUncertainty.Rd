@@ -8,6 +8,7 @@ PlotSpectraAsSigsWithUncertainty(
   spectra,
   mean.weighted = TRUE,
   conf.int = 0.95,
+  num.of.bootstrap.replicates = 10^4,
   title = "Mean.as.signature"
 )
 }
@@ -21,9 +22,13 @@ number of mutations in them to calculate the weighted mean as the consensus
 signature. Default is TRUE. If FALSE, then arithmetic mean will be
 calculated.}
 
-\item{conf.int}{A number specifying the required confidence intervals. The
-error bars will be plotted as confidence intervals for the mean. If NULL,
-then use the maximum and minimum value to plot error bars.}
+\item{conf.int}{A number specifying the required confidence interval. The
+error bars will be plotted as bootstrap confidence interval for the mean.
+If NULL, then use the maximum and minimum value of the spectra to plot
+error bars.}
+
+\item{num.of.bootstrap.replicates}{The number of bootstrap replicates to use.
+Default is 10000.}
 
 \item{title}{The name of the output signature.}
 }

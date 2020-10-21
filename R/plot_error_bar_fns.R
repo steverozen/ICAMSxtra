@@ -12,6 +12,9 @@
 #' @param title The name of the output signature.
 #'   
 #' @export
+#' 
+#' @return The mean of the spectra as a signature and the constituent spectra as
+#'   signatures.
 MeanOfSpectraAsSig <- 
   function(spectra, mean.weighted = TRUE, title = "sig.from.spectra.mean") {
   
@@ -68,10 +71,14 @@ MeanOfSpectraAsSig <-
 #' 
 #' @inheritParams  MeanOfSpectraAsSig
 #' 
-#' @param conf.int A number specifying the required confidence intervals. The
-#'   error bars will be plotted as confidence intervals for the mean. If NULL,
-#'   then use the maximum and minimum value to plot error bars.
-#' 
+#' @param conf.int A number specifying the required confidence interval. The
+#'   error bars will be plotted as bootstrap confidence interval for the mean.
+#'   If NULL, then use the maximum and minimum value of the spectra to plot
+#'   error bars.
+#'   
+#' @param num.of.bootstrap.replicates The number of bootstrap replicates to use.
+#'   Default is 10000.
+#'   
 #' @export
 #'
 #' @return The mean of the spectra as a signature, the
@@ -79,12 +86,16 @@ MeanOfSpectraAsSig <-
 #'   arrowheads.
 PlotSpectraAsSigsWithUncertainty <- 
   function(spectra, mean.weighted = TRUE, conf.int = 0.95, 
+           num.of.bootstrap.replicates = 10^4,
            title = "Mean.as.signature") {
     xx <- MeanOfSpectraAsSig(spectra = spectra, mean.weighted = mean.weighted,
                              title = title)
     if (!is.null(conf.int)) {
-      retval <- CalculateConfidenceInterval(xx$constituent.sigs, 
-                                            conf.int = conf.int)
+      retval <- 
+        CalculateConfidenceInterval(xx$constituent.sigs, 
+                                    num.of.bootstrap.replicates = 
+                                      num.of.bootstrap.replicates,
+                                    conf.int = conf.int)
       arrow.tops <- sapply(retval, FUN = "[", 2)
       arrow.bottoms <- sapply(retval, FUN = "[", 1)
     } else {

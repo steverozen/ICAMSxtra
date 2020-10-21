@@ -22,6 +22,10 @@ calculated.}
 
 \item{title}{The name of the output signature.}
 }
+\value{
+The mean of the spectra as a signature and the constituent spectra as
+signatures.
+}
 \description{
 Return the mean of multiple spectra as a signature
 }
