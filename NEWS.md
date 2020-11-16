@@ -1,3 +1,10 @@
+# ICAMSxtra 0.0.4
+## Fixed
+* Fixed a bug in function `PlotExposure` when the number of columns in exposure
+matrix is less than `samples.per.line`.
+
+<br/>
+
 # ICAMSxtra 0.0.3
 ## Added
 * Extra argument `mean.weighted` for functions `MeanOfSpectraAsSig` and `PlotSpectraAsSigsWithUncertainty`.

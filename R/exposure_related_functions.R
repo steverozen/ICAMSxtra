@@ -322,21 +322,27 @@ PlotExposure <- function(exposure,
   n.sample <- ncol(exposure)
   num.ranges <- n.sample %/% samples.per.line
   size.of.last.range <- n.sample %% samples.per.line
-  if (size.of.last.range > 0) {
-    padding.len <- samples.per.line - size.of.last.range
-    padding <- matrix(0,nrow = nrow(exposure), ncol = padding.len)
-    # The column names starting with lots of underscore
-    # will not be plotted in the final output.
-    colnames(padding) <- paste("_____", 1:ncol(padding), sep = "_")
-    exposure <- cbind(exposure, padding)
-    starts <- 0:num.ranges * samples.per.line + 1
+  
+  if (num.ranges > 0) {
+    if (size.of.last.range > 0) {
+      padding.len <- samples.per.line - size.of.last.range
+      padding <- matrix(0,nrow = nrow(exposure), ncol = padding.len)
+      # The column names starting with lots of underscore
+      # will not be plotted in the final output.
+      colnames(padding) <- paste("_____", 1:ncol(padding), sep = "_")
+      exposure <- cbind(exposure, padding)
+      starts <- 0:num.ranges * samples.per.line + 1
+    } else {
+      starts <- 0:(num.ranges - 1) *samples.per.line + 1
+    }
+    ends   <- starts + samples.per.line - 1
   } else {
-    starts <- 0:(num.ranges - 1) *samples.per.line + 1
+    starts <- 1
+    ends <- n.sample
   }
-  ends   <- starts + samples.per.line - 1
-
+  
   for (i in 1:length(starts)) {
-    list <- PlotExposureInternal(exposure[ , starts[i]:ends[i]],
+    list <- PlotExposureInternal(exposure[ , starts[i]:ends[i], drop = FALSE],
                                  plot.proportion = plot.proportion,
                                  xlim            = xlim,
                                  ylim            = ylim,
