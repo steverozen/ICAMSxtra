@@ -7,6 +7,8 @@
 
 [![Travis build
 status](https://travis-ci.com/steverozen/ICAMSxtra.svg?branch=master)](https://travis-ci.com/steverozen/ICAMSxtra)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/steverozen/ICAMSxtra?branch=master&svg=true)](https://ci.appveyor.com/project/steverozen/ICAMSxtra)
 <!-- badges: end -->
 
 ## Installation
