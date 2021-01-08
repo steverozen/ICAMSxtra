@@ -1289,7 +1289,10 @@ AnnotateIDVCFsWithTransRanges <-
       CheckSeqContextInIDVCF(ID.vcf, "seq.context")
       trans.ranges <- ICAMS:::InferTransRanges(ref.genome, trans.ranges)
       if (!is.null(trans.ranges)) {
-        ID.vcf <- ICAMS:::AddTranscript(ID.vcf, trans.ranges)
+        ID.vcf <- 
+          ICAMS:::AddTranscript(ID.vcf,
+                                trans.ranges = trans.ranges,
+                                ref.genome   = ref.genome)
       }
       retval[[vcf.names[[i]]]] <- (as.data.table(ID.vcf))
     }
