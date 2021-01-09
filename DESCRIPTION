@@ -7,9 +7,10 @@ Description: ICAMSxtra.
 biocViews:
 Imports: boot,
     data.table,
-    ICAMS,
+    ICAMS (>= 2.3.1.9003),
     simpleboot
 Depends: R (>= 3.5)
+Remotes: github::steverozen/ICAMS@master
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
