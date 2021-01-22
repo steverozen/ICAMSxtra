@@ -1,4 +1,7 @@
-# ICAMSxtra 0.0.4
+# ICAMSxtra 0.0.4.90xx
+## Added
+* Added an extra argument `row.names` in function `WriteExposure`.
+
 ## Fixed
 * Fixed a bug in function `PlotExposure` when the number of columns in exposure
 matrix is less than `samples.per.line`.

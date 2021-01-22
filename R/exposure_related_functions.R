@@ -43,6 +43,10 @@ ReadExposure <- function(file, check.names = FALSE) {
 #'
 #' @param file File to which to write the exposure matrix (as a CSV file).
 #'
+#' @param row.names Either a logical value indicating whether the row names of
+#'   \code{exposure} are to be written along with \code{exposure}, or a
+#'   character vector of row names to be written.
+#'
 #' @importFrom utils write.csv
 #'
 #' @export
@@ -53,10 +57,10 @@ ReadExposure <- function(file, check.names = FALSE) {
 #'                     package = "ICAMSxtra")
 #' exposure <- ReadExposure(file)
 #' WriteExposure(exposure, file = file.path(tempdir(), "synthetic.exposure.csv"))
-WriteExposure <- function(exposure, file) {
+WriteExposure <- function(exposure, file, row.names = TRUE) {
   old.digits <- getOption("digits")
   options(digits = 22)
-  write.csv(exposure, file, row.names = TRUE)
+  write.csv(exposure, file, row.names = row.names)
   on.exit(options(digits = old.digits))
 }
 

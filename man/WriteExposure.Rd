@@ -4,7 +4,7 @@
 \alias{WriteExposure}
 \title{Write an exposure matrix to a file}
 \usage{
-WriteExposure(exposure, file)
+WriteExposure(exposure, file, row.names = TRUE)
 }
 \arguments{
 \item{exposure}{Exposures as a numerical matrix (or data.frame) with
@@ -12,6 +12,10 @@ signatures in rows and samples in columns. Rownames are taken as the
 signature names and column names are taken as the sample IDs.}
 
 \item{file}{File to which to write the exposure matrix (as a CSV file).}
+
+\item{row.names}{Either a logical value indicating whether the row names of
+\code{exposure} are to be written along with \code{exposure}, or a
+character vector of row names to be written.}
 }
 \description{
 Write an exposure matrix to a file
