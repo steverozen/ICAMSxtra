@@ -213,12 +213,13 @@ MatchSigsAndRelabel <- function(ex.sigs, gt.sigs, exposure = NULL) {
 
     sim <- MatchSigs2Directions(ex.sigs, gt.sigs)
 
-    ## Software-reported signatures with a best cosine similarity lower than 0.90
-    ## is not considered an "extracted signature", it will rather be regarded as
-    ## an artefact.
-    true.match1 <- sim$match1
+    true.match1 <- sim$match1 # This is the match from extracted to ground truth
+  
+    # Signatures matched with cosine similarity < 0.9 are not considered "true"
+    # matches.
     true.match1 <- true.match1[true.match1$sim >= 0.9, ]
-    true.match2 <- sim$match2
+  
+    true.match2 <- sim$match2 # This is the match from ground truth to extracted
     true.match2 <- true.match2[true.match2$sim >= 0.9, ]
 
     sim$extracted.with.no.best.match <-
