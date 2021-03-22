@@ -9,7 +9,7 @@ ReadExposure(file, check.names = FALSE)
 \arguments{
 \item{file}{CSV file containing an exposure matrix.}
 
-\item{check.names}{Passed to \code{\link[utils]{read.csv}}.
+\item{check.names}{Passed to \code{read.csv}.
 \strong{IMPORTANT}: If \code{TRUE} this will replace the double
 colon in identifiers of the form <tumor_type>::<sample_id>
 with two periods (i.e. <tumor_type>..<sample_id>.
