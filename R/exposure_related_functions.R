@@ -2,7 +2,7 @@
 #'
 #' @param file CSV file containing an exposure matrix.
 #'
-#' @param check.names Passed to \code{\link[utils]{read.csv}}.
+#' @param check.names Passed to \code{read.csv}.
 #' \strong{IMPORTANT}: If \code{TRUE} this will replace the double
 #' colon in identifiers of the form <tumor_type>::<sample_id>
 #' with two periods (i.e. <tumor_type>..<sample_id>.
@@ -108,7 +108,10 @@ SortExposure <- function(exposure, decreasing = TRUE) {
 #'
 #' @param cex.legend A numerical value giving the amount by which legend
 #'   plotting text and symbols should be magnified relative to the default.
-#'
+#'   
+#' @param cex.yaxis A numerical value giving the amount by which y axis values
+#'   should be magnified relative to the default.
+#'   
 #' @param ... Other arguments passed to \code{\link[graphics]{barplot}}. If
 #'   \code{ylab} is not included, it defaults to a value depending on
 #'   \code{plot.proportion}. If \code{col} is not supplied the function tries to
@@ -130,6 +133,7 @@ PlotExposureInternal <-
            legend.x        = NULL,
            legend.y        = NULL,
            cex.legend      = 0.9,
+           cex.yaxis       = 1,
            ...
   ) {
     exposure <- as.matrix(exposure) # In case it is a data frame
@@ -215,18 +219,18 @@ PlotExposureInternal <-
     # Ignore column names, we'll plot them separately to make them fit.
     mp <- do.call(
       barplot,
-      args = c(list(height   = plot.what,
-                    ylab     = ylab,
+      args = c(list(height    = plot.what,
+                    ylab      = ylab,
                     # The amount of space left before each bar
-                    space    = xmax * 0.01,
-                    xaxs     = "i", # No extra spacing at each end of x axis
-                    xaxt     = "n", # Do not plot the X axis
-                    yaxt     = "n", # Do not plot the Y axis
-                    density  = barplot.density,
-                    angle    = barplot.angle,
-                    border   = "white",
-                    xlim     = xlim,
-                    ylim     = ylim),
+                    space     = xmax * 0.01,
+                    xaxs      = "i", # No extra spacing at each end of x axis
+                    xaxt      = "n", # Do not plot the X axis
+                    yaxt      = "n", # Do not plot the Y axis
+                    density   = barplot.density,
+                    angle     = barplot.angle,
+                    border    = "white",
+                    xlim      = xlim,
+                    ylim      = ylim),
                args))
 
     # Get locations for y axis annotations
@@ -240,7 +244,7 @@ PlotExposureInternal <-
     # Draw y axis and labels
     Axis(side = 2, at = y.axis.values, las = 1, labels = FALSE)
     text(x = -xmax* 0.03, y = y.axis.values, labels = y.axis.labels,
-         las = 1, adj = 1, xpd = NA)
+         las = 1, adj = 1, xpd = NA, cex = cex.yaxis)
 
     # Setting the default parameters for legend plotting
     if (is.null(legend.x)) {
@@ -321,6 +325,7 @@ PlotExposure <- function(exposure,
                          legend.x         = NULL,
                          legend.y         = NULL,
                          cex.legend       = 0.9,
+                         cex.yaxis        = 1,
                          ...
 ) {
   n.sample <- ncol(exposure)
@@ -353,6 +358,7 @@ PlotExposure <- function(exposure,
                                  legend.x        = legend.x,
                                  legend.y        = legend.y,
                                  cex.legend      = cex.legend,
+                                 cex.yaxis       = cex.yaxis,
                                  ...             = ...)
   }
   invisible(list(plot.success = TRUE, mp.coordinates = list$mp.coordinates))
@@ -408,6 +414,7 @@ PlotExposureToPdf <- function(exposure,
                               legend.x         = NULL,
                               legend.y         = NULL,
                               cex.legend       = 0.9,
+                              cex.yaxis        = 1,
                               ...
 ) {
   # Setting the width and length for A4 size plotting
@@ -424,6 +431,7 @@ PlotExposureToPdf <- function(exposure,
                        legend.x         = legend.x,
                        legend.y         = legend.y,
                        cex.legend       = cex.legend,
+                       cex.yaxis        = cex.yaxis,
                        ...              = ...)
 
   grDevices::dev.off()

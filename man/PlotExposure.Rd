@@ -13,6 +13,7 @@ PlotExposure(
   legend.x = NULL,
   legend.y = NULL,
   cex.legend = 0.9,
+  cex.yaxis = 1,
   ...
 )
 }
@@ -37,6 +38,9 @@ legend.}
 
 \item{cex.legend}{A numerical value giving the amount by which legend
 plotting text and symbols should be magnified relative to the default.}
+
+\item{cex.yaxis}{A numerical value giving the amount by which y axis values
+should be magnified relative to the default.}
 
 \item{...}{Other arguments passed to \code{\link[graphics]{barplot}}. If
 \code{ylab} is not included, it defaults to a value depending on
