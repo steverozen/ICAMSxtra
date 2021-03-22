@@ -2,6 +2,8 @@
 ## Added
 * Added an extra argument `row.names` in function `WriteExposure`.
 
+* Added extra argument `cex.yaxis` in functions `PlotExposure` and `PlotExposureToPdf`.
+
 ## Fixed
 * Fixed a bug in function `PlotExposure` when the number of columns in exposure
 matrix is less than `samples.per.line`.
