@@ -115,6 +115,12 @@ test_that("PlotExposureToPdf function", {
 
   out <- PlotExposureToPdf(exposure, file = file.path(tempdir(), "test.pdf"))
   expect_equal(out$plot.success, TRUE)
+  
+  # Plot the mutations in sqrt scale
+  out0 <- PlotExposureToPdf(exposure = sqrt(exposure), 
+                            file = file.path(tempdir(), "test0.pdf"),
+                            ylab = "Number of mutations (square root)")
+  expect_equal(out0$plot.success, TRUE)
 
   # Set ylim for the plots
   out1 <- PlotExposureToPdf(exposure = SortExposure(exposure),

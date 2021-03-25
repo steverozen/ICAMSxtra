@@ -8,6 +8,8 @@
 * Fixed a bug in function `PlotExposure` when the number of columns in exposure
 matrix is less than `samples.per.line`.
 
+* Fixed a bug in function `PlotExposureInternal` when user provides specified y axis label.
+
 <br/>
 
 # ICAMSxtra 0.0.3

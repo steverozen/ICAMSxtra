@@ -142,6 +142,7 @@ PlotExposureInternal <-
     args <- list(...)
 
     ylab <- args$ylab
+    args$ylab <- NULL
     if (is.null(ylab)) {
       ylab <- ifelse(plot.proportion,
                      "Proportion of mutations",
