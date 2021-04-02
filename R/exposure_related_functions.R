@@ -287,8 +287,7 @@ PlotExposureInternal <-
            title     = "Signature")
     
     # Now add sample names, rotated to hopefully fit,
-    # don't even try to show all if there are too many
-    if (num.samples <= 200 && isTRUE(sample.names)) {
+    if (isTRUE(sample.names)) {
       if (length(mp) < 50) {
         size.adj <- 0.75
       } else if (length(mp) < 80) {
