@@ -4,6 +4,11 @@
 
 * Added extra argument `cex.yaxis` in functions `PlotExposure` and `PlotExposureToPdf`.
 
+* Added extra argument `sample.names` in functions `PlotExposureInternal`,
+`PlotExposure` and `PlotExposureToPdf`.
+
+* Added extra argument `width`, `height` in function `PlotExposureToPdf`.
+
 ## Fixed
 * Fixed a bug in function `PlotExposure` when the number of columns in exposure
 matrix is less than `samples.per.line`.

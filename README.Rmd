@@ -34,7 +34,7 @@ if (!requireNamespace("remotes", quietly = TRUE)) {
 remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "0.0.4-branch")
 ```
 
-Alternatively, you can download the [package source](https://github.com/steverozen/ICAMSxtra/blob/master/data-raw/source-file/ICAMSxtra_0.0.4.9001.tar.gz?raw=true) file to your computer and install ICAMSxtra locally:
+Alternatively, you can download the [package source](https://github.com/steverozen/ICAMSxtra/blob/master/data-raw/source-file/ICAMSxtra_0.0.4.9005.tar.gz?raw=true) file to your computer and install ICAMSxtra locally:
 
 ``` r
 install.packages(pkgs = "path-to-package-source-on-your-computer", repos = NULL, type = "source")
@@ -55,4 +55,4 @@ remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "master")
 
 ## Reference manual
 
-https://github.com/steverozen/ICAMSxtra/blob/master/data-raw/ICAMSxtra_0.0.4.9001.pdf
+https://github.com/steverozen/ICAMSxtra/blob/master/data-raw/ICAMSxtra_0.0.4.9005.pdf
