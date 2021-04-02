@@ -52,4 +52,4 @@ remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "master")
 
 ## Reference manual
 
-https://github.com/steverozen/ICAMSxtra/blob/master/data-raw/ICAMSxtra_0.0.4.pdf
+https://github.com/steverozen/ICAMSxtra/blob/0.0.4-branch/data-raw/ICAMSxtra_0.0.4.pdf
