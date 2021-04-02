@@ -216,6 +216,12 @@ PlotExposureInternal <-
     } else {
       ymax <- ylim[2]
     }
+    
+    space <- args$space
+    args$space <- NULL
+    if (is.null(space)) {
+      space <- xmax * 0.01
+    }
 
     # Ignore column names, we'll plot them separately to make them fit.
     mp <- do.call(
@@ -223,7 +229,7 @@ PlotExposureInternal <-
       args = c(list(height    = plot.what,
                     ylab      = ylab,
                     # The amount of space left before each bar
-                    space     = xmax * 0.01,
+                    space     = space,
                     xaxs      = "i", # No extra spacing at each end of x axis
                     xaxt      = "n", # Do not plot the X axis
                     yaxt      = "n", # Do not plot the Y axis

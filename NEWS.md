@@ -10,6 +10,8 @@ matrix is less than `samples.per.line`.
 
 * Fixed a bug in function `PlotExposureInternal` when user provides specified y axis label.
 
+* Fixed a bug in function `PlotExposureInternal` when user provides specified space (as a fraction of the average bar width) left before each bar.
+
 <br/>
 
 # ICAMSxtra 0.0.3
