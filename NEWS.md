@@ -12,6 +12,8 @@ matrix is less than `samples.per.line`.
 
 * Fixed a bug in function `PlotExposureInternal` when user provides specified space (as a fraction of the average bar width) left before each bar.
 
+* Fixed a bug in function `PlotExposureInternal` when user provides specified density of shading lines for the bars.
+
 <br/>
 
 # ICAMSxtra 0.0.3

@@ -141,14 +141,6 @@ PlotExposureInternal <-
     num.samples <- ncol(exposure)
     args <- list(...)
 
-    ylab <- args$ylab
-    args$ylab <- NULL
-    if (is.null(ylab)) {
-      ylab <- ifelse(plot.proportion,
-                     "Proportion of mutations",
-                     "Number of mutations")
-    }
-
     if (is.null(args$col)) {
       if (num.sigs <= 8) {
         args$col <-
@@ -217,10 +209,25 @@ PlotExposureInternal <-
       ymax <- ylim[2]
     }
     
+    # Check whether user specifies argument for barplot
+    ylab <- args$ylab
+    args$ylab <- NULL
+    if (is.null(ylab)) {
+      ylab <- ifelse(plot.proportion,
+                     "Proportion of mutations",
+                     "Number of mutations")
+    }
+    
     space <- args$space
     args$space <- NULL
     if (is.null(space)) {
       space <- xmax * 0.01
+    }
+    
+    density <- args$density
+    args$density <- NULL
+    if (is.null(density)) {
+      density <- barplot.density
     }
 
     # Ignore column names, we'll plot them separately to make them fit.
@@ -233,7 +240,7 @@ PlotExposureInternal <-
                     xaxs      = "i", # No extra spacing at each end of x axis
                     xaxt      = "n", # Do not plot the X axis
                     yaxt      = "n", # Do not plot the Y axis
-                    density   = barplot.density,
+                    density   = density,
                     angle     = barplot.angle,
                     border    = "white",
                     xlim      = xlim,
