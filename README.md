@@ -23,7 +23,7 @@ remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "0.0.4-branch")
 ```
 
 Alternatively, you can download the [package
-source](https://github.com/steverozen/ICAMSxtra/blob/master/data-raw/source-file/ICAMSxtra_0.0.4.tar.gz?raw=true)
+source](https://github.com/steverozen/ICAMSxtra/blob/0.0.4-branch/data-raw/source-file/ICAMSxtra_0.0.4.tar.gz?raw=true)
 file to your computer and install ICAMSxtra locally:
 
 ``` r
