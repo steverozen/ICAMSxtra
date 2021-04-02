@@ -18,6 +18,9 @@ PlotExposureToPdf(
   legend.y = NULL,
   cex.legend = 0.9,
   cex.yaxis = 1,
+  sample.names = TRUE,
+  width = 8.2677,
+  height = 11.6929,
   ...
 )
 }
@@ -58,6 +61,11 @@ plotting text and symbols should be magnified relative to the default.}
 
 \item{cex.yaxis}{A numerical value giving the amount by which y axis values
 should be magnified relative to the default.}
+
+\item{sample.names}{Whether to draw sample names below the x axis. Default is
+TRUE.}
+
+\item{width, height}{The width and height of the graphics region in inches.}
 
 \item{...}{Other arguments passed to \code{\link[graphics]{barplot}}. If
 \code{ylab} is not included, it defaults to a value depending on

@@ -112,6 +112,9 @@ SortExposure <- function(exposure, decreasing = TRUE) {
 #' @param cex.yaxis A numerical value giving the amount by which y axis values
 #'   should be magnified relative to the default.
 #'   
+#' @param sample.names Whether to draw sample names below the x axis. Default is
+#'   TRUE.
+#'   
 #' @param ... Other arguments passed to \code{\link[graphics]{barplot}}. If
 #'   \code{ylab} is not included, it defaults to a value depending on
 #'   \code{plot.proportion}. If \code{col} is not supplied the function tries to
@@ -134,6 +137,7 @@ PlotExposureInternal <-
            legend.y        = NULL,
            cex.legend      = 0.9,
            cex.yaxis       = 1,
+           sample.names    = TRUE,
            ...
   ) {
     exposure <- as.matrix(exposure) # In case it is a data frame
@@ -229,7 +233,7 @@ PlotExposureInternal <-
     if (is.null(density)) {
       density <- barplot.density
     }
-
+    
     # Ignore column names, we'll plot them separately to make them fit.
     mp <- do.call(
       barplot,
@@ -271,8 +275,8 @@ PlotExposureInternal <-
     legend(x         = legend.x,
            y         = legend.y,
            legend    = rev(row.names(exposure)),
-           density   = legend.density,
-           angle     = legend.angle,
+           density   = density,
+           angle     = barplot.angle,
            xpd       = NA,
            fill      = legend.col,
            x.intersp = 0.3,
@@ -281,10 +285,10 @@ PlotExposureInternal <-
            border    = "white",
            cex       = cex.legend,
            title     = "Signature")
-
+    
     # Now add sample names, rotated to hopefully fit,
     # don't even try to show all if there are too many
-    if (num.samples <= 200) {
+    if (num.samples <= 200 && isTRUE(sample.names)) {
       if (length(mp) < 50) {
         size.adj <- 0.75
       } else if (length(mp) < 80) {
@@ -340,6 +344,7 @@ PlotExposure <- function(exposure,
                          legend.y         = NULL,
                          cex.legend       = 0.9,
                          cex.yaxis        = 1,
+                         sample.names     = TRUE,
                          ...
 ) {
   n.sample <- ncol(exposure)
@@ -373,6 +378,7 @@ PlotExposure <- function(exposure,
                                  legend.y        = legend.y,
                                  cex.legend      = cex.legend,
                                  cex.yaxis       = cex.yaxis,
+                                 sample.names    = sample.names,
                                  ...             = ...)
   }
   invisible(list(plot.success = TRUE, mp.coordinates = list$mp.coordinates))
@@ -402,6 +408,8 @@ PlotExposure <- function(exposure,
 #'
 #' @param legend.x,legend.y The x and y co-ordinates to be used to position the
 #'   legend.
+#'   
+#' @param width,height The width and height of the graphics region in inches. 
 #'
 #' @return An \strong{invisible} list whose first element is a logic value
 #'   indicating whether the plot is successful. The second element is a numeric
@@ -429,10 +437,13 @@ PlotExposureToPdf <- function(exposure,
                               legend.y         = NULL,
                               cex.legend       = 0.9,
                               cex.yaxis        = 1,
+                              sample.names     = TRUE,
+                              width            = 8.2677,
+                              height           = 11.6929,
                               ...
 ) {
   # Setting the width and length for A4 size plotting
-  grDevices::pdf(file, width = 8.2677, height = 11.6929, onefile = TRUE)
+  grDevices::pdf(file, width = width, height = height, onefile = TRUE)
 
   opar <- par(mfrow = mfrow, mar = mar, oma = oma)
   on.exit(par(opar))
@@ -446,6 +457,7 @@ PlotExposureToPdf <- function(exposure,
                        legend.y         = legend.y,
                        cex.legend       = cex.legend,
                        cex.yaxis        = cex.yaxis,
+                       sample.names     = sample.names,
                        ...              = ...)
 
   grDevices::dev.off()
