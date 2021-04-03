@@ -112,8 +112,8 @@ SortExposure <- function(exposure, decreasing = TRUE) {
 #' @param cex.yaxis A numerical value giving the amount by which y axis values
 #'   should be magnified relative to the default.
 #'   
-#' @param sample.names Whether to draw sample names below the x axis. Default is
-#'   TRUE.
+#' @param plot.sample.names Whether to plot sample names below the x axis.
+#'   Default is TRUE.
 #'   
 #' @param ... Other arguments passed to \code{\link[graphics]{barplot}}. If
 #'   \code{ylab} is not included, it defaults to a value depending on
@@ -130,14 +130,14 @@ SortExposure <- function(exposure, decreasing = TRUE) {
 #' @keywords internal
 PlotExposureInternal <-
   function(exposure, # This is actually the exposure "counts"
-           plot.proportion = FALSE,
-           xlim            = NULL,
-           ylim            = NULL,
-           legend.x        = NULL,
-           legend.y        = NULL,
-           cex.legend      = 0.9,
-           cex.yaxis       = 1,
-           sample.names    = TRUE,
+           plot.proportion   = FALSE,
+           xlim              = NULL,
+           ylim              = NULL,
+           legend.x          = NULL,
+           legend.y          = NULL,
+           cex.legend        = 0.9,
+           cex.yaxis         = 1,
+           plot.sample.names = TRUE,
            ...
   ) {
     exposure <- as.matrix(exposure) # In case it is a data frame
@@ -287,7 +287,7 @@ PlotExposureInternal <-
            title     = "Signature")
     
     # Now add sample names, rotated to hopefully fit,
-    if (isTRUE(sample.names)) {
+    if (isTRUE(plot.sample.names)) {
       if (length(mp) < 50) {
         size.adj <- 0.75
       } else if (length(mp) < 80) {
@@ -335,15 +335,15 @@ PlotExposureInternal <-
 #' exposure <- ReadExposure(file)
 #' PlotExposure(exposure[, 1:30])
 PlotExposure <- function(exposure,
-                         samples.per.line = 30,
-                         plot.proportion  = FALSE,
-                         xlim             = NULL,
-                         ylim             = NULL,
-                         legend.x         = NULL,
-                         legend.y         = NULL,
-                         cex.legend       = 0.9,
-                         cex.yaxis        = 1,
-                         sample.names     = TRUE,
+                         samples.per.line   = 30,
+                         plot.proportion    = FALSE,
+                         xlim               = NULL,
+                         ylim               = NULL,
+                         legend.x           = NULL,
+                         legend.y           = NULL,
+                         cex.legend         = 0.9,
+                         cex.yaxis          = 1,
+                         plot.sample.names  = TRUE,
                          ...
 ) {
   n.sample <- ncol(exposure)
@@ -370,15 +370,15 @@ PlotExposure <- function(exposure,
   
   for (i in 1:length(starts)) {
     list <- PlotExposureInternal(exposure[ , starts[i]:ends[i], drop = FALSE],
-                                 plot.proportion = plot.proportion,
-                                 xlim            = xlim,
-                                 ylim            = ylim,
-                                 legend.x        = legend.x,
-                                 legend.y        = legend.y,
-                                 cex.legend      = cex.legend,
-                                 cex.yaxis       = cex.yaxis,
-                                 sample.names    = sample.names,
-                                 ...             = ...)
+                                 plot.proportion   = plot.proportion,
+                                 xlim              = xlim,
+                                 ylim              = ylim,
+                                 legend.x          = legend.x,
+                                 legend.y          = legend.y,
+                                 cex.legend        = cex.legend,
+                                 cex.yaxis         = cex.yaxis,
+                                 plot.sample.names = plot.sample.names,
+                                 ...               = ...)
   }
   invisible(list(plot.success = TRUE, mp.coordinates = list$mp.coordinates))
 }
@@ -425,20 +425,20 @@ PlotExposure <- function(exposure,
 #' PlotExposureToPdf(exposure, file = file.path(tempdir(), "exposure.pdf"))
 PlotExposureToPdf <- function(exposure,
                               file,
-                              mfrow            = c(2, 1),
-                              mar              = c(6, 4, 3, 2),
-                              oma              = c(3, 2, 0, 2),
-                              samples.per.line = 30,
-                              plot.proportion  = FALSE,
-                              xlim             = NULL,
-                              ylim             = NULL,
-                              legend.x         = NULL,
-                              legend.y         = NULL,
-                              cex.legend       = 0.9,
-                              cex.yaxis        = 1,
-                              sample.names     = TRUE,
-                              width            = 8.2677,
-                              height           = 11.6929,
+                              mfrow             = c(2, 1),
+                              mar               = c(6, 4, 3, 2),
+                              oma               = c(3, 2, 0, 2),
+                              samples.per.line  = 30,
+                              plot.proportion   = FALSE,
+                              xlim              = NULL,
+                              ylim              = NULL,
+                              legend.x          = NULL,
+                              legend.y          = NULL,
+                              cex.legend        = 0.9,
+                              cex.yaxis         = 1,
+                              plot.sample.names = TRUE,
+                              width             = 8.2677,
+                              height            = 11.6929,
                               ...
 ) {
   # Setting the width and length for A4 size plotting
@@ -447,17 +447,17 @@ PlotExposureToPdf <- function(exposure,
   opar <- par(mfrow = mfrow, mar = mar, oma = oma)
   on.exit(par(opar))
 
-  list <- PlotExposure(exposure         = exposure,
-                       samples.per.line = samples.per.line,
-                       plot.proportion  = plot.proportion,
-                       xlim             = xlim,
-                       ylim             = ylim,
-                       legend.x         = legend.x,
-                       legend.y         = legend.y,
-                       cex.legend       = cex.legend,
-                       cex.yaxis        = cex.yaxis,
-                       sample.names     = sample.names,
-                       ...              = ...)
+  list <- PlotExposure(exposure          = exposure,
+                       samples.per.line  = samples.per.line,
+                       plot.proportion   = plot.proportion,
+                       xlim              = xlim,
+                       ylim              = ylim,
+                       legend.x          = legend.x,
+                       legend.y          = legend.y,
+                       cex.legend        = cex.legend,
+                       cex.yaxis         = cex.yaxis,
+                       plot.sample.names = plot.sample.names,
+                       ...               = ...)
 
   grDevices::dev.off()
   invisible(list(plot.success = TRUE, mp.coordinates = list$mp.coordinates))
