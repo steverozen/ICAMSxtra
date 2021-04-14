@@ -56,6 +56,16 @@ test_that("PlotExposureInternal function", {
                          plot.proportion = TRUE, col = c("red", "blue"),
                          cex.legend = 0.5, legend.x = 5.5)
   expect_equal(out5$plot.success, TRUE)
+  
+  # Change y axis labels
+  out6 <-
+    PlotExposureInternal(sqrt(SortExposure(exposure)),
+                         xlim = c(0, ncol(exposure) * 2.5),
+                         cex.legend = 0.5, main = "test", cex.main = 0.8,
+                         yaxis.labels = round(seq(0, max(colSums(exposure)), 
+                                                  max(colSums(exposure))/4)))
+  expect_equal(out6$plot.success, TRUE)
+  
   graphics.off()
 })
 
@@ -107,6 +117,16 @@ test_that("PlotExposure function", {
                        col = c("red", "blue"), cex.legend = 0.45,
                        legend.x = 4.5)
   expect_equal(out6$plot.success, TRUE)
+  
+  
+  # Change y axis labels
+  out7 <-
+    PlotExposureInternal(sqrt(SortExposure(exposure)),
+                         xlim = c(0, ncol(exposure) * 2.5),
+                         cex.legend = 0.5, main = "test", cex.main = 0.8,
+                         yaxis.labels = round(seq(0, max(colSums(exposure)), 
+                                                  max(colSums(exposure))/4)))
+  expect_equal(out7$plot.success, TRUE)
   graphics.off()
 })
 
@@ -117,10 +137,19 @@ test_that("PlotExposureToPdf function", {
   expect_equal(out$plot.success, TRUE)
   
   # Plot the mutations in sqrt scale
-  out0 <- PlotExposureToPdf(exposure = sqrt(exposure), 
+  out0 <- PlotExposureToPdf(exposure = sqrt(SortExposure(exposure)), 
                             file = file.path(tempdir(), "test0.pdf"),
                             ylab = "Number of mutations (square root)")
   expect_equal(out0$plot.success, TRUE)
+  
+  # Plot the mutations in sqrt scale and change y axis labels
+  out0.1 <- PlotExposureToPdf(exposure = sqrt(SortExposure(exposure)), 
+                            file = file.path(tempdir(), "test0.1.pdf"),
+                            ylab = "Number of mutations (square root)",
+                            ylim = c(0, max(colSums(sqrt(exposure)))),
+                            yaxis.labels = round(seq(0, max(colSums(exposure)), 
+                                                     max(colSums(exposure))/4)))
+  expect_equal(out0.1$plot.success, TRUE)
 
   # Set ylim for the plots
   out1 <- PlotExposureToPdf(exposure = SortExposure(exposure),

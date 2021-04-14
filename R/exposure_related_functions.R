@@ -115,6 +115,9 @@ SortExposure <- function(exposure, decreasing = TRUE) {
 #' @param plot.sample.names Whether to plot sample names below the x axis.
 #'   Default is TRUE.
 #'   
+#' @param yaxis.labels User defined y axis labels to be plotted. If
+#'   \code{NULL}(default), the function tries to do something reasonable.
+#'   
 #' @param ... Other arguments passed to \code{\link[graphics]{barplot}}. If
 #'   \code{ylab} is not included, it defaults to a value depending on
 #'   \code{plot.proportion}. If \code{col} is not supplied the function tries to
@@ -138,6 +141,7 @@ PlotExposureInternal <-
            cex.legend        = 0.9,
            cex.yaxis         = 1,
            plot.sample.names = TRUE,
+           yaxis.labels      = NULL,
            ...
   ) {
     exposure <- as.matrix(exposure) # In case it is a data frame
@@ -253,10 +257,15 @@ PlotExposureInternal <-
 
     # Get locations for y axis annotations
     y.axis.values <- seq(0, ymax, ymax/4)
-    if (plot.proportion) {
-      y.axis.labels <- format(round(y.axis.values, 2), nsmall = 2)
+    
+    if(is.null(yaxis.labels)) {
+      if (plot.proportion) {
+        y.axis.labels <- format(round(y.axis.values, 2), nsmall = 2)
+      } else {
+        y.axis.labels <- round(y.axis.values)
+      }
     } else {
-      y.axis.labels <- round(y.axis.values)
+      y.axis.labels <- yaxis.labels
     }
 
     # Draw y axis and labels
@@ -344,6 +353,7 @@ PlotExposure <- function(exposure,
                          cex.legend         = 0.9,
                          cex.yaxis          = 1,
                          plot.sample.names  = TRUE,
+                         yaxis.labels       = NULL,
                          ...
 ) {
   n.sample <- ncol(exposure)
@@ -378,6 +388,7 @@ PlotExposure <- function(exposure,
                                  cex.legend        = cex.legend,
                                  cex.yaxis         = cex.yaxis,
                                  plot.sample.names = plot.sample.names,
+                                 yaxis.labels      = yaxis.labels,
                                  ...               = ...)
   }
   invisible(list(plot.success = TRUE, mp.coordinates = list$mp.coordinates))
@@ -437,6 +448,7 @@ PlotExposureToPdf <- function(exposure,
                               cex.legend        = 0.9,
                               cex.yaxis         = 1,
                               plot.sample.names = TRUE,
+                              yaxis.labels      = NULL,
                               width             = 8.2677,
                               height            = 11.6929,
                               ...
@@ -457,6 +469,7 @@ PlotExposureToPdf <- function(exposure,
                        cex.legend        = cex.legend,
                        cex.yaxis         = cex.yaxis,
                        plot.sample.names = plot.sample.names,
+                       yaxis.labels      = yaxis.labels,
                        ...               = ...)
 
   grDevices::dev.off()

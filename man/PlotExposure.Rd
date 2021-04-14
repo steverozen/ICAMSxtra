@@ -15,6 +15,7 @@ PlotExposure(
   cex.legend = 0.9,
   cex.yaxis = 1,
   plot.sample.names = TRUE,
+  yaxis.labels = NULL,
   ...
 )
 }
@@ -45,6 +46,9 @@ should be magnified relative to the default.}
 
 \item{plot.sample.names}{Whether to plot sample names below the x axis.
 Default is TRUE.}
+
+\item{yaxis.labels}{User defined y axis labels to be plotted. If
+\code{NULL}(default), the function tries to do something reasonable.}
 
 \item{...}{Other arguments passed to \code{\link[graphics]{barplot}}. If
 \code{ylab} is not included, it defaults to a value depending on

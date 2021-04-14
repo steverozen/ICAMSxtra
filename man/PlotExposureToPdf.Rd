@@ -19,6 +19,7 @@ PlotExposureToPdf(
   cex.legend = 0.9,
   cex.yaxis = 1,
   plot.sample.names = TRUE,
+  yaxis.labels = NULL,
   width = 8.2677,
   height = 11.6929,
   ...
@@ -64,6 +65,9 @@ should be magnified relative to the default.}
 
 \item{plot.sample.names}{Whether to plot sample names below the x axis.
 Default is TRUE.}
+
+\item{yaxis.labels}{User defined y axis labels to be plotted. If
+\code{NULL}(default), the function tries to do something reasonable.}
 
 \item{width, height}{The width and height of the graphics region in inches.}
 

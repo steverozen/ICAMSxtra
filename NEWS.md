@@ -2,10 +2,8 @@
 ## Added
 * Added an extra argument `row.names` in function `WriteExposure`.
 
-* Added extra argument `cex.yaxis` in functions `PlotExposure` and `PlotExposureToPdf`.
-
-* Added extra argument `plot.sample.names` in functions `PlotExposureInternal`,
-`PlotExposure` and `PlotExposureToPdf`.
+* Added extra argument `cex.yaxis`, `plot.sample.names` and `yaxis.labels` in
+functions `PlotExposureInternal`, `PlotExposure` and `PlotExposureToPdf`.
 
 * Added extra argument `width`, `height` in function `PlotExposureToPdf`.
 
