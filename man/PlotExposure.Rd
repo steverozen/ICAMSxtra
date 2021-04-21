@@ -14,6 +14,7 @@ PlotExposure(
   legend.y = NULL,
   cex.legend = 0.9,
   cex.yaxis = 1,
+  cex.xaxis = NULL,
   plot.sample.names = TRUE,
   yaxis.labels = NULL,
   ...
@@ -43,6 +44,10 @@ plotting text and symbols should be magnified relative to the default.}
 
 \item{cex.yaxis}{A numerical value giving the amount by which y axis values
 should be magnified relative to the default.}
+
+\item{cex.xaxis}{A numerical value giving the amount by which x axis values
+should be magnified relative to the default. If
+\code{NULL}(default), the function tries to do something reasonable.}
 
 \item{plot.sample.names}{Whether to plot sample names below the x axis.
 Default is TRUE.}

@@ -112,6 +112,10 @@ SortExposure <- function(exposure, decreasing = TRUE) {
 #' @param cex.yaxis A numerical value giving the amount by which y axis values
 #'   should be magnified relative to the default.
 #'   
+#' @param cex.xaxis A numerical value giving the amount by which x axis values
+#'   should be magnified relative to the default. If
+#'   \code{NULL}(default), the function tries to do something reasonable.
+#'   
 #' @param plot.sample.names Whether to plot sample names below the x axis.
 #'   Default is TRUE.
 #'   
@@ -140,6 +144,7 @@ PlotExposureInternal <-
            legend.y          = NULL,
            cex.legend        = 0.9,
            cex.yaxis         = 1,
+           cex.xaxis         = NULL,
            plot.sample.names = TRUE,
            yaxis.labels      = NULL,
            ...
@@ -312,7 +317,11 @@ PlotExposureInternal <-
       }
       cnames <- colnames(exposure)
       cnames <- sub("_____.*", "", cnames)
-      mtext(cnames, side = 1, line = 0.38, at = mp, las = 2, cex = size.adj)
+      if (is.null(cex.xaxis)) {
+        mtext(cnames, side = 1, line = 0.38, at = mp, las = 2, cex = size.adj)
+      } else {
+        mtext(cnames, side = 1, line = 0.38, at = mp, las = 2, cex = cex.xaxis)
+      }
     }
 
     invisible(list(plot.success = TRUE, mp.coordinates = mp))
@@ -352,6 +361,7 @@ PlotExposure <- function(exposure,
                          legend.y           = NULL,
                          cex.legend         = 0.9,
                          cex.yaxis          = 1,
+                         cex.xaxis          = NULL,
                          plot.sample.names  = TRUE,
                          yaxis.labels       = NULL,
                          ...
@@ -387,6 +397,7 @@ PlotExposure <- function(exposure,
                                  legend.y          = legend.y,
                                  cex.legend        = cex.legend,
                                  cex.yaxis         = cex.yaxis,
+                                 cex.xaxis         = cex.xaxis,
                                  plot.sample.names = plot.sample.names,
                                  yaxis.labels      = yaxis.labels,
                                  ...               = ...)
@@ -447,6 +458,7 @@ PlotExposureToPdf <- function(exposure,
                               legend.y          = NULL,
                               cex.legend        = 0.9,
                               cex.yaxis         = 1,
+                              cex.xaxis         = NULL,
                               plot.sample.names = TRUE,
                               yaxis.labels      = NULL,
                               width             = 8.2677,
@@ -468,6 +480,7 @@ PlotExposureToPdf <- function(exposure,
                        legend.y          = legend.y,
                        cex.legend        = cex.legend,
                        cex.yaxis         = cex.yaxis,
+                       cex.xaxis         = cex.xaxis,
                        plot.sample.names = plot.sample.names,
                        yaxis.labels      = yaxis.labels,
                        ...               = ...)

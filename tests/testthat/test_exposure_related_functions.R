@@ -23,7 +23,8 @@ test_that("PlotExposureInternal function", {
   out <-
     PlotExposureInternal(SortExposure(exposure),
                          xlim = c(0, ncol(exposure) * 2.5),
-                         cex.legend = 0.5, main = "test", cex.main = 0.8)
+                         cex.legend = 0.5, main = "test", cex.main = 0.8,
+                         cex.xaxis = 0.6)
   expect_equal(out$plot.success, TRUE)
 
   # Only plot the first 30 samples
@@ -76,7 +77,8 @@ test_that("PlotExposure function", {
     par(mfcol = c(2, 1), mar = c(2, 3.9, 3.9, 2), oma = c(2, 0, 0, 0))
   on.exit(par(old.par))
   out <- PlotExposure(exposure = SortExposure(exposure[, 1:43]),
-                      main = "test", cex.main = 0.8, cex.legend = 0.3)
+                      main = "test", cex.main = 0.8, cex.legend = 0.3,
+                      cex.xaxis = 0.6)
   expect_equal(out$plot.success, TRUE)
 
   # Only plot the first 30 samples
@@ -139,7 +141,8 @@ test_that("PlotExposureToPdf function", {
   # Plot the mutations in sqrt scale
   out0 <- PlotExposureToPdf(exposure = sqrt(SortExposure(exposure)), 
                             file = file.path(tempdir(), "test0.pdf"),
-                            ylab = "Number of mutations (square root)")
+                            ylab = "Number of mutations (square root)",
+                            cex.xaxis = 0.9)
   expect_equal(out0$plot.success, TRUE)
   
   # Plot the mutations in sqrt scale and change y axis labels
