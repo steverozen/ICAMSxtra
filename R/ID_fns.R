@@ -30,7 +30,8 @@
 #' dirs <- c(system.file("extdata/Strelka-ID-vcf", "Strelka.ID.GRCh37.s1.vcf", package="ICAMSxtra"),
 #'           system.file("extdata/Strelka-ID-vcf", "Strelka.ID.GRCh37.s2.vcf", package="ICAMSxtra"))
 #' 
-#' list.of.vcfs <- ICAMS::ReadStrelkaIDVCFs(dirs, names.of.VCFs = c("s1","s2"))
+#' list.of.vcfs <- ICAMS::ReadAndSplitVCFs(dirs, names.of.VCFs = c("s1","s2"),
+#'                                        variant.caller = "strelka")$ID
 #' PlotTranscriptionAssociatedDamageToPdf(list.of.vcfs = list.of.vcfs, 
 #'                                        ref.genome = "hg19", 
 #'                                        names.of.vcfs = c("s1","s2"),

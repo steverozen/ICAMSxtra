@@ -1,4 +1,9 @@
-# ICAMSxtra 0.0.4.90xx
+# ICAMSxtra 0.0.5
+* Updated code not to use deprecated functions in ICAMS.
+
+<br/>
+
+# ICAMSxtra 0.0.4
 ## Added
 * Added an extra argument `row.names` in function `WriteExposure`.
 
