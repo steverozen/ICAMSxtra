@@ -1,3 +1,6 @@
+# ICAMSxtra 0.0.6
+* Updated code not to use deprecated functions in ICAMS.
+
 # ICAMSxtra 0.0.5
 * Updated code not to use deprecated functions in ICAMS.
 

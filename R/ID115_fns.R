@@ -283,8 +283,8 @@ CanonicalizeID115 <- function(context, ref, alt, pos, strand) {
 CreateOneColID115Matrix <- function(ID.vcf, SBS.vcf = NULL) {
   if (nrow(ID.vcf) == 0) {
     # Create 1-column matrix with all values being 0 and the correct row labels.
-    catID <- matrix(0, nrow = length(catalog.row.order$ID115), ncol = 1)
-    rownames(catID) <- catalog.row.order$ID115
+    catID <- matrix(0, nrow = length(ICAMSxtra::catalog.row.order$ID115), ncol = 1)
+    rownames(catID) <- ICAMSxtra::catalog.row.order$ID115
     return(catID)
   }
   
@@ -309,7 +309,7 @@ CreateOneColID115Matrix <- function(ID.vcf, SBS.vcf = NULL) {
   # Create the ID catalog matrix
   tab.ID <- table(canon.ID)
   
-  row.order <- data.table(rn = catalog.row.order$ID115)
+  row.order <- data.table(rn = ICAMSxtra::catalog.row.order$ID115)
   
   ID.dt <- as.data.table(tab.ID)
   # ID.dt has two columns, names cannon.dt (from the table() function
@@ -318,11 +318,11 @@ CreateOneColID115Matrix <- function(ID.vcf, SBS.vcf = NULL) {
   ID.dt2 <-
     merge(row.order, ID.dt, by.x = "rn", by.y = "canon.ID", all = TRUE)
   ID.dt2[ is.na(N) , N := 0]
-  stopifnot(setequal(unlist(ID.dt2$rn), catalog.row.order$ID115))
+  stopifnot(setequal(unlist(ID.dt2$rn), ICAMSxtra::catalog.row.order$ID115))
   
   ID.mat <- as.matrix(ID.dt2[ , 2])
   rownames(ID.mat) <- ID.dt2$rn
-  return(list(catalog = ID.mat[catalog.row.order$ID115, , drop = FALSE],
+  return(list(catalog = ID.mat[ICAMSxtra::catalog.row.order$ID115, , drop = FALSE],
               annotated.VCF = out.ID.vcf))
 }
 
@@ -394,7 +394,7 @@ as.catalog.for.ID115 <- function(object,
     rownames(object) <- ICAMS:::InferRownames(object)
   } else {
     #removed call to checkandreorder rownames
-    object <- object[catalog.row.order$ID115, ,drop=FALSE] 
+    object <- object[ICAMSxtra::catalog.row.order$ID115, ,drop=FALSE] 
   }
   
   # StopIfRegionIllegal(region)
@@ -460,8 +460,8 @@ VCFsToID115Catalogs<-function(list.of.vcfs, ref.genome, region = "unknown",
   ncol <- length(list.of.vcfs)
   
   # Create a 0-column matrix with the correct row labels.
-  catID <- matrix(0, nrow = length(catalog.row.order$ID115), ncol = 0)
-  rownames(catID) <- catalog.row.order$ID115
+  catID <- matrix(0, nrow = length(ICAMSxtra::catalog.row.order$ID115), ncol = 0)
+  rownames(catID) <- ICAMSxtra::catalog.row.order$ID115
   out.list.of.vcfs <- list()
   
   vcf.names <- names(list.of.vcfs)
@@ -566,7 +566,7 @@ CollapseID115CatalogsToID83s <- function(catalogs){
 #'
 #' @export
 WriteID115Catalog <- function(catalog, file, strict = TRUE) {
-  ICAMS:::WriteCat(catalog, file, 115, catalog.row.order$ID115,
+  ICAMS:::WriteCat(catalog, file, 115, ICAMSxtra::catalog.row.order$ID115,
            catalog.row.headers.ID115, strict)
 }
 
@@ -607,12 +607,12 @@ ReadID115Catalog <- function(file, ref.genome = NULL, region = "unknown",
   rn <- apply(cos[ , 1:4], MARGIN = 1, paste, collapse = ":")
   out <- as.matrix(cos[ , -(1:4), drop = FALSE])
   
-  stopifnot(setdiff(rn, catalog.row.order$ID115) == c())
-  stopifnot(setdiff(catalog.row.order$ID115, rn) == c())
-  stopifnot(rn == catalog.row.order$ID115)
+  stopifnot(setdiff(rn, ICAMSxtra::catalog.row.order$ID115) == c())
+  stopifnot(setdiff(ICAMSxtra::catalog.row.order$ID115, rn) == c())
+  stopifnot(rn == ICAMSxtra::catalog.row.order$ID115)
   rownames(out) <- rn
   #   if (ncol(out) == 1) colnames(out) <- colnames(cos)[3] 
-  out <- out[catalog.row.order$ID115, , drop = FALSE]
+  out <- out[ICAMSxtra::catalog.row.order$ID115, , drop = FALSE]
   return(as.catalog.for.ID115(out, ref.genome, region, catalog.type))
 }
 
