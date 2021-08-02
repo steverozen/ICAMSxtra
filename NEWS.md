@@ -1,5 +1,5 @@
 # ICAMSxtra 0.0.6
-* Updated code not to use deprecated functions in ICAMS.
+* Fixed bugs related to usage of package data `catalog.row.order$ID115`.
 
 # ICAMSxtra 0.0.5
 * Updated code not to use deprecated functions in ICAMS.
