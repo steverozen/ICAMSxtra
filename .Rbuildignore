@@ -6,3 +6,4 @@
 ^appveyor\.yml$
 ^\.github$
 ^ICAMSxtra_.*\.pdf$
+^docs$
