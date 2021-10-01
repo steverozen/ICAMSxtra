@@ -1,0 +1,10 @@
+Package: ICAMSxtra
+Version: 0.0.6
+Depends: R (>= 3.5)
+Imports: boot, data.table, ICAMS (>= 2.3.1.9003), simpleboot
+Suggests: BSgenome.Hsapiens.1000genomes.hs37d5,
+       BSgenome.Hsapiens.UCSC.hg38, BSgenome.Mmusculus.UCSC.mm10,
+       lsa, testthat
+License: GPL-3
+MD5sum: c7b836cd405f774cfefeccc0488dd35a
+NeedsCompilation: no
