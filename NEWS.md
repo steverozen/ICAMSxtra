@@ -1,3 +1,6 @@
+# ICAMSxtra 0.0.7
+* Fixed a bug in plotting exposure legend angle and density.
+
 # ICAMSxtra 0.0.6
 * Fixed bugs related to usage of package data `catalog.row.order$ID115`.
 

@@ -289,8 +289,8 @@ PlotExposureInternal <-
     legend(x         = legend.x,
            y         = legend.y,
            legend    = rev(row.names(exposure)),
-           density   = density,
-           angle     = barplot.angle,
+           density   = legend.density,
+           angle     = legend.angle,
            xpd       = NA,
            fill      = legend.col,
            x.intersp = 0.3,
@@ -324,7 +324,7 @@ PlotExposureInternal <-
       }
     }
 
-    invisible(list(plot.success = TRUE, mp.coordinates = mp))
+    invisible(list(plot.success = TRUE, bp.coordinates = mp))
   }
 
 #' Plot exposures in multiple plots each with a manageable number of samples
@@ -402,7 +402,7 @@ PlotExposure <- function(exposure,
                                  yaxis.labels      = yaxis.labels,
                                  ...               = ...)
   }
-  invisible(list(plot.success = TRUE, mp.coordinates = list$mp.coordinates))
+  invisible(list(plot.success = TRUE, bp.coordinates = list$bp.coordinates))
 }
 
 #' Plot exposures in multiple plots each with a manageable number of samples to PDF
@@ -486,5 +486,5 @@ PlotExposureToPdf <- function(exposure,
                        ...               = ...)
 
   grDevices::dev.off()
-  invisible(list(plot.success = TRUE, mp.coordinates = list$mp.coordinates))
+  invisible(list(plot.success = TRUE, bp.coordinates = list$bp.coordinates))
 }
