@@ -160,11 +160,10 @@ NumFromId<- function(s) {
       sub("[^0123456789]*(\\d+).*", "\\1", s, perl = TRUE)))
 }
 
-#' A somewhat asymmetrical analysis of a set of "ground truth" and "extracted" signatures.
+#' An asymmetrical analysis of a set of "ground truth" and "extracted" signatures.
 #'
-#' @param ex.sigs Newly extracted signatures to be compared to gt.sigs
-#            (actually, this is more general).
-#
+#' @param ex.sigs Newly extracted signatures to be compared to \code{gt.sigs}.
+#'
 #' @param gt.sigs "Ground truth" signatures.
 #'
 #' @param exposure If \code{NULL}, then match
@@ -172,7 +171,7 @@ NumFromId<- function(s) {
 #'   Otherwise this should be ground-truth exposures used generate the
 #'   synthetic spectra from which \code{ex.sigs} were extracted.
 #'   In this case we do not
-#'   match to ground-truth signatures to that were not in the ground
+#'   match to ground-truth signatures that were not in the ground
 #'   truth exposure.
 #'
 #' @return A list with the elements \code{averCosSim}, \code{match1},
