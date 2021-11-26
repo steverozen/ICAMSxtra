@@ -173,9 +173,42 @@ NumFromId<- function(s) {
 #'   In this case we do not
 #'   match to ground-truth signatures that were not in the ground
 #'   truth exposure.
+#'   
+#' @param similarity.cutoff A ground-truth signature must have been
+#'   the best match of an extracted signature with a cosine 
+#'   similarity \eqn{$ge$} this value to be considered a true positive.
+#'   Otherwise we consider the ground-truth signature to be a false
+#'   negative.
 #'
-#' @return A list with the elements \code{averCosSim}, \code{match1},
-#' \code{match2} as for \code{\link{MatchSigs2Directions}},
+#' @return A list with the elements 
+#' 
+#' * \code{averCosSim} The average of the cosine similarities
+#'    between each signature in
+#'    \code{ex.sigs} and its closest match in \code{gt.sigs}
+#'    and the closest match
+#'    between each signature in \code{gt.sigs}
+#'    and its closest match in \code{ex.sigs}. 
+#'    This may not be what you want. Often one wants
+#'    the average of the cosine similarities of the true
+#'    positives to their matching ground-truth signatures.
+#'                 
+#' * \code{match1} The match from extracted signatures to ground truth
+#'         signatures. Associated with each extracted signature is
+#'         a ground truth signature with best cosine similarity.
+#'         Ties are resolved arbitrarily.
+#'         
+#' * \code{match2} The match from ground truth signatures to extracted
+#'         signatures. Associated with each extracted signature is
+#'         a ground truth signature with best cosine similarity.
+#'         Ties are resolved arbitrarily.
+#' 
+#' * \code{extracted.with.no.best.match}
+#' * \code{ground.truth.with.no.best.match}
+#' * \code{ex.sigs}
+#' * \code{gt.sigs}
+#' * \code{gt.mean.cos.sim}
+#' 
+#'   as for \code{\link{MatchSigs2Directions}},
 #' with \code{match1} being matches for the the extracted signatures
 #' (\code{ex.sigs}) and \code{match2} being the matches for
 #' the ground truth signatures (\code{gt.sigs}). The return list
@@ -192,7 +225,10 @@ NumFromId<- function(s) {
 #' tout
 #'
 
-MatchSigsAndRelabel <- function(ex.sigs, gt.sigs, exposure = NULL) {
+MatchSigsAndRelabel <- function(ex.sigs, 
+                                gt.sigs, 
+                                exposure          = NULL, 
+                                similarity.cutoff = 0.9) {
 
     if (is.null(colnames(ex.sigs))) {
       colnames(ex.sigs) <- paste0("Ex.", 1:ncol(ex.sigs))
@@ -203,29 +239,52 @@ MatchSigsAndRelabel <- function(ex.sigs, gt.sigs, exposure = NULL) {
       # the exposure from which the synthetic data were
       # generated
       exposed.sig.names <- rownames(exposure)[rowSums(exposure) > 0]
-      # Make sure we do not have an signatures in exposures that
+      # Make sure we do not have any signatures in exposures that
       # are not in gt.sigs.
       stopifnot(
         setequal(setdiff(exposed.sig.names, colnames(gt.sigs)), c()))
       gt.sigs <- gt.sigs[  , exposed.sig.names]
     }
 
+    gt.sigs.all.sim <- philentropy::distance(t(gt.sigs), method = "cosine")
+    if (is.null(dim(gt.sigs.all.sim))) {
+      if (gt.sigs.all.sim >= similarity.cutoff) {
+        warning("The two ground truth signatures have cosing similarity >= ",
+                similarity.cutoff)
+      }
+    } else {
+        browser()
+        gt.sigs.all.sim[lower.tri(gt.sigs.all.sim, diag = TRUE)] <- 0
+        if (any(gt.sigs.all.sim >= similarity.cutoff)) {
+          rownames(gt.sigs.all.sim) <- colnames(gt.sigs)
+          colnames(gt.sigs.all.sim) <- colnames(gt.sigs)
+          warning(
+            "Some ground truth signatures have cosine similarity >= ",
+            similarity.cutoff)
+          print(gt.sigs.all.sim)
+        }
+    }
+
     sim <- MatchSigs2Directions(ex.sigs, gt.sigs)
 
-    true.match1 <- sim$match1 # This is the match from extracted to ground truth
+    true.match1 <- sim$match1
+    # This is the match from extracted signatures to ground-truth signature
+    true.match1 <- true.match1[true.match1$sim >= similarity.cutoff, ]
   
-    # Signatures matched with cosine similarity < 0.9 are not considered "true"
-    # matches.
-    true.match1 <- true.match1[true.match1$sim >= 0.9, ]
-  
-    true.match2 <- sim$match2 # This is the match from ground truth to extracted
-    true.match2 <- true.match2[true.match2$sim >= 0.9, ]
+    true.match2 <- sim$match2 
+    # This is the match from ground-truth signature to extracted signature
+    true.match2 <- true.match2[true.match2$sim >= similarity.cutoff, ]
 
     sim$extracted.with.no.best.match <-
       setdiff(colnames(ex.sigs), true.match2$to)
+    # These are extracted signatures that are not the best match
+    # of any ground truth signature.
 
     sim$ground.truth.with.no.best.match <-
       setdiff(colnames(gt.sigs), true.match1$to)
+    # These are the ground truth signatures that are not the 
+    # best match of any extracted signatures.
+    
     # TODO(Steve) Review documentation / explanation. Note that
     # e.g. SBS29 might have a best match (BI_COMPOSITE_SBS18_P)
     # but no BI signatures has SBS29 as its best match

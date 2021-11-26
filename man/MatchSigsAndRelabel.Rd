@@ -2,12 +2,12 @@
 % Please edit documentation in R/match.sigs.R
 \name{MatchSigsAndRelabel}
 \alias{MatchSigsAndRelabel}
-\title{A somewhat asymmetrical analysis of a set of "ground truth" and "extracted" signatures.}
+\title{An asymmetrical analysis of a set of "ground truth" and "extracted" signatures.}
 \usage{
-MatchSigsAndRelabel(ex.sigs, gt.sigs, exposure = NULL)
+MatchSigsAndRelabel(ex.sigs, gt.sigs, exposure = NULL, similarity.cutoff = 0.9)
 }
 \arguments{
-\item{ex.sigs}{Newly extracted signatures to be compared to gt.sigs}
+\item{ex.sigs}{Newly extracted signatures to be compared to \code{gt.sigs}.}
 
 \item{gt.sigs}{"Ground truth" signatures.}
 
@@ -16,19 +16,36 @@ MatchSigsAndRelabel(ex.sigs, gt.sigs, exposure = NULL)
 Otherwise this should be ground-truth exposures used generate the
 synthetic spectra from which \code{ex.sigs} were extracted.
 In this case we do not
-match to ground-truth signatures to that were not in the ground
+match to ground-truth signatures that were not in the ground
 truth exposure.}
+
+\item{similarity.cutoff}{A ground-truth signature must have been
+the best match of an extracted signature with a cosine
+similarity $ge$ this value to be considered a true positive.
+Otherwise we conider the ground-truth signature to be a false
+negative.}
 }
 \value{
-A list with the elements \code{averCosSim}, \code{match1},
-\code{match2} as for \code{\link{MatchSigs2Directions}},
+A list with the elements
+\itemize{
+\item \code{averCosSim}
+\item \code{match1}
+\item \code{match2}
+\item \code{extracted.with.no.best.match}
+\item \code{ground.truth.with.no.best.match}
+\item \code{ex.sigs}
+\item \code{gt.sigs}
+\item \code{gt.mean.cos.sim}
+
+as for \code{\link{MatchSigs2Directions}},
 with \code{match1} being matches for the the extracted signatures
 (\code{ex.sigs}) and \code{match2} being the matches for
 the ground truth signatures (\code{gt.sigs}). The return list
 also echos the input arguments \code{ex.sigs} and \code{gt.sigs}.
 }
+}
 \description{
-A somewhat asymmetrical analysis of a set of "ground truth" and "extracted" signatures.
+An asymmetrical analysis of a set of "ground truth" and "extracted" signatures.
 }
 \examples{
 gt.sigs <- matrix(c(1, 3,   4, 1, 2, 4), ncol = 2)
