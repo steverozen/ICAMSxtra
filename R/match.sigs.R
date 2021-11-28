@@ -1,6 +1,70 @@
 # Functions to find best matches (by cosine similarity) between
 # sets of mutational signatures.
 
+#' Compute a matrix of distances / similarities between two sets of signatures.
+#' 
+#' @param x1 The first set of signatures (a positive matrix in which each column is a signature).
+#'     The elements of \code{x1} will be the rows of the output matrix
+#' 
+#' @param x2 The second set of signatures, similar data type to \code{x1}.
+#'     The elements of \code{x2} will be the columns of the output matrix
+#'
+#' @param method (as for the \code{philentropy::distance}) function.
+#' 
+#' @return A matrix with dimensions \code{ncol(x1)} X \code{ncol(x2)} with
+#'   each element representing the distance or similarity (depending on \code{method})
+#'   between the corresponding elments of \code{x1} and \code{x2}
+#'
+#' @export
+#' 
+sig_dist_matrix <- function(x1, x2, method = "cosine") {
+  mm <- cbind(x1, x2)
+  dd <- philentropy::distance(t(mm), method = method, use.row.names = TRUE)
+  dd2 <- dd[1:ncol(x1), , drop = FALSE] # Use the rows that represent the elements of x1
+  dd3 <- dd2[, -(1:ncol(x1)), drop = FALSE] # Use that columns that represent elements of x2
+  return(dd3)
+  
+}
+
+tmp_matches <- function(x1, 
+                        x2, 
+                        method = "cosine", 
+                        convert.sim.to.dist = function(x) {return(1 -x)},
+                        cutoff              = 0.9) {
+  
+  my.inf <- 10^100 # Cannot use Inf in a foreign function call (below)
+  
+  dd  <- sig_dist_matrix(x1, x2, method = method)
+  if (!is.null(convert.sim.to.dist)) {
+    dd <- convert.sim.to.dist(dd)
+    cutoff <- convert.sim.to.dist(cutoff)
+  }
+  
+  if (nrow(dd) > ncol(dd)) {
+    # Add more columns
+    delta <- nrow(dd) - ncol(dd)
+    new.col <- matrix(my.inf, nrow = nrow(dd), ncol = delta)
+    colnames(new.col) <- paste0("dummy", 1:delta)
+    dd <- cbind(dd, new.col)
+  } else if (ncol(dd) > nrow(dd)) {
+    # Add more rows
+    delta <- ncol(dd) - nrow(dd)
+    new.row <- matrix(my.inf, ncol = ncol(dd), nrow = delta)
+    rownames(new.row) <- paste0("dummy", 1:delta)
+    dd <- rbind(dd, new.row)
+  }
+  
+  browser()
+  dd[dd > cutoff] <- my.inf
+  
+  # s1 <- lpSolve::lp.assign(dd)$solution
+  s2 <- clue::solve_LSAP(dd)
+  
+  # Compute final matches <= cutoff
+  
+  s2
+}
+
 #' Find signatures in \code{other.sigs} with the highest cosine similarity to \code{query.sig}.
 #'
 #' @param query.sig A single signature.
