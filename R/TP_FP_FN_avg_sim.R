@@ -37,6 +37,25 @@
 #'    
 #' @export
 #' 
+#' @return A list with the elements
+#' 
+#' * \code{TP} The number of true positive extracted signatures.
+#' 
+#' * \code{FP} The number of false positive extracted signatures.
+#' 
+#' * \code{FN} The number of false negative ground-truth signatures.
+#' 
+#' * \code{avg.cos.sim} Average cosine similarity of
+#'     true positives to their matching ground
+#'     truth signatures.
+#'     
+#' * \code{table} Table of exgracted signature name,
+#'     ground-truth signature name, and associated 
+#'     cosine similarity.
+#'
+#' * \code{sim.matrix} The similarity matrix corresponding
+#'     to the input signatures.
+#' 
 #' @examples
 #' ex.sigs <- matrix(c(0.2, 0.8, 0.3, 0.7, 0.6, 0.4), nrow = 2)
 #' colnames(ex.sigs) <- c("ex1", "ex2", "ex3")

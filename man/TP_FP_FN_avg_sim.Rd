@@ -22,6 +22,22 @@ must be matched
 by \code{>= similarity.cutoff} by a signature in \code{extracted.sigs}
 to be considered detected.}
 }
+\value{
+A list with the elements
+\itemize{
+\item \code{TP} The number of true positive extracted signatures.
+\item \code{FP} The number of false positive extracted signatures.
+\item \code{FN} The number of false negative ground-truth signatures.
+\item \code{avg.cos.sim} Average cosine similarity of
+true positives to their matching ground
+truth signatures.
+\item \code{table} Table of exgracted signature name,
+ground-truth signature name, and associated
+cosine similarity.
+\item \code{sim.matrix} The similarity matrix corresponding
+to the input signatures.
+}
+}
 \description{
 Return the numbers of true positives (TP), false positives (FP),
 false negatives (FN),

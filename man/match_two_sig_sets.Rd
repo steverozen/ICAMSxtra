@@ -48,3 +48,12 @@ matrix to compute a matching between
 \code{x1} and \code{x2} that minimizes the sum of the
 distances.
 }
+\examples{
+ex.sigs <- matrix(c(0.2, 0.8, 0.3, 0.7, 0.6, 0.4), nrow = 2)
+colnames(ex.sigs) <- c("ex1", "ex2", "ex3")
+gt.sigs <- matrix(c(0.21, 0.79, 0.19, 0.81), nrow = 2)
+colnames(gt.sigs) <- c("gt1", "gt2")
+match_two_sig_sets(ex.sigs, gt.sigs, cutoff = .9)
+
+
+}
