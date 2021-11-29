@@ -22,7 +22,7 @@ Install the stable version from [GitHub](https://github.com/):
 if (!requireNamespace("remotes", quietly = TRUE)) {
   install.packages("remotes")
 }
-remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "0.0.8-branch")
+remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "v0.0.8-branch")
 ```
 
 ### Get the development version
@@ -40,4 +40,4 @@ remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "master")
 
 ## Reference manual
 
-<https://github.com/steverozen/ICAMSxtra/blob/master/ICAMSxtra_0.0.8.pdf>
+<https://github.com/steverozen/ICAMSxtra/blob/v0.0.8-branch/ICAMSxtra_0.0.8.pdf>
