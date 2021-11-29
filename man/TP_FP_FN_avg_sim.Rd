@@ -2,7 +2,9 @@
 % Please edit documentation in R/TP_FP_FN_avg_sim.R
 \name{TP_FP_FN_avg_sim}
 \alias{TP_FP_FN_avg_sim}
-\title{Return #TP, #FP, #FN, and average cosine similarity between extracted
+\title{Return the numbers of true positives (TP), false positives (FP),
+false negatives (FN),
+and average cosine similarity between extracted
 and ground truth signatures.}
 \usage{
 TP_FP_FN_avg_sim(extracted.sigs, ground.truth.sigs, similarity.cutoff = 0.9)
@@ -21,7 +23,9 @@ by \code{>= similarity.cutoff} by a signature in \code{extracted.sigs}
 to be considered detected.}
 }
 \description{
-Return #TP, #FP, #FN, and average cosine similarity between extracted
+Return the numbers of true positives (TP), false positives (FP),
+false negatives (FN),
+and average cosine similarity between extracted
 and ground truth signatures.
 }
 \details{
@@ -43,8 +47,8 @@ matrix to compute an optimal matching between
 \code{extracted.sigs} and \code{ground.truth.sigs}.
 }
 \examples{
-ex.sigs <- matrix(c(0.2, 0.8, 0.3, 0.7), nrow = 2)
-colnames(ex.sigs) <- c("ex1", "ex2")
+ex.sigs <- matrix(c(0.2, 0.8, 0.3, 0.7, 0.6, 0.4), nrow = 2)
+colnames(ex.sigs) <- c("ex1", "ex2", "ex3")
 gt.sigs <- matrix(c(0.21, 0.79, 0.19, 0.81), nrow = 2)
 colnames(gt.sigs) <- c("gt1", "gt2")
 TP_FP_FN_avg_sim(extracted.sigs     = ex.sigs,

@@ -1,8 +1,10 @@
 # Functions to find best matches (by cosine similarity) between
 # sets of mutational signatures.
 
-#' Return #TP, #FP, #FN, and average cosine similarity between extracted
-#'  and ground truth signatures.
+#' Return the numbers of true positives (TP), false positives (FP), 
+#' false negatives (FN), 
+#' and average cosine similarity between extracted
+#' and ground truth signatures.
 #' 
 #' @details Match signatures in \code{extracted.sigs} to
 #'    signatures in \code{ground.truth.sigs} using the function
@@ -36,8 +38,8 @@
 #' @export
 #' 
 #' @examples
-#' ex.sigs <- matrix(c(0.2, 0.8, 0.3, 0.7), nrow = 2)
-#' colnames(ex.sigs) <- c("ex1", "ex2")
+#' ex.sigs <- matrix(c(0.2, 0.8, 0.3, 0.7, 0.6, 0.4), nrow = 2)
+#' colnames(ex.sigs) <- c("ex1", "ex2", "ex3")
 #' gt.sigs <- matrix(c(0.21, 0.79, 0.19, 0.81), nrow = 2)
 #' colnames(gt.sigs) <- c("gt1", "gt2")
 #' TP_FP_FN_avg_sim(extracted.sigs     = ex.sigs,
