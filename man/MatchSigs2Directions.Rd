@@ -24,7 +24,7 @@ between each signature in \code{sigs2} and its closest match in \code{sigs1}.
 \code{sigs1}, the signature identifier of the closest match in \code{sigs1}
 in the 1st column, and the cosine similarity between them in the 2nd column.
 
-\code{match2}: a data frame with the rownames being signature identifiers
+\code{match2}: a data frame with the row names being signature identifiers
 from \code{sigs2}, the signature identifier of the closest match in
 \code{sigs1} in the 1st column, and the cosine similarity between them in the
 2nd column.
@@ -40,5 +40,4 @@ setb <- matrix(c(1, 3.1, 4, 5, 1, 1, 1, 2.8, 4), ncol = 3)
 colnames(seta) <- c("A.1", "A.2")
 colnames(setb) <- c("B.1", "B.2", "B.3")
 MatchSigs2Directions(seta, setb)
-
 }

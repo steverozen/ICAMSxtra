@@ -19,50 +19,165 @@
 #' 
 sig_dist_matrix <- function(x1, x2, method = "cosine") {
   mm <- cbind(x1, x2)
-  dd <- philentropy::distance(t(mm), method = method, use.row.names = TRUE)
+  dd <- suppressMessages(
+    philentropy::distance(t(mm), method = method, use.row.names = TRUE))
   dd2 <- dd[1:ncol(x1), , drop = FALSE] # Use the rows that represent the elements of x1
   dd3 <- dd2[, -(1:ncol(x1)), drop = FALSE] # Use that columns that represent elements of x2
   return(dd3)
   
 }
 
-tmp_matches <- function(x1, 
-                        x2, 
-                        method = "cosine", 
-                        convert.sim.to.dist = function(x) {return(1 -x)},
-                        cutoff              = 0.9) {
-  
-  my.inf <- 10^100 # Cannot use Inf in a foreign function call (below)
-  
-  dd  <- sig_dist_matrix(x1, x2, method = method)
-  if (!is.null(convert.sim.to.dist)) {
+if (FALSE) {
+  sbs <-PCAWG7::signature$genome$SBS96
+  match_two_sig_sets(sbs[ , 1:3], sbs[ , 4:5], cutoff = .7)
+  match_two_sig_sets(sbs[ , 4:5], sbs[ , 1:3], cutoff = .7)
+  ex <- sbs[ , 4:5]
+  colnames(ex) <- c("ex1", "ex2")
+  TP_FP_FN_avg_sim(extracted.sigs     = ex,
+                   ground.truth.sigs = sbs[ , 1:3],
+                   similarity.cutoff = .7)
+  ex.sigs <- matrix(c(0.2, 0.8, 0.3, 0.7), nrow = 2)
+  colnames(ex.sigs) <- c("ex1", "ex2")
+  gt.sigs <- matrix(c(0.21, 0.79, 0.19, 0.81), nrow = 2)
+  colnames(gt.sigs) <- c("gt1", "gt2")
+  sig_dist_matrix(ex.sigs, gt.sigs)
+  TP_FP_FN_avg_sim(extracted.sigs     = ex.sigs,
+                   ground.truth.sigs = gt.sigs,
+                   similarity.cutoff = .985)
+  ex.sigs2 <- cbind(ex.sigs, ex3 = c(0.18, 0.82))
+  TP_FP_FN_avg_sim(extracted.sigs     = ex.sigs2,
+                   ground.truth.sigs = gt.sigs,
+                   similarity.cutoff = .985)
+  }
+
+#' Return #TP, #FP, #FN, average cosine similarity between extracted
+#'  and ground truth signatures.
+#' 
+#' @details Match signatures in \code{extracted.sigs} to
+#'    signatures in \code{ground.truth.sigs} using the function
+#'    \code{\link[clue]{solve_LSAP}}, which used the 
+#'    "Hungarian" (a.k.a "Kuhn–Munkres") algorithm.
+#'    \url{https://en.wikipedia.org/wiki/Hungarian_algorithm},
+#'    which optimizes the total cost associated with the links
+#'    between nodes.
+#'    The function first computes the
+#'    all-pairs cosine similarity matrix between the two
+#'    sets of signatures, then converts cosine similarities
+#'    to cosine distances (including \code{similarity.cutoff})
+#'    by subtracting from 1, then
+#'    sets distances > the converted cutoff to very large values.
+#'    The applies \code{\link[clue]{solve_LSAP}} to the resulting
+#'    matrix to compute an optimal matching between 
+#'    \code{extracted.sigs} and \code{ground.truth.sigs}.
+#' 
+#' @param extracted.sigs Mutational signatures discovered by some analysis.
+#'    A numerical-matrix-like object with columns as signatures.
+#' 
+#' @param ground.truth.sigs Ground-truth mutational signatures from
+#'    a synthetic data set. A numerical-matrix-like object with columns
+#'    as signatures.
+#'    
+#' @param similarity.cutoff A signature in \code{ground.truth.sigs}
+#'    must be matched
+#'    by \code{>= similarity.cutoff} by a signature in \code{extracted.sigs}
+#'    to be considered detected.
+
+TP_FP_FN_avg_sim <- 
+  function(extracted.sigs, ground.truth.sigs, similarity.cutoff = 0.9) {
+  tt.and.matrix <- 
+    match_two_sig_sets(extracted.sigs, 
+                       ground.truth.sigs, 
+                       cutoff = similarity.cutoff)
+  # browser()
+  tt <- tt.and.matrix$table
+  TP.sigs <- tt[ , 1]
+  FP.sigs <- setdiff(colnames(extracted.sigs), TP.sigs)
+  FN.sigs <- setdiff(colnames(ground.truth.sigs), tt[ , 2])
+  tt[ , 3] <- 1 - tt[ , 3]
+  colnames(tt) <- c("ex.sig", "gt,sig", "sim")
+  return(list(TP          = length(TP.sigs),
+              FP          = length(FP.sigs),
+              FN          = length(FN.sigs),
+              avg.cos.sim =  mean(tt[ , 3]),
+              table       = tt,
+              sim.matrix  = 1 - tt.and.matrix$orig.matrix))
+}
+
+
+#' @export
+#' 
+match_two_sig_sets <- 
+  function(x1, 
+           x2, 
+           method              = "cosine", 
+           convert.sim.to.dist = function(x) {return(1 -x)},
+           cutoff              = 0.9) {
+    # browser()
+    dd  <- sig_dist_matrix(x1, x2, method = method)
+    if (!is.null(convert.sim.to.dist)) {
     dd <- convert.sim.to.dist(dd)
     cutoff <- convert.sim.to.dist(cutoff)
   }
   
+  return(internal_matches(dd, cutoff))
+}
+
+if (FALSE) {
+  tmp.dd <- matrix(
+    c(0.99, 0.95, 0.89, 0.91),
+    nrow = 2)
+  rownames(tmp.dd) <- c("x1", "x2")
+  colnames(tmp.dd) <- c("g1", "g2")
+  tmp.dd <- 1 - tmp.dd
+  internal_matches(tmp.dd, cutoff = 0.1)
+  
+}
+
+# We break this out as a separate function to simplify testing.
+internal_matches <- function(dd, cutoff) {
+
+  # Cannot use Inf in the foreign function call clue::solve_LSAP(dd) (below)
+  my.inf <- 9e99 
+  
+  # browser()
+  
+  was.transformed <- FALSE
   if (nrow(dd) > ncol(dd)) {
     # Add more columns
-    delta <- nrow(dd) - ncol(dd)
-    new.col <- matrix(my.inf, nrow = nrow(dd), ncol = delta)
-    colnames(new.col) <- paste0("dummy", 1:delta)
-    dd <- cbind(dd, new.col)
-  } else if (ncol(dd) > nrow(dd)) {
-    # Add more rows
-    delta <- ncol(dd) - nrow(dd)
-    new.row <- matrix(my.inf, ncol = ncol(dd), nrow = delta)
-    rownames(new.row) <- paste0("dummy", 1:delta)
-    dd <- rbind(dd, new.row)
+    dd <- t(dd)
+    was.transformed <- TRUE
   }
   
-  browser()
   dd[dd > cutoff] <- my.inf
   
-  # s1 <- lpSolve::lp.assign(dd)$solution
-  s2 <- clue::solve_LSAP(dd)
+  solution <- clue::solve_LSAP(dd)
   
-  # Compute final matches <= cutoff
+  cost.one.pair <- function(rowi) {
+    # browser()
+    colj <- solution[rowi]
+    dist <- dd[rowi, colj]
+    name1 <- rownames(dd)[rowi]
+    name2 <- colnames(dd)[colj]
+    return(list(name1 = name1, name2 = name2, dist = dist))
+  }
   
-  s2
+  proto.table <- lapply(1:length(solution), FUN = cost.one.pair)
+  
+  table1 <- matrix(unlist(proto.table), ncol = 3, byrow = TRUE)
+  if (was.transformed) {
+    table1 <- table1[ , c(2,1,3)]
+    dd <- t(dd)
+  }
+  
+  colnames(table1) <- c("x1", "x2", "dist")
+  # browser()
+  table1 <- data.frame(table1)
+  table1$dist <- as.numeric(table1$dist)
+    
+  table <- table1[table1$dist < my.inf, , drop = FALSE ]
+
+  return(list(table = table, orig.matrix = dd))
+      
 }
 
 #' Find signatures in \code{other.sigs} with the highest cosine similarity to \code{query.sig}.
@@ -154,7 +269,7 @@ MatchSigs1Direction <- function(query.sigs, other.sigs) {
 #' \code{sigs1}, the signature identifier of the closest match in \code{sigs1}
 #' in the 1st column, and the cosine similarity between them in the 2nd column.
 #'
-#' \code{match2}: a data frame with the rownames being signature identifiers
+#' \code{match2}: a data frame with the row names being signature identifiers
 #' from \code{sigs2}, the signature identifier of the closest match in
 #' \code{sigs1} in the 1st column, and the cosine similarity between them in the
 #' 2nd column.
@@ -162,16 +277,15 @@ MatchSigs1Direction <- function(query.sigs, other.sigs) {
 #' \code{match1} and \code{match2} might not have the same number of rows.
 #'
 #' @export
-#'
+#' 
 #' @examples
 #' seta <- matrix(c(1, 3,   4, 1, 2, 4), ncol = 2)
 #' setb <- matrix(c(1, 3.1, 4, 5, 1, 1, 1, 2.8, 4), ncol = 3)
 #' colnames(seta) <- c("A.1", "A.2")
 #' colnames(setb) <- c("B.1", "B.2", "B.3")
 #' MatchSigs2Directions(seta, setb)
-#'
+
 MatchSigs2Directions <- function(sigs1, sigs2) {
-  # TODO(Steve): match1 and match2 can be simplified
 
   if (is.null(colnames(sigs1))) {
     colnames(sigs1) <- paste0("Ex.", 1:ncol(sigs1))
@@ -225,6 +339,10 @@ NumFromId<- function(s) {
 }
 
 #' An asymmetrical analysis of a set of "ground truth" and "extracted" signatures.
+#' 
+#' This function is deprecated. You probably want to use
+#' \code{\link{TP_FP_FN_avg_sim}}, \code{\link{sig_dist_matrix}},
+#' or \code{\link{match_two_sig_sets}}.
 #'
 #' @param ex.sigs Newly extracted signatures to be compared to \code{gt.sigs}.
 #'
@@ -268,15 +386,9 @@ NumFromId<- function(s) {
 #' 
 #' * \code{extracted.with.no.best.match}
 #' * \code{ground.truth.with.no.best.match}
-#' * \code{ex.sigs}
-#' * \code{gt.sigs}
+#' * \code{ex.sigs} Echo input argument
+#' * \code{gt.sigs} Echo input argument
 #' * \code{gt.mean.cos.sim}
-#' 
-#'   as for \code{\link{MatchSigs2Directions}},
-#' with \code{match1} being matches for the the extracted signatures
-#' (\code{ex.sigs}) and \code{match2} being the matches for
-#' the ground truth signatures (\code{gt.sigs}). The return list
-#' also echos the input arguments \code{ex.sigs} and \code{gt.sigs}.
 #'
 #' @export
 #'
@@ -310,14 +422,15 @@ MatchSigsAndRelabel <- function(ex.sigs,
       gt.sigs <- gt.sigs[  , exposed.sig.names]
     }
 
-    gt.sigs.all.sim <- philentropy::distance(t(gt.sigs), method = "cosine")
+    gt.sigs.all.sim <- 
+      suppressMessages(philentropy::distance(t(gt.sigs), method = "cosine"))
     if (is.null(dim(gt.sigs.all.sim))) {
       if (gt.sigs.all.sim >= similarity.cutoff) {
-        warning("The two ground truth signatures have cosing similarity >= ",
+        warning("The two ground truth signatures have cosine similarity >= ",
                 similarity.cutoff)
       }
     } else {
-        browser()
+        # browser()
         gt.sigs.all.sim[lower.tri(gt.sigs.all.sim, diag = TRUE)] <- 0
         if (any(gt.sigs.all.sim >= similarity.cutoff)) {
           rownames(gt.sigs.all.sim) <- colnames(gt.sigs)

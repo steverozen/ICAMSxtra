@@ -1,6 +1,6 @@
 Package: ICAMSxtra
 Title: ICAMSxtra
-Version: 0.0.7
+Version: 0.0.8
 Author: Steve Rozen, Nanhai Jiang, Arnoud Boot, Mo Liu, Chang Jia Geng
 Maintainer: Steve Rozen <steverozen@gmail.com>
 Description: ICAMSxtra.
@@ -8,7 +8,9 @@ biocViews:
 Imports: boot,
     data.table,
     ICAMS (>= 2.3.1.9003),
-    simpleboot
+    simpleboot,
+    clue,
+    philentropy
 Depends: R (>= 3.5)
 Remotes: github::steverozen/ICAMS@master
 License: GPL-3

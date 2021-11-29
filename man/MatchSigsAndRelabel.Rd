@@ -21,31 +21,41 @@ truth exposure.}
 
 \item{similarity.cutoff}{A ground-truth signature must have been
 the best match of an extracted signature with a cosine
-similarity $ge$ this value to be considered a true positive.
-Otherwise we conider the ground-truth signature to be a false
+similarity \eqn{$ge$} this value to be considered a true positive.
+Otherwise we consider the ground-truth signature to be a false
 negative.}
 }
 \value{
 A list with the elements
 \itemize{
-\item \code{averCosSim}
-\item \code{match1}
-\item \code{match2}
+\item \code{averCosSim} The average of the cosine similarities
+between each signature in
+\code{ex.sigs} and its closest match in \code{gt.sigs}
+and the closest match
+between each signature in \code{gt.sigs}
+and its closest match in \code{ex.sigs}.
+This may not be what you want. Often one wants
+the average of the cosine similarities of the true
+positives to their matching ground-truth signatures.
+\item \code{match1} The match from extracted signatures to ground truth
+signatures. Associated with each extracted signature is
+a ground truth signature with best cosine similarity.
+Ties are resolved arbitrarily.
+\item \code{match2} The match from ground truth signatures to extracted
+signatures. Associated with each extracted signature is
+a ground truth signature with best cosine similarity.
+Ties are resolved arbitrarily.
 \item \code{extracted.with.no.best.match}
 \item \code{ground.truth.with.no.best.match}
-\item \code{ex.sigs}
-\item \code{gt.sigs}
+\item \code{ex.sigs} Echo input argument
+\item \code{gt.sigs} Echo input argument
 \item \code{gt.mean.cos.sim}
-
-as for \code{\link{MatchSigs2Directions}},
-with \code{match1} being matches for the the extracted signatures
-(\code{ex.sigs}) and \code{match2} being the matches for
-the ground truth signatures (\code{gt.sigs}). The return list
-also echos the input arguments \code{ex.sigs} and \code{gt.sigs}.
 }
 }
 \description{
-An asymmetrical analysis of a set of "ground truth" and "extracted" signatures.
+This function is deprecated. You probably want to use
+\code{\link{TP_FP_FN_avg_sim}}, \code{\link{sig_dist_matrix}},
+or \code{\link{match_two_sig_sets}}.
 }
 \examples{
 gt.sigs <- matrix(c(1, 3,   4, 1, 2, 4), ncol = 2)
