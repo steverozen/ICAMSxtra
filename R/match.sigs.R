@@ -1,109 +1,39 @@
 # Functions to find best matches (by cosine similarity) between
 # sets of mutational signatures.
 
-#' Compute a matrix of distances / similarities between two sets of signatures.
+#' Find an optimal matching between two sets of signatures subject to a maximum distance
 #' 
-#' @param x1 The first set of signatures (a positive matrix in which each column is a signature).
-#'     The elements of \code{x1} will be the rows of the output matrix
+#' @param x1 A numerical-matrix-like object with columns as signatures.
 #' 
-#' @param x2 The second set of signatures, similar data type to \code{x1}.
-#'     The elements of \code{x2} will be the columns of the output matrix
-#'
-#' @param method (as for the \code{philentropy::distance}) function.
+#' @param x2 A numerical-matrix-like object with columns as signatures.
+#'   Needs to have the same number of rows as \code{x1}.
+#'   
+#' @param method A character string that specifies a method for 
+#'   \code{\link[philentropy]{distance}}.
+#'   
 #' 
-#' @return A matrix with dimensions \code{ncol(x1)} X \code{ncol(x2)} with
-#'   each element representing the distance or similarity (depending on \code{method})
-#'   between the corresponding elments of \code{x1} and \code{x2}
-#'
-#' @export
-#' 
-sig_dist_matrix <- function(x1, x2, method = "cosine") {
-  mm <- cbind(x1, x2)
-  dd <- suppressMessages(
-    philentropy::distance(t(mm), method = method, use.row.names = TRUE))
-  dd2 <- dd[1:ncol(x1), , drop = FALSE] # Use the rows that represent the elements of x1
-  dd3 <- dd2[, -(1:ncol(x1)), drop = FALSE] # Use that columns that represent elements of x2
-  return(dd3)
-  
-}
-
-if (FALSE) {
-  sbs <-PCAWG7::signature$genome$SBS96
-  match_two_sig_sets(sbs[ , 1:3], sbs[ , 4:5], cutoff = .7)
-  match_two_sig_sets(sbs[ , 4:5], sbs[ , 1:3], cutoff = .7)
-  ex <- sbs[ , 4:5]
-  colnames(ex) <- c("ex1", "ex2")
-  TP_FP_FN_avg_sim(extracted.sigs     = ex,
-                   ground.truth.sigs = sbs[ , 1:3],
-                   similarity.cutoff = .7)
-  ex.sigs <- matrix(c(0.2, 0.8, 0.3, 0.7), nrow = 2)
-  colnames(ex.sigs) <- c("ex1", "ex2")
-  gt.sigs <- matrix(c(0.21, 0.79, 0.19, 0.81), nrow = 2)
-  colnames(gt.sigs) <- c("gt1", "gt2")
-  sig_dist_matrix(ex.sigs, gt.sigs)
-  TP_FP_FN_avg_sim(extracted.sigs     = ex.sigs,
-                   ground.truth.sigs = gt.sigs,
-                   similarity.cutoff = .985)
-  ex.sigs2 <- cbind(ex.sigs, ex3 = c(0.18, 0.82))
-  TP_FP_FN_avg_sim(extracted.sigs     = ex.sigs2,
-                   ground.truth.sigs = gt.sigs,
-                   similarity.cutoff = .985)
-  }
-
-#' Return #TP, #FP, #FN, average cosine similarity between extracted
-#'  and ground truth signatures.
-#' 
-#' @details Match signatures in \code{extracted.sigs} to
-#'    signatures in \code{ground.truth.sigs} using the function
-#'    \code{\link[clue]{solve_LSAP}}, which used the 
-#'    "Hungarian" (a.k.a "Kuhn–Munkres") algorithm.
+#' @param convert.sim.to.dist If \code{method} specifies a similarity
+#'   rather than a distance, use this function to convert the
+#'   similarity to a distance.
+#'   
+#' @param cutoff A maximum distance or minimum similarity over which to
+#'   pair signatures between \code{x1} and \code{x2}. 
+#'   
+#' @details Match signatures between \code{x1} and \code{x2}
+#'     using the function
+#'    \code{\link[clue]{solve_LSAP}}, which uses the 
+#'    "Hungarian" (a.k.a "Kuhn–Munkres") algorithm
 #'    \url{https://en.wikipedia.org/wiki/Hungarian_algorithm},
 #'    which optimizes the total cost associated with the links
 #'    between nodes.
-#'    The function first computes the
-#'    all-pairs cosine similarity matrix between the two
-#'    sets of signatures, then converts cosine similarities
-#'    to cosine distances (including \code{similarity.cutoff})
-#'    by subtracting from 1, then
-#'    sets distances > the converted cutoff to very large values.
-#'    The applies \code{\link[clue]{solve_LSAP}} to the resulting
+#'    The functions converts similarities to distances,
+#'    and generates a distance matrix between the two
+#'    sets of signatures.
+#'    It sets distances > \code{cutoff} to very large values.
+#'    It then applies \code{\link[clue]{solve_LSAP}} to the resulting
 #'    matrix to compute an optimal matching between 
-#'    \code{extracted.sigs} and \code{ground.truth.sigs}.
+#'    \code{x1} and \code{x2}.
 #' 
-#' @param extracted.sigs Mutational signatures discovered by some analysis.
-#'    A numerical-matrix-like object with columns as signatures.
-#' 
-#' @param ground.truth.sigs Ground-truth mutational signatures from
-#'    a synthetic data set. A numerical-matrix-like object with columns
-#'    as signatures.
-#'    
-#' @param similarity.cutoff A signature in \code{ground.truth.sigs}
-#'    must be matched
-#'    by \code{>= similarity.cutoff} by a signature in \code{extracted.sigs}
-#'    to be considered detected.
-
-TP_FP_FN_avg_sim <- 
-  function(extracted.sigs, ground.truth.sigs, similarity.cutoff = 0.9) {
-  tt.and.matrix <- 
-    match_two_sig_sets(extracted.sigs, 
-                       ground.truth.sigs, 
-                       cutoff = similarity.cutoff)
-  # browser()
-  tt <- tt.and.matrix$table
-  TP.sigs <- tt[ , 1]
-  FP.sigs <- setdiff(colnames(extracted.sigs), TP.sigs)
-  FN.sigs <- setdiff(colnames(ground.truth.sigs), tt[ , 2])
-  tt[ , 3] <- 1 - tt[ , 3]
-  colnames(tt) <- c("ex.sig", "gt,sig", "sim")
-  return(list(TP          = length(TP.sigs),
-              FP          = length(FP.sigs),
-              FN          = length(FN.sigs),
-              avg.cos.sim =  mean(tt[ , 3]),
-              table       = tt,
-              sim.matrix  = 1 - tt.and.matrix$orig.matrix))
-}
-
-
 #' @export
 #' 
 match_two_sig_sets <- 
@@ -115,12 +45,12 @@ match_two_sig_sets <-
     # browser()
     dd  <- sig_dist_matrix(x1, x2, method = method)
     if (!is.null(convert.sim.to.dist)) {
-    dd <- convert.sim.to.dist(dd)
-    cutoff <- convert.sim.to.dist(cutoff)
+      dd <- convert.sim.to.dist(dd)
+      cutoff <- convert.sim.to.dist(cutoff)
+    }
+    
+    return(internal_matches(dd, cutoff))
   }
-  
-  return(internal_matches(dd, cutoff))
-}
 
 if (FALSE) {
   tmp.dd <- matrix(
@@ -134,13 +64,14 @@ if (FALSE) {
 }
 
 # We break this out as a separate function to simplify testing.
-internal_matches <- function(dd, cutoff) {
+internal_matches <- function(original.dd, cutoff) {
 
   # Cannot use Inf in the foreign function call clue::solve_LSAP(dd) (below)
   my.inf <- 9e99 
   
   # browser()
   
+  dd <- original.dd
   was.transformed <- FALSE
   if (nrow(dd) > ncol(dd)) {
     # Add more columns
@@ -176,7 +107,7 @@ internal_matches <- function(dd, cutoff) {
     
   table <- table1[table1$dist < my.inf, , drop = FALSE ]
 
-  return(list(table = table, orig.matrix = dd))
+  return(list(table = table, orig.matrix = original.dd, modified.matrix = dd))
       
 }
 
