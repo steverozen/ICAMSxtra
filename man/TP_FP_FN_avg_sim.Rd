@@ -31,7 +31,7 @@ A list with the elements
 \item \code{avg.cos.sim} Average cosine similarity of
 true positives to their matching ground
 truth signatures.
-\item \code{table} Table of exgracted signature name,
+\item \code{table} Table of extracted signature name,
 ground-truth signature name, and associated
 cosine similarity.
 \item \code{sim.matrix} The similarity matrix corresponding
