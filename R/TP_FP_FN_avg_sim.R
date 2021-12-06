@@ -49,7 +49,7 @@
 #'     true positives to their matching ground
 #'     truth signatures.
 #'     
-#' * \code{table} Table of exgracted signature name,
+#' * \code{table} Table of extracted signature name,
 #'     ground-truth signature name, and associated 
 #'     cosine similarity.
 #'
