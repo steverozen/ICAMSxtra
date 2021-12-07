@@ -77,7 +77,7 @@ TP_FP_FN_avg_sim <-
   FP.sigs <- setdiff(colnames(extracted.sigs), TP.sigs)
   FN.sigs <- setdiff(colnames(ground.truth.sigs), tt[ , 2])
   tt[ , 3] <- 1 - tt[ , 3]
-  colnames(tt) <- c("ex.sig", "gt,sig", "sim")
+  colnames(tt) <- c("ex.sig", "gt.sig", "sim")
   return(list(TP          = length(TP.sigs),
               FP          = length(FP.sigs),
               FN          = length(FN.sigs),
