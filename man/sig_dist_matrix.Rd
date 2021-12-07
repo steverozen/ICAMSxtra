@@ -18,7 +18,7 @@ The elements of \code{x2} will be the columns of the output matrix}
 \value{
 A matrix with dimensions \code{ncol(x1)} X \code{ncol(x2)} with
 each element representing the distance or similarity (depending on \code{method})
-between the corresponding elments of \code{x1} and \code{x2}
+between the corresponding elements of \code{x1} and \code{x2}
 }
 \description{
 Compute a matrix of distances / similarities between two sets of signatures.

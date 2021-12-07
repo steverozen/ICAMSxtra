@@ -10,7 +10,7 @@
 #' 
 #' @return A matrix with dimensions \code{ncol(x1)} X \code{ncol(x2)} with
 #'   each element representing the distance or similarity (depending on \code{method})
-#'   between the corresponding elments of \code{x1} and \code{x2}
+#'   between the corresponding elements of \code{x1} and \code{x2}
 #'
 #' @export
 #' 
