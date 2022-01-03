@@ -54,7 +54,8 @@ test_that("MatchSigsAndRelabel 1", {
          gt.mean.cos.sim = list(gt.1 = 0.999675275201132,
                                 gt.2 = 0.461956578122389))
 
-  tout <- MatchSigsAndRelabel(gt.sigs = gt.sigs, ex.sigs = ex.sigs)
+  tout <- 
+    suppressWarnings(MatchSigsAndRelabel(gt.sigs = gt.sigs, ex.sigs = ex.sigs))  
   expect_equal(tout, expected)
 
 })
@@ -92,7 +93,8 @@ test_that("MatchSigsAndRelabel 2", {
                                 gt.2 = 0.461956578122389,
                                 gt.3 = 0.989516398944649))
 
-  tout <- MatchSigsAndRelabel(gt.sigs = gt.sigs, ex.sigs = ex.sigs)
+  tout <- 
+    suppressWarnings(MatchSigsAndRelabel(gt.sigs = gt.sigs, ex.sigs = ex.sigs))
   expect_equal(tout, expected)
 
 })
