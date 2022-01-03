@@ -12,7 +12,7 @@ test_that("test TP_FP_FN_avg_sim", {
     list(TP = 2L, FP = 0L, FN = 0L, avg.cos.sim = 0.994694242750464,
          table = 
            structure(list(ex.sig = c("ex1", "ex2"), 
-                          "gt,sig" = c("gt2",      "gt1"), 
+                          gt.sig = c("gt2",      "gt1"), 
                           sim = c(0.999893768683133, 0.989494716817794)), 
                      row.names = 1:2, class = "data.frame"),
          sim.matrix = structure(c(0.999889952921527, 
@@ -32,7 +32,7 @@ test_that("test TP_FP_FN_avg_sim", {
     list(TP = 2L, FP = 1L, FN = 0L, avg.cos.sim = 0.999893729894046,
          table = 
            structure(list(ex.sig = c("ex1", "ex3"), 
-                          "gt,sig" = c("gt1",      "gt2"), 
+                          gt.sig = c("gt1",      "gt2"), 
                           sim = c(0.999889952921527, 0.999897506866566)), 
                      row.names = 1:2, class = "data.frame"),      
          sim.matrix = structure(
