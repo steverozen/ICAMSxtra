@@ -69,10 +69,4 @@ adding to the graph.
 \description{
 Plot exposures in multiple plots each with a manageable number of samples
 }
-\examples{
-file <- system.file("extdata",
-                    "synthetic.exposure.csv",
-                    package = "ICAMSxtra")
-exposure <- ReadExposure(file)
-PlotExposure(exposure[, 1:30])
-}
+\keyword{internal}

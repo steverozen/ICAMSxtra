@@ -90,10 +90,4 @@ adding to the graph.
 \description{
 Plot exposures in multiple plots each with a manageable number of samples to PDF
 }
-\examples{
-file <- system.file("extdata",
-                    "synthetic.exposure.csv",
-                    package = "ICAMSxtra")
-exposure <- ReadExposure(file)
-PlotExposureToPdf(exposure, file = file.path(tempdir(), "exposure.pdf"))
-}
+\keyword{internal}

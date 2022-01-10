@@ -19,10 +19,4 @@ The original \code{exposure} with columns sorted.
 \description{
 Sort columns of an exposure matrix from largest to smallest (or vice versa)
 }
-\examples{
-file <- system.file("extdata",
-                    "synthetic.exposure.csv",
-                    package = "ICAMSxtra")
-exposure <- ReadExposure(file)
-exposure.sorted <- SortExposure(exposure)
-}
+\keyword{internal}

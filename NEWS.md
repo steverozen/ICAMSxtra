@@ -1,3 +1,14 @@
+# ICAMSxtra 0.1.0
+* Removed the following exported functions as they are moved to another package [mSigAct](https://github.com/steverozen/mSigAct):
+  + `ReadExposure`
+  + `SortExposure`
+  + `WriteExposure`
+  + `PlotExposure`
+  + `PlotExposureToPdf`
+
+# ICAMSxtra 0.0.8
+* Added new exported function `TP_FP_FN_avg_sim`.
+
 # ICAMSxtra 0.0.7
 * Fixed a bug in plotting exposure legend angle and density.
 

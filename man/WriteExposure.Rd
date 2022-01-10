@@ -20,10 +20,4 @@ character vector of row names to be written.}
 \description{
 Write an exposure matrix to a file
 }
-\examples{
-file <- system.file("extdata",
-                    "synthetic.exposure.csv",
-                    package = "ICAMSxtra")
-exposure <- ReadExposure(file)
-WriteExposure(exposure, file = file.path(tempdir(), "synthetic.exposure.csv"))
-}
+\keyword{internal}

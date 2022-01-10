@@ -13,13 +13,8 @@
 #'
 #' @importFrom utils read.csv
 #'
-#' @export
+#' @keywords internal
 #'
-#' @examples
-#' file <- system.file("extdata",
-#'                     "synthetic.exposure.csv",
-#'                     package = "ICAMSxtra")
-#' exposure <- ReadExposure(file)
 ReadExposure <- function(file, check.names = FALSE) {
   if (check.names) {
     headers <- read.csv(file, nrow = 1, header = FALSE, stringsAsFactors = FALSE)
@@ -49,14 +44,8 @@ ReadExposure <- function(file, check.names = FALSE) {
 #'
 #' @importFrom utils write.csv
 #'
-#' @export
+#' @keywords internal
 #'
-#' @examples
-#' file <- system.file("extdata",
-#'                     "synthetic.exposure.csv",
-#'                     package = "ICAMSxtra")
-#' exposure <- ReadExposure(file)
-#' WriteExposure(exposure, file = file.path(tempdir(), "synthetic.exposure.csv"))
 WriteExposure <- function(exposure, file, row.names = TRUE) {
   old.digits <- getOption("digits")
   options(digits = 22)
@@ -74,14 +63,8 @@ WriteExposure <- function(exposure, file, row.names = TRUE) {
 #'
 #' @return The original \code{exposure} with columns sorted.
 #'
-#' @export
+#' @keywords internal
 #'
-#' @examples
-#' file <- system.file("extdata",
-#'                     "synthetic.exposure.csv",
-#'                     package = "ICAMSxtra")
-#' exposure <- ReadExposure(file)
-#' exposure.sorted <- SortExposure(exposure)
 SortExposure <- function(exposure, decreasing = TRUE) {
   retval <- exposure[, order(colSums(exposure), decreasing = decreasing),
                      drop = FALSE]
@@ -344,14 +327,8 @@ PlotExposureInternal <-
 #'   vector giving the coordinates of all the bar midpoints drawn, useful for
 #'   adding to the graph.
 #'
-#' @export
+#' @keywords internal
 #'
-#' @examples
-#' file <- system.file("extdata",
-#'                     "synthetic.exposure.csv",
-#'                     package = "ICAMSxtra")
-#' exposure <- ReadExposure(file)
-#' PlotExposure(exposure[, 1:30])
 PlotExposure <- function(exposure,
                          samples.per.line   = 30,
                          plot.proportion    = FALSE,
@@ -437,14 +414,8 @@ PlotExposure <- function(exposure,
 #'   vector giving the coordinates of all the bar midpoints drawn, useful for
 #'   adding to the graph.
 #'
-#' @export
+#' @keywords internal
 #'
-#' @examples
-#' file <- system.file("extdata",
-#'                     "synthetic.exposure.csv",
-#'                     package = "ICAMSxtra")
-#' exposure <- ReadExposure(file)
-#' PlotExposureToPdf(exposure, file = file.path(tempdir(), "exposure.pdf"))
 PlotExposureToPdf <- function(exposure,
                               file,
                               mfrow             = c(2, 1),
