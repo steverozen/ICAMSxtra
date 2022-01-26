@@ -12,7 +12,7 @@ Imports: boot,
     clue,
     philentropy
 Depends: R (>= 3.5)
-Remotes: github::steverozen/ICAMS@master
+Remotes: github::steverozen/ICAMS@*release
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

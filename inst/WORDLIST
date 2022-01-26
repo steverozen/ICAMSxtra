@@ -30,6 +30,7 @@ https
 indel
 indels
 intergenic
+mSigAct
 megabase
 microhomology
 nd
@@ -37,7 +38,6 @@ noncoding
 nontrans
 nontranscribed
 rowname
-sigs
 standardised
 steverozen
 trinucleotide

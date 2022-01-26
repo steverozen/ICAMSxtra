@@ -16,13 +16,13 @@ status](https://ci.appveyor.com/api/projects/status/github/steverozen/ICAMSxtra?
 
 ### Get the stable version
 
-Install the stable version from [GitHub](https://github.com/):
+Install the latest stable version from [GitHub](https://github.com/):
 
 ``` r
 if (!requireNamespace("remotes", quietly = TRUE)) {
   install.packages("remotes")
 }
-remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "v0.0.8-branch")
+remotes::install_github(repo = "steverozen/ICAMSxtra")
 ```
 
 ### Get the development version
@@ -40,4 +40,4 @@ remotes::install_github(repo = "steverozen/ICAMSxtra", ref = "master")
 
 ## Reference manual
 
-<https://github.com/steverozen/ICAMSxtra/blob/v0.0.8-branch/ICAMSxtra_0.0.8.pdf>
+<https://github.com/steverozen/ICAMSxtra/blob/v0.1.0-branch/ICAMSxtra_0.1.0.pdf>
