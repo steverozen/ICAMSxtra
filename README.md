@@ -3,6 +3,8 @@
 
 # ICAMSxtra
 
+Contains experimental code related to ICAMS.
+
 <!-- badges: start -->
 
 [![R build
