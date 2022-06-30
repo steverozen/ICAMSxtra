@@ -3,7 +3,7 @@ Title: ICAMSxtra
 Version: 0.0.8
 Author: Steve Rozen, Nanhai Jiang, Arnoud Boot, Mo Liu, Chang Jia Geng
 Maintainer: Steve Rozen <steverozen@gmail.com>
-Description: ICAMSxtra.
+Description: ICAMSxtra; contains experimental code releated to ICAMS
 biocViews:
 Imports: boot,
     data.table,
