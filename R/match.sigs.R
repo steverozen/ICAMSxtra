@@ -162,8 +162,8 @@ NumFromId<- function(s) {
 #' An asymmetrical analysis of a set of "ground truth" and "extracted" signatures.
 #' 
 #' This function is deprecated. You probably want to use
-#' \code{\link{TP_FP_FN_avg_sim}}, \code{\link{sig_dist_matrix}},
-#' or \code{\link{match_two_sig_sets}}.
+#' \code{\link[mSigTools]{TP_FP_FN_avg_sim}}, \code{\link[mSigTools]{sig_dist_matrix}},
+#' or \code{\link[mSigTools]{match_two_sig_sets}}.
 #'
 #' @param ex.sigs Newly extracted signatures to be compared to \code{gt.sigs}.
 #'

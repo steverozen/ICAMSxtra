@@ -54,8 +54,8 @@ Ties are resolved arbitrarily.
 }
 \description{
 This function is deprecated. You probably want to use
-\code{\link{TP_FP_FN_avg_sim}}, \code{\link{sig_dist_matrix}},
-or \code{\link{match_two_sig_sets}}.
+\code{\link[mSigTools]{TP_FP_FN_avg_sim}}, \code{\link[mSigTools]{sig_dist_matrix}},
+or \code{\link[mSigTools]{match_two_sig_sets}}.
 }
 \examples{
 gt.sigs <- matrix(c(1, 3,   4, 1, 2, 4), ncol = 2)

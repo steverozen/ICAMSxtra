@@ -1,3 +1,6 @@
+# ICAMSxtra 0.1.0009
+* Removed exposure related functions and TP_FP_FN_avg_sim and related fns
+
 # ICAMSxtra 0.0.7
 * Fixed a bug in plotting exposure legend angle and density.
 
